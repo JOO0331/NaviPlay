@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+
+{% block title %}검색{% endblock %}
+
+{% block extra_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/search.css' %}">
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="container">
+            <div class="sidebar filter-section">
+                <h2>검색옵션</h2>
+                <form>
+                    <div class="form-group">
+                        <label for="sort">정렬순</label>
+                        <select id="sort">
+                            <option value="">최신순</option>
+                            <option value="">높은가격</option>
+                            <option value="">낮은가격</option>
+                            <option value="">높은할인율</option>
+                            <option value="">낮은할인율</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="players">플레이어 수</label>
+                        <select id="players">
+                            <option value="">싱글플레이어</option>
+                            <option value="">멀티플레이어</option>
+                            <option value="">온라인협동</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tags">태그</label>
+                        <select id="tags">
+    <!--                        태그 수만큼 반복문으로-->
+                            <option value="">Select Tags</option>
+                        </select>
+                    </div>
+
+                    <legend>가격</legend>
+                    <fieldset>
+                        <input type="range" id="priceRange" min="0" max="100" step="1" value="50">
+                        <div class="range-cond">
+                            <span class="range-label">Value: <span id="priceValue">50</span></span>
+                            <label> <input type="checkbox" /> 무료게임 </label>
+                        </div>
+                    </fieldset>
+
+                    <legend>출시 여부</legend>
+                    <fieldset>
+                        <label>
+                            <input type="checkbox" /> 출시됨
+                        </label>
+                        <label>
+                            <input type="checkbox" /> 출시 예정
+                        </label>
+                    </fieldset>
+
+                    <!-- Search and Reset buttons -->
+                    <div class="button-group">
+                        <button type="submit" class="btn-search-options">검색</button> <!-- 검색옵션의 버튼 -->
+                        <button type="reset" class="btn-reset">초기화</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Main content area with game list -->
+            <div class="main-content">
+                <h2>Total: {{ game_count }}</h2>
+                <!-- Game List -->
+                {% for game in games %}
+                <div class="game-item" onclick="location.href='{% url 'dashboard' game.app_id %}'" style="cursor: pointer;">
+                    <img src="{{ game.capsule_image }}" alt="{{ game.name }}">
+                    <div class="game">
+                        <div class="percent">
+                            {% if positive_ratio > 70 %}
+                                <span class="badge green">{{ positive_ratio }}</span>
+                            {% elif positive_ratio > 40 %}
+                                <span class="badge yellow">{{ positive_ratio }}</span>
+                            {% else %}
+                                <span class="badge red">{{ positive_ratio }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="info">
+                            <h3>{{ game.name }}</h3>
+                            {% for genre in game.genres %}
+                                <p class="genre">{{ genre.description }}</p>
+                            {% endfor %}
+                        </div>
+
+                        <div class="pricing">
+                            {% if game.discount_percent > 0 %}
+                                <div class="discount">{{ game.discount_percent }}% off</div>
+                            {% endif %}
+                            <div class="price-info">
+                                {% if game.initial_price_int > 0 %}
+                                    {% if game.discount_percent > 0 %}
+                                        <div class="original-price">{{ game.initial_price_int }}₩</div>
+                                        <div class="final-price">{{ game.final_price_int }}₩</div>
+                                    {% else %}
+                                        <div class="final-price">{{ game.final_price_int }}₩</div>
+                                    {% endif %}
+                                {% else %}
+                                    <div class="final-price">Free</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="no-results">
+                    <p>검색 결과가 없습니다.</p>
+                </div>
+                {% endfor %}
+
+                <div class="pagination">
+                    <button class="page-btn" disabled>&laquo;</button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn">4</button>
+                    <button class="page-btn">5</button>
+                    <button class="page-btn">&raquo;</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    const priceRange = document.getElementById('priceRange');
+    const priceValue = document.getElementById('priceValue');
+
+    // 페이지 로드 시 초기 값 설정
+    priceValue.textContent = priceRange.value;
+
+    // 슬라이더 값이 변경될 때마다 실행되는 함수
+    priceRange.addEventListener('input', function() {
+        priceValue.textContent = priceRange.value;  // 현재 값을 업데이트
+    });
+
+    //페이지네이션
+    const pageButtons = document.querySelectorAll('.page-btn');
+
+    pageButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            if (button.classList.contains('active') || button.disabled) return;
+
+            document.querySelector('.page-btn.active').classList.remove('active');
+            button.classList.add('active');
+
+            // 예: 페이지 변경 작업 추가
+            console.log(`Page ${button.textContent} clicked`);
+        });
+    });
+</script>
+
+{% endblock %}
+
+
+</html>

@@ -1,0 +1,254 @@
+/* 컨테이너 스타일 */
+.container {
+    width: 80%; /* 전체 화면의 80% 너비 */
+    margin: 0 auto; /* 가운데 정렬 */
+    display: flex; /* 내부 요소를 가로로 배치 */
+    gap: 20px; /* sidebar와 main-content 사이의 간격 */
+    margin-bottom: 20px;
+}
+
+/* 사이드바 스타일 */
+.sidebar {
+    flex: 1; /* 1:3 비율 중 1 */
+    background-color: #f5f5f5; /* 배경색 (예시) */
+    padding: 15px; /* 내부 여백 */
+    border: 1px solid #ccc; /* 테두리 (선택 사항) */
+}
+
+/* 메인 콘텐츠 스타일 */
+.main-content {
+    flex: 3; /* 1:3 비율 중 3 */
+    background-color: #ffffff; /* 배경색 (예시) */
+    padding: 15px; /* 내부 여백 */
+    border: 1px solid #ccc; /* 테두리 (선택 사항) */
+}
+
+        .game-item {
+            display: flex;
+            background-color: #333;
+            padding: 15px;
+            border-radius: 8px;
+            border: 3px solid #ccc;
+            color: white;
+            align-items: center;
+            margin: 5px;
+            gap: 15px;
+        }
+        .game {
+            display: flex;
+            gap: 20px;
+            }
+
+        .game-item img {
+            height: 80px;
+            object-fit: cover;
+        }
+        .game-item .info {
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+        }
+        .game-item h3 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .game-item p {
+            font-size: 14px;
+        }
+        .badge {
+            display: inline-block;
+            width: 60px;  /* 크기를 키움 */
+            height: 60px; /* 크기를 키움 */
+            border-radius: 50%;  /* 원 모양 유지 */
+            color: white;
+            text-align: center;
+            line-height: 60px;  /* 글씨가 수직 중앙에 위치하도록 조정 */
+            font-size: 18px;  /* 글씨 크기 키움 */
+            border: 2px solid transparent;  /* 기본 테두리는 투명, 두께를 3px로 설정 */
+            font-weight: lighter;  /* 글씨를 얇게 설정 */
+        }
+        .badge.green { border-color: green; }
+        .badge.red { border-color: red; }
+        .badge.yellow { border-color: yellow; }
+
+
+            .pricing {
+                display: flex;  /* flex 컨테이너로 변경 */
+                align-items:center;
+                justify-content: center;  /* 세로 가운데 정렬 */
+            }
+
+.discount, .price-info {
+    margin: 5px 0;  /* 세로 간격을 좀 더 여유롭게 */
+}
+            .discount {
+    color: #ff5f5f; /* 밝은 빨간색, 네온 느낌 */
+    font-weight: bold;
+    font-size: 18px;
+    background-color: rgba(255, 87, 34, 0.2); /* 얇은 오렌지 배경 (네온 느낌) */
+    padding: 10px 10px;
+    border-radius: 100%;
+    display: inline-block;
+    box-shadow:
+        0 0 8px rgba(255, 87, 34, 0.7),  /* 오렌지 네온 그림자 */
+        0 0 15px rgba(255, 87, 34, 0.5); /* 좀 더 큰 오렌지 네온 그림자 */
+    transition: box-shadow 0.3s ease, transform 0.2s ease; /* 변화 애니메이션 */
+    margin-left:100px;
+}
+
+            .price-info {
+                display: flex;
+                flex-direction: column;
+                margin-left: auto; /* 오른쪽 끝으로 밀기 */
+    text-align: right; /* 오른쪽 정렬 */
+                margin-left:20px;
+            }
+
+    .price-info .initial-price {
+    text-decoration: line-through;
+    color: #b0b0b0; /* 차분하고 고급스러운 회색 */
+    font-size: 16px; /* 좀 더 작은 글자 */
+    margin-left: 12px;
+    opacity: 1; /* 불투명도 */
+}
+
+    .price-info .final-price {
+    font-size: 24px; /* 크기 커짐 */
+    color: #d19636; /* 금색 */
+    font-weight: bold;
+    margin-left: 12px;
+    padding-left: 10px;
+    border-left: 2px solid #d19636; /* 금색 선 추가 */
+}
+
+
+        .filter-section select, .filter-section input[type="range"] {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 5px;
+            background-color: #333;
+            border: 1px solid #444;
+            color: white;
+            border-radius: 5px;
+        }
+
+.range-cond {
+    display: flex; /* 요소들을 가로로 배치 */
+    justify-content: space-between; /* 두 요소를 양쪽 끝으로 배치 */
+    align-items: center; /* 세로로 가운데 정렬 */
+    width: 100%; /* 전체 너비 100% */
+}
+        .range-label {
+    font-size: 16px; /* 글씨 크기 조정 */
+    margin-bottom: 10px; /* 밑에 간격 추가 */
+}
+
+        .filter-section fieldset {
+            border: none;
+            margin-bottom: 5px;
+        }
+
+        .filter-section fieldset legend {
+            font-size: 16px;
+            color: white;
+        }
+
+        .filter-section label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        /* 검색창의 Search 버튼 */
+        .btn-search-bar {
+            padding: 10px 20px;
+            background-color: #444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-search-bar:hover {
+            background-color: #555; /* 호버 시 색상 변화 */
+        }
+
+        /* 검색옵션의 Search 버튼 */
+        .button-group .btn-search-options {
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            background-color: #444;
+            color: white;
+            border: none;
+        }
+
+        .button-group .btn-search-options:hover {
+            background-color: #d19636; /* 호버 시 색상 변화 */
+        }
+
+        /* 검색옵션의 Reset 버튼 */
+        .button-group .btn-reset {
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #555;
+            color: white;
+            border: none;
+        }
+
+        .button-group .btn-reset:hover {
+            background-color: #d19636; /* 호버 시 색상 변화 */
+        }
+
+        /* 버튼 그룹 가운데 정렬 */
+        .button-group {
+            display: flex;
+            justify-content: center; /* 버튼들을 가운데 정렬 */
+            gap: 20px; /* 버튼들 간의 간격 */
+            margin-top: 20px; /* 버튼 그룹 상단 마진 */
+        }
+
+.pagination {
+    display: flex;
+    justify-content: center; /* 가운데 정렬 */
+    align-items: center;
+    margin-top: 20px;
+    gap: 8px; /* 버튼 간 간격 */
+}
+
+.page-btn {
+    padding: 8px 12px;
+    font-size: 14px;
+    color: white;
+    background-color: #8f72a6;
+    border: 1px solid #444;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.page-btn:hover {
+    background-color: #d19636;
+}
+
+.page-btn.active {
+    background-color: #d19636; /* 활성화된 버튼 색상 */
+    font-weight: bold;
+    cursor: default;
+}
+
+.page-btn:disabled {
+    background-color: #666;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.genre {
+    display: inline-block;  /* p 태그를 inline-block으로 변경 */
+    margin-right: 10px;      /* 장르 간 간격 조절 */
+}
