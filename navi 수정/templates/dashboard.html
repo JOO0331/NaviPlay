@@ -1,0 +1,463 @@
+{% extends 'base.html' %}
+
+{% block title %}대시보드{% endblock %}
+
+{% block extra_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+
+{% block content %}
+<!--저장-->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<!--공유-->
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script>
+    // 카카오 초기화
+    Kakao.init('adf93c872874a19801d8183bf29f9860'); // 실제 JavaScript 앱 키 입력
+        Kakao.isInitialized();
+</script>
+
+<div class="container">
+    <div class="multi">
+            <h1>{{ game.name }}</h1>
+            {% if positive_ratio == 0 %}
+                <span class="badge gray">{{ positive_ratio }}</span>
+            {% elif positive_ratio > 70 %}
+                <span class="badge green">{{ positive_ratio }}</span>
+            {% elif positive_ratio > 40 %}
+                <span class="badge yellow">{{ positive_ratio }}</span>
+            {% else %}
+                <span class="badge red">{{ positive_ratio }}</span>
+            {% endif %}
+            <div class="buttons">
+                <button class="png" onclick="saveImg()">저장</button>
+                <button class="talk" onclick="kakaoShare()">공유</button>
+            </div>
+    </div>
+
+    <div class="left-right">
+        <section class="left-content">
+            <div class="section screenshot">
+                <h2>Game Screenshot</h2>
+                <!-- 큰 이미지 화면 -->
+                <div class="game-screenshot-container">
+                    <img id="main-screenshot" src="{{ game.screenshots.0.path_full }}" crossorigin="anonymous" alt="Game Screenshot">
+                </div>
+                <!-- 작은 썸네일 이미지들 -->
+                <div class="thumbnail-container">
+                        {% for screenshot in game.screenshots %}
+                        <img src="{{ screenshot.path_full }}" crossorigin="anonymous" alt="Thumbnail {{ forloop.counter }}" onclick="changeImage(this)" style="width: 100px; height: auto;">
+                        {% endfor %}
+                </div>
+            </div>
+
+            <div class="section description">
+                <h3>설명글</h3>
+                <p>{{game.short_description}}</p>
+            </div>
+
+            <div class="section keyword-rank">
+                <h3>감정별 키워드</h3>
+                <div class="keywords">
+                    <div class="keyword positive">
+                        <b>긍정 키워드들</b>
+                        <ul>
+                            {% for keyword, count in positive_keywords %}
+                                <li>
+                                    <span>{{ keyword }}</span>
+                                    <span>{{ count }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="keyword negative">
+                        <b>부정 키워드들</b>
+                        <ul>
+                            {% for keyword, count in negative_keywords %}
+                                <li>
+                                    <span>{{ keyword }}</span>
+                                    <span>{{ count }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section period-analysis">
+                <div class="period-header">
+                    <h3>월별 리뷰 분석</h3>
+                    <div class="chart-legend">
+                        <div class="legend-item">
+                            <div class="legend-color positive"></div>
+                            <span>긍정</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color negative"></div>
+                            <span>부정</span>
+                        </div>
+                    </div>
+                    <select id="yearSelect">
+                        {% for year in years %}
+                            <option value="{{ year }}" {% if year == current_year %}selected{% endif %}>{{ year }}년</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="period-chart">
+                    {% with ''|center:12 as range %}
+                    {% for _ in range %}
+                        <div class="period-bar">
+                            <div class="bar-container">
+                                <div class="positive-bar" style="height: 0%">
+                                    <span class="ratio-text">0%</span>
+                                </div>
+                                <div class="negative-bar" style="height: 0%">
+                                    <span class="ratio-text">0%</span>
+                                </div>
+                                <div class="keywords-tooltip">
+                                    <div class="tooltip-content">
+                                        <div class="tooltip-positive">
+                                            <strong>긍정 키워드</strong>
+                                            <ul></ul>
+                                        </div>
+                                        <div class="tooltip-negative">
+                                            <strong>부정 키워드</strong>
+                                            <ul></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="period-label">{{ forloop.counter }}월</div>
+                        </div>
+                    {% endfor %}
+                    {% endwith %}
+                </div>
+            </div>
+
+            <div class="section video-summary">
+                <h3>리뷰 영상 + 요약</h3>
+                <div class="videos">
+                    {% for youtube in youtubes %}
+                        <div class="video">
+                            <a href="https://www.youtube.com/watch?v={{ youtube.video_id }}">
+                                <img src="{{ youtube.thumbnails }}" alt="Review Video Thumbnail">
+                            </a>
+                            <div class="youtube-info">
+                                <strong>{{ youtube.title }}</strong>
+                                <div class="youtube-info2">
+                                    <img src="{{ youtube.channelImage }}" crossorigin="anonymous" alt="channel Thumbnail">
+                                    <div class="youtube-info3">
+                                        <span>채널명: {{ youtube.channelName }}</span>
+                                        <span>업로드날짜: {{ youtube.publishedAt }}</span>
+                                        <span>조회수: {{ youtube.viewCount }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="summary-btn" onclick="toggleSummary('{{ youtube.video_id }}')">영상요약</button>
+                            <div id="summary-content-{{ youtube.video_id }}" class="summary-content" style="display: none;">
+                                <p>{{ youtube.summary }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+
+                </div>
+            </div>
+
+            <div class="section similar-games">
+                <h3>유사 게임 추천</h3>
+                <div class="card-container">
+                    <!-- 카드 1 -->
+                    <div class="card" onclick="window.location.href='{% url 'dashboard' first_recommendation.app_id %}'">
+                        <img src="{{ first_recommendation.header_image }}" crossorigin="anonymous" alt="Game Thumbnail">
+                        <h3>{{ first_recommendation.name }}</h3>
+                        <div class="tags flex flex-wrap gap-2 mb-4">
+                           {% for genre in first_recommendation.genres|slice:":3" %}
+                               <span class="info-tag">{{ genre.description }}</span>
+                           {% endfor %}
+                        </div>
+                        <div class="pricing">
+                            {% if first_recommendation.final_price_int == 0 %}
+                            <span class="final-price">Free</span>
+                            {% else %}
+                                {% if first_recommendation.discount_percent > 0 %}
+                                <span class="discount">{{ first_recommendation.discount_percent }}% Off</span>
+                                <span class="original-price">{{ first_recommendation.initial_price_int }} ₩</span>
+                                <span class="final-price">{{ first_recommendation.final_price_int }} ₩</span>
+                            {% else %}
+                                <span class="final-price">{{ first_recommendation.final_price_int }} ₩</span>
+                            {% endif %}
+                        {% endif %}
+                        </div>
+                        <p class="text-sm text-gray-400 mb-2">출시일: <span class="text-white">{{ first_recommendation.release_date }}</span></p>
+                    </div>
+
+                    <!-- 카드 2, 3 -->
+                    {% for rec in random_recommendations %}
+                    <div class="card" onclick="window.location.href='{% url 'dashboard' rec.app_id %}'">
+                        <img src="{{ rec.header_image }}" crossorigin="anonymous" alt="Game Thumbnail">
+                        <h3>{{ rec.name }}</h3>
+                        <div class="tags flex flex-wrap gap-2 mb-4">
+                           {% for genre in rec.genres|slice:":3" %}
+                               <span class="info-tag">{{ genre.description }}</span>
+                           {% endfor %}
+                        </div>
+                        <div class="pricing">
+                            {% if rec.final_price_int == 0 %}
+                            <span class="final-price">Free</span>
+                            {% else %}
+                                {% if rec.discount_percent > 0 %}
+                                <span class="discount">{{ rec.discount_percent }}% Off</span>
+                                <span class="original-price">{{ rec.initial_price_int }} ₩</span>
+                                <span class="final-price">{{ rec.final_price_int }} ₩</span>
+                            {% else %}
+                                <span class="final-price">{{ rec.final_price_int }} ₩</span>
+                            {% endif %}
+                        {% endif %}
+                        </div>
+                        <p class="text-sm text-gray-400 mb-2">출시일: <span class="text-white">{{ rec.release_date }}</span></p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+
+        <aside class="right-content">
+            <h2>게임 정보</h2>
+            <div class="header-image">
+                <img id="header-image" src="{{ game.header_image }}" crossorigin="anonymous" alt="header-image">
+            </div>
+
+            <div class="price">
+                <ul>
+                    {% if game.final_price_int == 0 %}
+                        <li><strong>가격:</strong> Free</li>
+                    {% else %}
+                        {% if game.discount_percent > 0 %}
+                            <li><strong>할인율:</strong> {{ game.discount_percent }}% Off</li>
+                            <li><strong>정상가:</strong> {{ game.initial_price_int }} ₩</li>
+                            <li><strong>할인가:</strong> {{ game.final_price_int }} ₩</li>
+                        {% else %}
+                            <li><strong>가격:</strong> {{ game.final_price_int }} ₩</li>
+                        {% endif %}
+                    {% endif %}
+                    <li><button class="purchase-btn" onclick="window.location.href='https://store.steampowered.com/app/{{ game.app_id }}/'">구매하러 가기</button></li>
+                </ul>
+            </div>
+
+            <div class="info">
+                <div class="info-section">
+                    <div class="info-section-title">카테고리:</div>
+                    <div class="info-list">
+                        {% for category in game.categories %}
+                            <span class="info-tag">{{ category.description }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <div class="info-section-title">장르:</div>
+                    <div class="info-list">
+                        {% for genre in game.genres %}
+                            <span class="info-tag">{{ genre.description }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <div class="info-section-title">태그:</div>
+                    <div class="info-list">
+                        {% for tag in game.tags %}
+                            <span class="info-tag">{{ tag }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <div class="info-section-title">지원 언어:</div>
+                    <div class="info-list">
+                        {% for language in game.supported_languages %}
+                            <span class="info-tag">{{ language }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <div class="info-section-title">출시일:</div>
+                    <div class="info-list">
+                            <span class="info-tag">{{ game.release_date }}</span>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <div class="info-section-title">개발사:</div>
+                    <div class="info-list">
+                        {% for developer in game.developers %}
+                            <span class="info-tag">{{ developer }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <div class="info-section-title">배급사:</div>
+                    <div class="info-list">
+                        {% for publisher in game.publishers %}
+                            <span class="info-tag">{{ publisher }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<script>
+  function saveImg() {
+    const container = document.querySelector(".container");
+
+    // 캡처용 복제 노드 생성
+    const clone = container.cloneNode(true);
+
+    // '저장'과 '공유' 버튼을 제외하고 다른 버튼들은 남기기
+    const removeButtons = clone.querySelectorAll(".png, .talk");
+    removeButtons.forEach(button => button.remove());
+
+    // 임시 캡처용 컨테이너 추가
+    const tempDiv = document.createElement("div");
+    tempDiv.style.position = "absolute";
+    tempDiv.style.top = "-9999px"; // 화면에 보이지 않게
+    tempDiv.appendChild(clone);
+    document.body.appendChild(tempDiv);
+
+    // 캡처 실행
+    html2canvas(clone, {
+      useCORS: true,
+      logging: true,
+    })
+      .then(canvas => {
+        const link = document.createElement("a");
+        link.href = canvas.toDataURL("image/png");
+        link.download = "game.png";
+        link.click();
+
+        // 임시 컨테이너 삭제
+        document.body.removeChild(tempDiv);
+      })
+      .catch(err => {
+        console.error("Error capturing image:", err);
+      });
+  }
+
+        // 카카오 공유 함수
+    function kakaoShare() {
+        Kakao.Link.sendDefault({
+            objectType: 'text',
+            text: '카카오톡 공유 예제입니다.',
+            link: {
+                mobileWebUrl: 'https://example.com',
+                webUrl: 'https://example.com',
+            },
+            buttonTitle: '자세히 보기',
+        });
+    }
+
+
+    // 작은 이미지를 클릭하면 큰 이미지가 바뀌도록 하는 함수
+    function changeImage(thumbnail) {
+        // 큰 이미지의 src를 작은 이미지의 src로 변경
+        const mainScreenshot = document.getElementById('main-screenshot');
+        mainScreenshot.src = thumbnail.src;
+    }
+
+    // 영상 요약 내용 보여주는 함수 (버튼 클릭했을 때)
+    function toggleSummary(id) {
+        // 'this'를 사용하여 클릭한 버튼을 참조
+        const button = event.target; // 클릭한 버튼을 직접 참조
+        const content = document.getElementById(`summary-content-${id}`);  // 해당 video_id를 가진 요약 내용 선택
+
+        // 버튼 클릭 시 색상 토글
+        button.classList.toggle('active');
+
+        // 요약 내용 보이기/숨기기
+        if (content.style.display === 'none' || content.style.display === '') {
+            content.style.display = 'block';  // 내용 보이기
+        } else {
+            content.style.display = 'none';   // 내용 숨기기
+        }
+    }
+
+const periodData = {{ period_data|safe }};
+
+function updateChart(year) {
+    const bars = document.querySelectorAll('.period-bar');
+    const yearData = periodData[year] || {};
+    
+    bars.forEach((bar, index) => {
+        const month = index + 1;
+        const monthData = yearData[month] || { 
+            positive: 0, 
+            negative: 0,
+            positive_keywords: [],
+            negative_keywords: []
+        };
+        const total = monthData.positive + monthData.negative;
+        
+        const positiveBar = bar.querySelector('.positive-bar');
+        const negativeBar = bar.querySelector('.negative-bar');
+        const positiveText = positiveBar.querySelector('.ratio-text');
+        const negativeText = negativeBar.querySelector('.ratio-text');
+        
+        const tooltipPositive = bar.querySelector('.tooltip-positive ul');
+        const tooltipNegative = bar.querySelector('.tooltip-negative ul');
+        
+        tooltipPositive.innerHTML = monthData.positive_keywords.map(kw => {
+            const [keyword, count] = Object.entries(kw)[0] || ['', 0];
+            return `<li><span>${keyword}</span><span>${count}</span></li>`;
+        }).join('');
+        
+        tooltipNegative.innerHTML = monthData.negative_keywords.map(kw => {
+            const [keyword, count] = Object.entries(kw)[0] || ['', 0];
+            return `<li><span>${keyword}</span><span>${count}</span></li>`;
+        }).join('');
+        
+        if (total === 0) {
+            positiveBar.style.height = '0%';
+            negativeBar.style.height = '0%';
+            positiveText.textContent = '0%';
+            negativeText.textContent = '0%';
+            bar.classList.add('empty');
+        } else {
+            const positiveRatio = (monthData.positive / total * 100).toFixed(0);
+            const negativeRatio = (monthData.negative / total * 100).toFixed(0);
+            
+            positiveBar.style.height = positiveRatio + '%';
+            negativeBar.style.height = negativeRatio + '%';
+            
+            if (positiveRatio === '100') {
+                positiveText.textContent = '100%';
+                negativeText.textContent = '';
+            } else if (negativeRatio === '100') {
+                positiveText.textContent = '';
+                negativeText.textContent = '100%';
+            } else {
+                positiveText.textContent = positiveRatio + '%';
+                negativeText.textContent = negativeRatio + '%';
+            }
+            
+            bar.classList.remove('empty');
+        }
+    });
+}
+
+document.getElementById('yearSelect').addEventListener('change', function() {
+    updateChart(parseInt(this.value));
+});
+
+updateChart({{ current_year }});
+
+</script>
+
+{% endblock %}

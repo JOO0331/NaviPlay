@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+
+{% block title %}메인{% endblock %}
+
+{% block extra_css %}
+{% load static %}
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            {% for game in games|slice:":3" %}
+            <div class="swiper-slide">
+                <a href="{% url 'dashboard' game.app_id %}">
+                    <img src="{{ game.header_image }}" alt="{{ game.name }}" />
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+
+    <section class="game-categories">
+        <nav>
+            <a href="#popular" class="active" onclick="changeCategory('popular')">인기 게임</a>
+            <a href="#free" onclick="changeCategory('free')">무료 게임</a>
+            <a href="#discounted" onclick="changeCategory('discounted')">할인 게임</a>
+            <a href="#single" onclick="changeCategory('single')">싱글 플레이어</a>
+            <a href="#multi" onclick="changeCategory('multi')">멀티 플레이어</a>
+        </nav>
+
+        <div class="card-container" id="game-cards">
+            <!-- Game Cards will be dynamically updated here -->
+        </div>
+    </section>
+</div>
+
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+    const swiper = new Swiper('.swiper', {
+        loop: true,
+        autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+
+    function changeCategory(category) {
+        // Change active tab
+        const tabs = document.querySelectorAll('.game-categories nav a');
+        tabs.forEach(tab => tab.classList.remove('active'));
+        document.querySelector(`a[href="#${category}"]`).classList.add('active');
+
+        // Update cards based on the selected category
+        const cardContainer = document.getElementById('game-cards');
+        let cardsHTML = '';
+
+        if (category === 'popular') {
+            cardsHTML = `
+            {% for game in games %}
+                <div class="card" onclick="window.location.href='{% url 'dashboard' game.app_id %}'">
+                    <img src="{{ game.header_image }}" alt="{{ game.name }}">
+                    <h3>{{ game.name }}</h3>
+                    <div class="pricing">
+                        {% if game.final_price_int == 0 %}
+                            <span class="final-price">Free</span>
+                        {% else %}
+                            {% if game.discount_percent > 0 %}
+                                <span class="discount">{{ game.discount_percent }}% Off</span>
+                                <span class="original-price">{{ game.initial_price_int }} ₩</span>
+                                <span class="final-price">{{ game.final_price_int }} ₩</span>
+                            {% else %}
+                                <span class="final-price">{{ game.final_price_int }} ₩</span>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    <button onclick="window.location.href='https://store.steampowered.com/app/{{ game.app_id }}/'">Buy Now</button>
+                </div>
+            {% endfor %}
+            `;
+        } else if (category === 'free') {
+            cardsHTML = `
+            {% for game in games %}
+                {% if game.final_price_int == 0 %}
+                    <div class="card" onclick="window.location.href='{% url 'dashboard' game.app_id %}'">
+                        <img src="{{ game.header_image }}" alt="{{ game.name }}">
+                        <h3>{{ game.name }}</h3>
+                        <div class="pricing">
+                            <span class="final-price">Free</span>
+                        </div>
+                        <button onclick="window.location.href='https://store.steampowered.com/app/{{ game.app_id }}/'">Buy Now</button>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            `;
+        } else if (category === 'discounted') {
+            cardsHTML = `
+            {% for game in games %}
+                {% if game.discount_percent > 0 %}
+                    <div class="card" onclick="window.location.href='{% url 'dashboard' game.app_id %}'">
+                        <img src="{{ game.header_image }}" alt="{{ game.name }}">
+                        <h3>{{ game.name }}</h3>
+                        <div class="pricing">
+                            <span class="discount">{{ game.discount_percent }}% Off</span>
+                            <span class="original-price">{{ game.initial_price_int }} ₩</span>
+                            <span class="final-price">{{ game.final_price_int }} ₩</span>
+                        </div>
+                        <button onclick="window.location.href='https://store.steampowered.com/app/{{ game.app_id }}/'">Buy Now</button>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            `;
+        } else if (category === 'single') {
+            cardsHTML = `
+            {% for game in games %}
+            {% if "Single-player" in game.categories|join:", " %}
+                <div class="card" onclick="window.location.href='{% url 'dashboard' game.app_id %}'">
+                    <img src="{{ game.header_image }}" alt="{{ game.name }}">
+                    <h3>{{ game.name }}</h3>
+                    <div class="pricing">
+                        {% if game.final_price_int == 0 %}
+                            <span class="final-price">Free</span>
+                        {% else %}
+                            {% if game.discount_percent > 0 %}
+                                <span class="discount">{{ game.discount_percent }}% Off</span>
+                                <span class="original-price">{{ game.initial_price_int }} ₩</span>
+                                <span class="final-price">{{ game.final_price_int }} ₩</span>
+                            {% else %}
+                                <span class="final-price">{{ game.final_price_int }} ₩</span>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    <button onclick="window.location.href='https://store.steampowered.com/app/{{ game.app_id }}/'">Buy Now</button>
+                </div>
+            {% endif %}
+            {% endfor %}
+            `;
+        } else if (category === 'multi') {
+            cardsHTML = `
+            {% for game in games %}
+                {% if "Multi-player" in game.categories|join:", " %}
+                    <div class="card" onclick="window.location.href='{% url 'dashboard' game.app_id %}'">
+                        <img src="{{ game.header_image }}" alt="{{ game.name }}">
+                        <h3>{{ game.name }}</h3>
+                        <div class="pricing">
+                            {% if game.final_price_int == 0 %}
+                                <span class="final-price">Free</span>
+                            {% else %}
+                                {% if game.discount_percent > 0 %}
+                                    <span class="discount">{{ game.discount_percent }}% Off</span>
+                                    <span class="original-price">{{ game.initial_price_int }} ₩</span>
+                                    <span class="final-price">{{ game.final_price_int }} ₩</span>
+                                {% else %}
+                                    <span class="final-price">{{ game.final_price_int }} ₩</span>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <button onclick="window.location.href='https://store.steampowered.com/app/{{ game.app_id }}/'">Buy Now</button>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            `;
+        }
+
+        cardContainer.innerHTML = cardsHTML;
+    }
+
+    // Load default category
+    window.onload = () => {
+        changeCategory('popular');
+    }
+</script>
+
+{% endblock %}
+

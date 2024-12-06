@@ -1,0 +1,824 @@
+/* 전체 컨테이너 */
+.container {
+    width: 80%;                /* 화면 너비의 80% */
+    max-width: 100%;           /* 화면을 넘지 않도록 제한 */
+    margin: 0 auto;            /* 가로 가운데 정렬 */
+    padding: 0 10px;           /* 좌우 약간의 여백 */
+    box-sizing: border-box;    /* 패딩 포함 박스 모델 */
+    margin-bottom: 20px;
+}
+
+.multi{
+    display:flex;
+    align-items: center;
+    gap:20px;
+}
+.buttons{
+display: flex;
+margin-left: auto; /* 오른쪽 끝으로 밀기 */
+gap:10px;
+}
+.png, .talk{
+    display: inline-block;
+            width: 60px;  /* 크기를 키움 */
+            height: 60px; /* 크기를 키움 */
+            border-radius: 20%;  /* 원 모양 유지 */
+            color: white;
+            background-color:#8f72a6;
+            text-align: center;
+            line-height: 60px;  /* 글씨가 수직 중앙에 위치하도록 조정 */
+            font-size: 18px;  /* 글씨 크기 키움 */
+            border: transparent;  /* 기본 테두리는 투명, 두께를 3px로 설정 */
+            font-weight: lighter;  /* 글씨를 얇게 설정 */
+}
+.png:hover, .talk:hover{
+    background-color:#d19636;
+}
+/* 좌우 콘텐츠를 감싸는 컨테이너 */
+.left-right {
+    display: flex;             /* Flexbox로 좌우 배치 */
+    gap: 20px;                 /* 좌우 간격 */
+    margin-top: 20px;          /* 제목과 간격 */
+}
+
+.left-content {
+    flex: 3; /* 1:3 비율 중 3 */
+    background-color: #ffffff; /* 배경색 (예시) */
+    padding: 15px; /* 내부 여백 */
+    border: 1px solid #ccc; /* 테두리 (선택 사항) */
+    max-width: 100%;             /* 부모 요소에 맞춰 최대 너비 설정 */
+    overflow: hidden;            /* 콘텐츠가 넘치면 숨기기 */
+    box-sizing: border-box;      /* 패딩이나 테두리가 너비에 영향을 미치지 않도록 설정 */
+}
+
+.right-content {
+    flex: 1; /* 1:3 비율 중 1 */
+    background-color: #f5f5f5; /* 배경색 (예시) */
+    padding: 15px; /* 내부 여백 */
+    border: 1px solid #ccc; /* 테두리 (선택 사항) */
+}
+
+/* h1 제목 */
+.container h1 {
+    font-size: 2rem;           /* 제목 크기 */
+    margin-bottom: 20px;       /* 아래 간격 */
+    color: #8f72a6;               /* 제목 색상 */
+}
+
+/* Game Screenshot 섹션 */
+.game-screenshot-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+/* 메인 스크린샷 이미지 */
+#main-screenshot {
+    width: 70%; /* 부모 div의 너비에 맞춤 */
+    height: auto; /* 이미지 비율 유지 */
+}
+
+/* 헤더 이미지 */
+#header-image {
+    width: 100%; /* 부모 div의 너비에 맞춤 */
+    height: auto; /* 이미지 비율 유지 */
+    display: block; /* 여백 제거를 위해 block으로 설정 */
+    margin-bottom:20px;
+}
+/* 작은 이미지들 스타일 */
+.thumbnail-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* 스크롤이 생기면 왼쪽에서부터 보여주기 */
+    gap: 10px;
+    margin: 10px auto; /* 위아래 10px, 좌우 auto로 가운데 정렬 */
+    width: 70%; /* 부모 요소에 비례하는 너비 */
+    overflow-x: auto; /* 가로로 넘칠 때 스크롤 생성 */
+    white-space: nowrap; /* 이미지들이 한 줄로 표시되도록 */
+    padding-bottom: 5px; /* 스크롤 영역 아래 여백 */
+    padding-right: 10px; /* 오른쪽에 여백을 추가하여 스크롤바가 겹치지 않도록 */
+    box-sizing: border-box; /* padding이나 border가 너비에 영향을 주지 않도록 설정 */
+    max-width: 100%; /* 최대 너비를 100%로 설정 */
+}
+
+.thumbnail-container img {
+    width: 100px;
+    height: auto;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 3px solid transparent;  /* 기본적으로 테두리를 투명하게 설정 */
+    transition: transform 0.5s ease;
+}
+
+.thumbnail-container img:hover {
+    border-color: white;  /* hover 시 테두리 색을 흰색으로 설정 */
+}
+
+
+/* Similar Games Section */
+.similar-games {
+    margin-top: 20px;
+    width: 100%; /* 동일하게 width를 100%로 설정 */
+}
+
+.card-container {
+    display: flex;
+    justify-content: space-between;
+    overflow-x: auto;
+    width: 100%; /* 100% 너비 설정 */
+    gap:5px;
+}
+
+.card {
+            background-color: #2e2e2e;
+            border: 1px solid #444;
+            border-radius: 8px;
+            width: 30%;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+        }
+
+.card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+.card h3 {
+            font-size: 18px;
+            margin: 20px 0;
+        }
+
+.card .tags {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.card .tags span {
+    background-color: #444;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.875em;
+}
+
+.card .pricing {
+            margin: 20px 0;
+}
+
+.card .pricing .old-price {
+    text-decoration: line-through;
+    color: #aaa;
+}
+
+.card .pricing .new-price {
+    font-size: 1.5em;
+    color: #00bfff;
+}
+
+.card button {
+    background-color: #8f72a6;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+}
+
+.card button:hover {
+    background-color: #d19636;
+}
+
+/* Video Summary 스타일 */
+.videos {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 20px;
+}
+
+.video {
+    flex: 1;
+    text-align: center;
+    position: relative;  /* 부모 요소를 상대 위치로 설정 */
+    display: inline-block;  /* 다른 콘텐츠와 함께 나란히 배치 */
+}
+
+.video img {
+    width: 100%;
+    height: auto;
+}
+
+.video p {
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+
+/* Keywords */
+.keywords {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.keyword {
+    flex: 1;
+    padding: 20px;
+    background-color: #2e2e2e;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    height: 400px; /* 전체 높이 고정 */
+    display: flex;
+    flex-direction: column; /* 내부 요소들을 세로로 배치 */
+}
+
+/* 긍정 키워드 왼쪽 선 */
+.keyword.positive {
+    border-left: 4px solid #4CAF50;
+}
+
+/* 부정 키워드 왼쪽 선 */
+.keyword.negative {
+    border-left: 4px solid #f44336;
+}
+
+.keyword b {
+    display: block;
+    font-size: 1.2em;
+    color: #8f72a6;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #444;
+    flex-shrink: 0; 
+}
+
+.keyword ul {
+    list-style: none;
+    padding: 0;
+    padding-right: 15px; 
+    margin: 0;
+    overflow-y: auto; 
+    flex-grow: 1;
+}
+
+.keyword ul::-webkit-scrollbar {
+    width: 8px;
+    position: absolute;
+    right: 0;
+}
+
+.keyword ul::-webkit-scrollbar-track {
+    background: #2e2e2e;
+    border-radius: 4px;
+}
+
+.keyword ul::-webkit-scrollbar-thumb {
+    background: #8f72a6;
+    border-radius: 4px;
+}
+
+.keyword ul::-webkit-scrollbar-thumb:hover {
+    background: #d19636;
+}
+
+.keyword li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    padding-right: 5px;
+    color: #ffffff;
+    border-bottom: 1px solid #444;
+    height: 45px; 
+    box-sizing: border-box;
+}
+
+.keyword li:last-child {
+    border-bottom: none;
+}
+
+.keyword li span {
+    font-size: 0.9em;
+}
+
+.keyword li span:last-child {
+    color: #d19636;
+    font-weight: bold;
+}
+
+/* Price, Info, and Purchase Section */
+.price, .info {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd; /* 구분선 추가 */
+}
+
+.price ul, .info ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.price li, .info li {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.price strong {
+    color: #2c3e50;
+}
+
+/* Purchase Button 스타일 */
+button.purchase-btn {
+    background-color: #8f72a6;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
+
+button.purchase-btn:hover {
+    background-color: #d19636;
+}
+
+.video {
+    position: relative;  /* 부모 요소를 상대 위치로 설정 */
+    display: inline-block;  /* 다른 콘텐츠와 함께 나란히 배치 */
+}
+
+.summary-btn {
+    position: absolute; /* 이미지 왼쪽 위에 위치 */
+    top: 10px; /* 상단에서 10px */
+    left: 10px; /* 왼쪽에서 10px */
+    padding: 10px;
+    background-color: #8f72a6;
+    color: white;
+    border: none;
+    cursor: pointer;
+    z-index: 2; /* 버튼이 요약 내용보다 위에 나오게 하기 위함 */
+}
+
+.summary-btn.active {
+    background-color: #d19636; /* 클릭 시 색상 변경 */
+}
+
+.summary-btn:hover {
+    background-color: #d19636; /* hover 색상 */
+}
+
+.summary-content {
+    position: absolute; /* 이미지 위에 절대 위치로 배치 */
+    top: 50%; /* 수직 중앙 */
+    left: 50%; /* 수평 중앙 */
+    transform: translate(-50%, -50%); /* 정확하게 중앙에 위치하도록 */
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.7); /* 반투명 배경 */
+    color: white;
+    border-radius: 8px;
+    display: none;
+    z-index: 1; /* 버튼이 요약 내용 위에 나오지 않도록 */
+    width: 80%;
+    height: 70%;
+}
+
+.pricing .discount {
+    color: #ff5f5f; /* 밝은 빨간색, 네온 느낌 */
+    font-weight: bold;
+    font-size: 18px;
+    background-color: rgba(255, 87, 34, 0.2); /* 얇은 오렌지 배경 (네온 느낌) */
+    padding: 10px 10px;
+    border-radius: 100%;
+    display: inline-block;
+    box-shadow:
+        0 0 8px rgba(255, 87, 34, 0.7),  /* 오렌지 네온 그림자 */
+        0 0 15px rgba(255, 87, 34, 0.5); /* 좀 더 큰 오렌지 네온 그림자 */
+    transition: box-shadow 0.3s ease, transform 0.2s ease; /* 변화 애니메이션 */
+}
+
+/* 원래 가격 스타일 */
+.pricing .initial-price {
+    text-decoration: line-through;
+    color: #b0b0b0; /* 차분하고 고급스러운 회색 */
+    font-size: 16px; /* 좀 더 작은 글자 */
+    margin-left: 12px;
+    opacity: 0.8; /* 불투명도 */
+}
+
+/* 최종 가격 스타일 */
+.pricing .final-price {
+    font-size: 24px; /* 크기 커짐 */
+    color: #d19636; /* 금색 */
+    font-weight: bold;
+    margin-left: 12px;
+    padding-left: 10px;
+    border-left: 2px solid #d19636; /* 금색 선 추가 */
+}
+
+.tag {
+    background-color: #4b4b4b; /* 배경색 - bg-gray-700 */
+    color: white; /* 텍스트 색 - 기본적으로 흰색 */
+    font-size: 0.875rem; /* 폰트 크기 - text-sm */
+    padding: 0.25rem 0.75rem; /* 패딩 - py-1, px-3 */
+    border-radius: 0.375rem; /* 둥근 테두리 - rounded */
+}
+
+.badge {
+            display: inline-block;
+            width: 60px;  /* 크기를 키움 */
+            height: 60px; /* 크기를 키움 */
+            border-radius: 50%;  /* 원 모양 유지 */
+            color: white;
+            text-align: center;
+            line-height: 60px;  /* 글씨가 수직 중앙에 위치하도록 조정 */
+            font-size: 18px;  /* 글씨 크기 키움 */
+            border: 2px solid transparent;  /* 기본 테두리는 투명, 두께를 3px로 설정 */
+            font-weight: lighter;  /* 글씨를 얇게 설정 */
+        }
+        .badge.gray { border-color: gray; }
+        .badge.green { border-color: green; }
+        .badge.red { border-color: red; }
+        .badge.yellow { border-color: yellow; }
+
+        .youtube{
+        display: flex;
+            flex-direction: column;
+        }
+
+        /* 전체 섹션 스타일 */
+.info-section {
+    margin-bottom: 20px; /* 섹션 간격 */
+    padding: 10px; /* 내부 여백 */
+    background-color: #f9f9f9; /* 섹션 배경색 */
+    border: 1px solid #ddd; /* 테두리 */
+    border-radius: 6px; /* 둥근 모서리 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 가벼운 그림자 */
+}
+
+/* 제목 스타일 */
+.info-section-title {
+    font-weight: bold; /* 굵은 텍스트 */
+    font-size: 1.1em; /* 약간 큰 글씨 크기 */
+    color: #34495e; /* 제목 색상 */
+    margin-bottom: 8px; /* 제목과 리스트 사이의 간격 */
+}
+
+/* 리스트 스타일 */
+.info-list {
+    display: flex; /* 플렉스 컨테이너 */
+    flex-wrap: wrap; /* 여러 줄로 감싸기 */
+    gap: 10px; /* 아이템 간격 */
+}
+
+/* 태그 스타일 */
+.info-tag {
+    background-color: #2ecc71; /* 태그 배경색 */
+    color: white; /* 텍스트 색상 */
+    padding: 6px 12px; /* 내부 여백 */
+    font-size: 0.9em; /* 텍스트 크기 */
+    border-radius: 4px; /* 둥근 모서리 */
+    white-space: nowrap; /* 줄바꿈 방지 */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* 가벼운 그림자 */
+    transition: background-color 0.3s ease; /* 호버 효과 */
+}
+
+/* 태그 호버 효과 */
+.info-tag:hover {
+    background-color: #27ae60; /* 어두운 초록색으로 변경 */
+    cursor: pointer; /* 포인터 모양 변경 */
+}
+
+.youtube-info {
+    display: flex;           /* 부모 컨테이너에 Flexbox 적용 */
+    flex-direction: column;  /* 세로로 나열 */
+    margin-bottom: 20px;     /* 각 항목 사이 간격 */
+}
+
+.youtube-info span {
+    margin-bottom: 10px;     /* 각 항목 사이 간격 */
+}
+
+.youtube-info2 {
+    display: flex;           /* 채널 사진과 채널 정보를 나란히 배치 */
+}
+
+.youtube-info2 img {
+    width: 70px;             /* 채널 이미지 크기 설정 */
+    height: 70px;            /* 채널 이미지 크기 설정 */
+    border-radius: 50%;      /* 원형으로 만들기 */
+    margin-right: 15px;      /* 이미지와 텍스트 간 간격 */
+}
+
+.youtube-info3 {
+    display: flex;
+    flex-direction: column;  /* 채널명, 업로드날짜, 조회수를 세로로 배치 */
+    text-align: left;
+}
+
+.youtube-info3 span {
+    margin-bottom: 5px;      /* 각 항목 사이 간격 */
+}
+
+
+.card {
+            background-color: #2e2e2e;
+            border: 1px solid #444;
+            border-radius: 8px;
+            width: 250px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+        }
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .card h3 {
+            font-size: 18px;
+            margin: 20px 0;
+        }
+
+        .pricing {
+            margin: 20px 0;
+        }
+        /* 할인 가격 스타일 */
+.pricing .discount {
+    color: #ff5f5f; /* 밝은 빨간색, 네온 느낌 */
+    font-weight: bold;
+    font-size: 18px;
+    background-color: rgba(255, 87, 34, 0.2); /* 얇은 오렌지 배경 (네온 느낌) */
+    padding: 10px 10px;
+    border-radius: 100%;
+    display: inline-block;
+    box-shadow:
+        0 0 8px rgba(255, 87, 34, 0.7),  /* 오렌지 네온 그림자 */
+        0 0 15px rgba(255, 87, 34, 0.5); /* 좀 더 큰 오렌지 네온 그림자 */
+    transition: box-shadow 0.3s ease, transform 0.2s ease; /* 변화 애니메이션 */
+}
+
+/* 원래 가격 스타일 */
+.pricing .initial-price {
+    text-decoration: line-through;
+    color: #b0b0b0; /* 차분하고 고급스러운 회색 */
+    font-size: 16px; /* 좀 더 작은 글자 */
+    margin-left: 12px;
+    opacity: 0.8; /* 불투명도 */
+}
+
+/* 최종 가격 스타일 */
+.pricing .final-price {
+    font-size: 24px; /* 크기 커짐 */
+    color: #d19636; /* 금색 */
+    font-weight: bold;
+    margin-left: 12px;
+    padding-left: 10px;
+    border-left: 2px solid #d19636; /* 금색 선 추가 */
+}
+        .card button {
+            background-color: #8f72a6;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.5s;
+        }
+        .card button:hover {
+            background-color: #d19636;
+        }
+
+.period-analysis {
+    margin-top: 30px;
+}
+
+.period-chart {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 10px;
+    height: 300px;
+    margin-top: 20px;
+}
+
+.period-bar {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 40px;
+}
+
+.bar-container {
+    width: 100%;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+}
+
+.positive-bar {
+    background-color: rgba(76, 175, 80, 0.3);
+    width: 100%;
+    position: relative;
+    transition: height 0.3s ease;
+}
+
+.negative-bar {
+    background-color: rgba(244, 67, 54, 0.3);
+    background-image: repeating-linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.1),
+        rgba(0, 0, 0, 0.1) 10px,
+        transparent 10px,
+        transparent 20px
+    );
+    width: 100%;
+    position: relative;
+    transition: height 0.3s ease;
+}
+
+.ratio-text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.period-label {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #8f72a6;
+}
+
+.period-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+.period-header h3 {
+    margin: 0;
+    white-space: nowrap;
+}
+
+#yearSelect {
+    margin-left: auto;
+}
+
+.chart-legend {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+}
+
+.legend-color.positive {
+    background-color: rgba(76, 175, 80, 0.3);
+}
+
+.legend-color.negative {
+    background-color: rgba(244, 67, 54, 0.3);
+    background-image: repeating-linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.1),
+        rgba(0, 0, 0, 0.1) 5px,
+        transparent 5px,
+        transparent 10px
+    );
+}
+
+.period-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+.period-header h3 {
+    margin: 0;
+    white-space: nowrap;
+}
+
+#yearSelect {
+    margin-left: auto;
+}
+
+.keywords-tooltip {
+    display: none;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.9);
+    border-radius: 8px;
+    padding: 15px;
+    width: 200px;
+    z-index: 1000;
+    top: -120px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.keywords-tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    border-width: 10px 10px 0;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.9) transparent transparent;
+}
+
+.tooltip-content {
+    color: white;
+}
+
+.tooltip-positive, .tooltip-negative {
+    margin-bottom: 10px;
+}
+
+.tooltip-positive strong {
+    color: #4CAF50;
+}
+
+.tooltip-negative strong {
+    color: #f44336;
+}
+
+.tooltip-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 5px 0;
+    font-size: 0.9em;
+}
+
+.tooltip-content li {
+    display: flex;
+    justify-content: space-between;
+    margin: 3px 0;
+}
+
+.bar-container {
+    position: relative;
+}
+
+.bar-container:hover .keywords-tooltip {
+    display: block;
+}
+
+.period-bar:first-child .keywords-tooltip {
+    left: 0;
+    transform: none;
+}
+
+.period-bar:first-child .keywords-tooltip::after {
+    left: 20px;
+    transform: none;
+}
+
+.period-bar:last-child .keywords-tooltip {
+    right: 0;
+    left: auto;
+    transform: none;
+}
+
+.period-bar:last-child .keywords-tooltip::after {
+    right: 20px;
+    left: auto;
+    transform: none;
+}
+
+.period-bar:not(:first-child):not(:last-child) .keywords-tooltip {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.period-bar:not(:first-child):not(:last-child) .keywords-tooltip::after {
+    left: 50%;
+    transform: translateX(-50%);
+}
