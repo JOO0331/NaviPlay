@@ -14,8 +14,7 @@
 <!--공유-->
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script>
-    // 카카오 초기화
-    Kakao.init('adf93c872874a19801d8183bf29f9860'); // 실제 JavaScript 앱 키 입력
+    Kakao.init('adf93c872874a19801d8183bf29f9860'); // 앱 키 입력
         Kakao.isInitialized();
 </script>
 
@@ -43,12 +42,12 @@
                 <h2>Game Screenshot</h2>
                 <!-- 큰 이미지 화면 -->
                 <div class="game-screenshot-container">
-                    <img id="main-screenshot" src="{{ game.screenshots.0.path_full }}" crossorigin="anonymous" alt="Game Screenshot">
+                    <img id="main-screenshot" src="{{ game.screenshots.0.path_full }}" alt="Game Screenshot">
                 </div>
                 <!-- 작은 썸네일 이미지들 -->
                 <div class="thumbnail-container">
                         {% for screenshot in game.screenshots %}
-                        <img src="{{ screenshot.path_full }}" crossorigin="anonymous" alt="Thumbnail {{ forloop.counter }}" onclick="changeImage(this)" style="width: 100px; height: auto;">
+                        <img src="{{ screenshot.path_full }}" alt="Thumbnail {{ forloop.counter }}" onclick="changeImage(this)" style="width: 100px; height: auto;">
                         {% endfor %}
                 </div>
             </div>
@@ -137,7 +136,7 @@
             </div>
 
             <div class="section video-summary">
-                <h3>리뷰 영상 + 요약</h3>
+                <h3>관련 영상</h3>
                 <div class="videos">
                     {% for youtube in youtubes %}
                         <div class="video">
@@ -147,7 +146,7 @@
                             <div class="youtube-info">
                                 <strong>{{ youtube.title }}</strong>
                                 <div class="youtube-info2">
-                                    <img src="{{ youtube.channelImage }}" crossorigin="anonymous" alt="channel Thumbnail">
+                                    <img src="{{ youtube.channelImage }}" alt="channel Thumbnail">
                                     <div class="youtube-info3">
                                         <span>채널명: {{ youtube.channelName }}</span>
                                         <span>업로드날짜: {{ youtube.publishedAt }}</span>
@@ -161,8 +160,6 @@
                             </div>
                         </div>
                     {% endfor %}
-
-
                 </div>
             </div>
 
@@ -171,7 +168,7 @@
                 <div class="card-container">
                     <!-- 카드 1 -->
                     <div class="card" onclick="window.location.href='{% url 'dashboard' first_recommendation.app_id %}'">
-                        <img src="{{ first_recommendation.header_image }}" crossorigin="anonymous" alt="Game Thumbnail">
+                        <img src="{{ first_recommendation.header_image }}" alt="Game Thumbnail">
                         <h3>{{ first_recommendation.name }}</h3>
                         <div class="tags flex flex-wrap gap-2 mb-4">
                            {% for genre in first_recommendation.genres|slice:":3" %}
@@ -315,7 +312,8 @@
 </div>
 
 <script>
-  function saveImg() {
+
+function saveImg() {
     const container = document.querySelector(".container");
 
     // 캡처용 복제 노드 생성
@@ -334,10 +332,10 @@
 
     // 캡처 실행
     html2canvas(clone, {
-      useCORS: true,
-      logging: true,
+        useCORS: true,
+        logging: true,
     })
-      .then(canvas => {
+    .then(canvas => {
         const link = document.createElement("a");
         link.href = canvas.toDataURL("image/png");
         link.download = "game.png";
@@ -345,49 +343,48 @@
 
         // 임시 컨테이너 삭제
         document.body.removeChild(tempDiv);
-      })
-      .catch(err => {
+    })
+    .catch(err => {
         console.error("Error capturing image:", err);
-      });
+    });
   }
 
-        // 카카오 공유 함수
-    function kakaoShare() {
-        Kakao.Link.sendDefault({
-            objectType: 'text',
-            text: '카카오톡 공유 예제입니다.',
-            link: {
-                mobileWebUrl: 'https://example.com',
-                webUrl: 'https://example.com',
-            },
-            buttonTitle: '자세히 보기',
-        });
+// 카카오 공유 함수
+function kakaoShare() {
+    Kakao.Link.sendDefault({
+        objectType: 'text',
+        text: '카카오톡 공유 예제입니다.',
+        link: {
+            mobileWebUrl: 'https://example.com',
+            webUrl: 'https://example.com',
+        },
+        buttonTitle: '자세히 보기',
+    });
+}
+
+
+// 작은 이미지를 클릭하면 큰 이미지가 바뀌도록 하는 함수
+function changeImage(thumbnail) {
+    // 큰 이미지의 src를 작은 이미지의 src로 변경
+    const mainScreenshot = document.getElementById('main-screenshot');
+    mainScreenshot.src = thumbnail.src;
+}
+
+// 영상 요약 내용 보여주는 함수 (버튼 클릭했을 때)
+function toggleSummary(id) {
+    const button = event.target;
+    const content = document.getElementById(`summary-content-${id}`);  // 해당 video_id를 가진 요약 내용 선택
+
+    // 버튼 클릭 시 색상 토글
+    button.classList.toggle('active');
+
+    // 요약 내용 보이기/숨기기
+    if (content.style.display === 'none' || content.style.display === '') {
+        content.style.display = 'block';  // 내용 보이기
+    } else {
+        content.style.display = 'none';   // 내용 숨기기
     }
-
-
-    // 작은 이미지를 클릭하면 큰 이미지가 바뀌도록 하는 함수
-    function changeImage(thumbnail) {
-        // 큰 이미지의 src를 작은 이미지의 src로 변경
-        const mainScreenshot = document.getElementById('main-screenshot');
-        mainScreenshot.src = thumbnail.src;
-    }
-
-    // 영상 요약 내용 보여주는 함수 (버튼 클릭했을 때)
-    function toggleSummary(id) {
-        // 'this'를 사용하여 클릭한 버튼을 참조
-        const button = event.target; // 클릭한 버튼을 직접 참조
-        const content = document.getElementById(`summary-content-${id}`);  // 해당 video_id를 가진 요약 내용 선택
-
-        // 버튼 클릭 시 색상 토글
-        button.classList.toggle('active');
-
-        // 요약 내용 보이기/숨기기
-        if (content.style.display === 'none' || content.style.display === '') {
-            content.style.display = 'block';  // 내용 보이기
-        } else {
-            content.style.display = 'none';   // 내용 숨기기
-        }
-    }
+}
 
 const periodData = {{ period_data|safe }};
 
