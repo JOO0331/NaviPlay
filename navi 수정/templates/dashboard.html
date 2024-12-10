@@ -170,7 +170,7 @@
                     <div class="card" onclick="window.location.href='{% url 'dashboard' first_recommendation.app_id %}'">
                         <img src="{{ first_recommendation.header_image }}" alt="Game Thumbnail">
                         <h3>{{ first_recommendation.name }}</h3>
-                        <div class="tags flex flex-wrap gap-2 mb-4">
+                        <div class="tags">
                            {% for genre in first_recommendation.genres|slice:":3" %}
                                <span class="info-tag">{{ genre.description }}</span>
                            {% endfor %}
@@ -196,7 +196,7 @@
                     <div class="card" onclick="window.location.href='{% url 'dashboard' rec.app_id %}'">
                         <img src="{{ rec.header_image }}" crossorigin="anonymous" alt="Game Thumbnail">
                         <h3>{{ rec.name }}</h3>
-                        <div class="tags flex flex-wrap gap-2 mb-4">
+                        <div class="tags">
                            {% for genre in rec.genres|slice:":3" %}
                                <span class="info-tag">{{ genre.description }}</span>
                            {% endfor %}

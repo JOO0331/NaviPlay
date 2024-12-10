@@ -13,113 +13,6 @@
     border: 1px solid #ccc;
 }
 
-.main-content {
-    flex: 3;
-    background-color: #ffffff;
-    padding: 15px;
-    border: 1px solid #ccc;
-}
-
-.game-item {
-    display: flex;
-    background-color: #333;
-    padding: 15px;
-    border-radius: 8px;
-    border: 3px solid #ccc;
-    color: white;
-    align-items: center;
-    margin: 5px;
-    gap: 15px;
-}
-.game {
-    display: flex;
-    gap: 20px;
-}
-
-.game-item img {
-    height: 80px;
-    object-fit: cover;
-}
-.game-item .info {
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-}
-.game-item h3 {
-    margin: 0;
-    font-size: 16px;
-    font-weight: bold;
-}
-.game-item p {
-    font-size: 14px;
-}
-.badge {
-    display: inline-block;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    color: white;
-    text-align: center;
-    line-height: 60px;
-    font-size: 18px;
-    border: 2px solid transparent;
-    font-weight: lighter;
-}
-.badge.green { border-color: green; }
-.badge.red { border-color: red; }
-.badge.yellow { border-color: yellow; }
-
-
-.pricing {
-    display: flex;
-    align-items:center;
-    justify-content: center;
-}
-
-.discount, .price-info {
-    margin: 5px 0;
-}
-.discount {
-    color: #ff5f5f; /* 밝은 빨간색, 네온 느낌 */
-    font-weight: bold;
-    font-size: 18px;
-    background-color: rgba(255, 87, 34, 0.2); /* 얇은 오렌지 배경 (네온 느낌) */
-    padding: 10px 10px;
-    border-radius: 100%;
-    display: inline-block;
-    box-shadow:
-        0 0 8px rgba(255, 87, 34, 0.7),  /* 오렌지 네온 그림자 */
-        0 0 15px rgba(255, 87, 34, 0.5); /* 좀 더 큰 오렌지 네온 그림자 */
-    transition: box-shadow 0.3s ease, transform 0.2s ease; /* 변화 애니메이션 */
-    margin-left:100px;
-}
-
-.price-info {
-    display: flex;
-    flex-direction: column;
-    margin-left: auto;
-    text-align: right;
-    margin-left:20px;
-}
-
-.price-info .initial-price {
-    text-decoration: line-through;
-    color: #b0b0b0;
-    font-size: 16px;
-    margin-left: 12px;
-    opacity: 1;
-}
-
-.price-info .final-price {
-    font-size: 24px;
-    color: #d19636;
-    font-weight: bold;
-    margin-left: 12px;
-    padding-left: 10px;
-    border-left: 2px solid #d19636;
-}
-
-
 .filter-section select, .filter-section input[type="range"] {
     width: 100%;
     margin-bottom: 10px;
@@ -206,6 +99,116 @@
     margin-top: 20px;
 }
 
+.main-content {
+    flex: 3;
+    background-color: #ffffff;
+    padding: 15px;
+    border: 1px solid #ccc;
+}
+
+.game-item {
+    display: flex;
+    background-color: #333;
+    padding: 15px;
+    border-radius: 8px;
+    border: 3px solid #ccc;
+    color: white;
+    align-items: center;
+    margin: 5px;
+    gap: 15px;
+}
+
+.game-item img {
+    height: 80px;
+    object-fit: cover;
+}
+.game {
+    display: flex;
+    gap: 20px;
+}
+.game .info {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+}
+.game h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+.game p {
+    font-size: 14px;
+}
+.genre {
+    display: inline-block;
+    margin-right: 10px;
+}
+.badge {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    color: white;
+    text-align: center;
+    line-height: 60px;
+    font-size: 18px;
+    border: 2px solid transparent;
+    font-weight: lighter;
+}
+.badge.green { border-color: green; }
+.badge.red { border-color: red; }
+.badge.yellow { border-color: yellow; }
+
+
+.pricing {
+    display: flex;
+    align-items:center;
+    justify-content: center;
+}
+
+.discount, .price-info {
+    margin: 5px 0;
+}
+.discount {
+    color: #ff5f5f; /* 밝은 빨간색, 네온 느낌 */
+    font-weight: bold;
+    font-size: 18px;
+    background-color: rgba(255, 87, 34, 0.2); /* 얇은 오렌지 배경 (네온 느낌) */
+    padding: 10px 10px;
+    border-radius: 100%;
+    display: inline-block;
+    box-shadow:
+        0 0 8px rgba(255, 87, 34, 0.7),  /* 오렌지 네온 그림자 */
+        0 0 15px rgba(255, 87, 34, 0.5); /* 좀 더 큰 오렌지 네온 그림자 */
+    transition: box-shadow 0.3s ease, transform 0.2s ease; /* 변화 애니메이션 */
+    margin-left:100px;
+}
+
+.price-info {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    text-align: right;
+    margin-left:20px;
+}
+
+.price-info .original-price {
+    text-decoration: line-through;
+    color: #b0b0b0;
+    font-size: 16px;
+    margin-left: 12px;
+    opacity: 1;
+}
+
+.price-info .final-price {
+    font-size: 24px;
+    color: #d19636;
+    font-weight: bold;
+    margin-left: 12px;
+    padding-left: 10px;
+    border-left: 2px solid #d19636;
+}
+
 .pagination {
     display: flex;
     justify-content: center;
@@ -239,9 +242,4 @@
     background-color: #666;
     cursor: not-allowed;
     opacity: 0.5;
-}
-
-.genre {
-    display: inline-block;  
-    margin-right: 10px;
 }
