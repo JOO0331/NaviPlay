@@ -13,24 +13,27 @@
     <div class="container">
             <div class="sidebar filter-section">
                 <h2>검색옵션</h2>
-                <form>
+                <form action="{% url 'search' %}" method="GET">
+                    <!-- 검색어 필드 (이전 검색어 유지) -->
+                    <input type="hidden" name="search" value="{{ request.GET.search }}">
+
                     <div class="form-group">
                         <label for="sort">정렬순</label>
-                        <select id="sort">
-                            <option value="">최신순</option>
-                            <option value="">높은가격</option>
-                            <option value="">낮은가격</option>
-                            <option value="">높은할인율</option>
-                            <option value="">낮은할인율</option>
+                        <select name="sort" id="sort">
+                            <option value="" {% if not request.GET.sort %}selected{% endif %}>최신순</option>
+                            <option value="price_desc" {% if request.GET.sort == 'price_desc' %}selected{% endif %}>높은가격</option>
+                            <option value="price_asc" {% if request.GET.sort == 'price_asc' %}selected{% endif %}>낮은가격</option>
+                            <option value="discount_desc" {% if request.GET.sort == 'discount_desc' %}selected{% endif %}>높은할인율</option>
+                            <option value="discount_asc" {% if request.GET.sort == 'discount_asc' %}selected{% endif %}>낮은할인율</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label for="players">플레이어 수</label>
-                        <select id="players">
-                            <option value="">싱글플레이어</option>
-                            <option value="">멀티플레이어</option>
-                            <option value="">온라인협동</option>
+                        <select name="players" id="players">
+                            <option value="single_player" {% if request.GET.players == 'single_player' %}selected{% endif %}>싱글플레이어</option>
+                            <option value="multi_player" {% if request.GET.players == 'multi_player' %}selected{% endif %}>멀티플레이어</option>
+                            <option value="online_coop" {% if request.GET.players == 'online_coop' %}selected{% endif %}>온라인협동</option>
                         </select>
                     </div>
 
@@ -54,10 +57,10 @@
                     <legend>출시 여부</legend>
                     <fieldset>
                         <label>
-                            <input type="checkbox" /> 출시됨
+                            <input type="radio" name="status" value="released" /> 출시됨
                         </label>
                         <label>
-                            <input type="checkbox" /> 출시 예정
+                            <input type="radio" name="status" value="upcoming" /> 출시 예정
                         </label>
                     </fieldset>
 

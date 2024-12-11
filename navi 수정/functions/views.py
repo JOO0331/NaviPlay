@@ -6,6 +6,7 @@ import random
 from datetime import datetime
 
 from bs4 import BeautifulSoup
+from django.db.models import Q
 
 def preprocess_pc_requirements(pc_requirements_html):
     # BeautifulSoup을 사용하여 HTML 파싱
@@ -23,10 +24,40 @@ def main_view(request):
 
 def search_view(request):
     query = request.GET.get('search', '')
+
+    sort_order = request.GET.get('sort', '')
+    released_only = request.GET.get('status', None)
+    players = request.GET.get('players', '')
+
     games = Game.objects.all()
 
     if query:
         games = games.filter(name__icontains=query)
+
+    if sort_order == 'price_desc':
+        games = games.order_by('-final_price')
+    elif sort_order == 'price_asc':
+        games = games.order_by('final_price')
+    elif sort_order == 'discount_desc':
+        games = games.order_by('-discount_percent')
+    elif sort_order == 'discount_asc':
+        games = games.order_by('discount_percent')
+
+    if released_only == 'released':
+        games = games.filter(coming_soon=False)
+    elif released_only == 'upcoming':
+        games = games.filter(coming_soon=True)
+
+    # if players == 'single_player':
+    #     # games = games.filter(categories__contains=[{'id': 2, 'description': '싱글 플레이어'}])
+    #     games = games.filter(Q(categories__id=2) & Q(categories__description='싱글 플레이어'))
+    # elif players == 'multi_player':
+    #     # games = games.filter(categories__contains=[{'id': 1, 'description': '멀티플레이어'}])
+    #     games = games.filter(Q(categories__id=1) & Q(categories__description='멀티플레이어'))
+    # elif players == 'online_coop':
+    #     # games = games.filter(categories__contains=[{'id': 38, 'description': '온라인 협동'}])
+    #     games = games.filter(Q(categories__id=38) & Q(categories__description='온라인 협동'))
+
 
     for game in games:
         game.final_price_int = int(float(str(game.final_price)))

@@ -92,6 +92,9 @@
     font-size: 18px;
     margin: 20px 0;
 }
+.card:hover {
+    cursor: pointer;
+}
 
 .pricing {
     margin: 20px 0;
