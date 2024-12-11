@@ -71,7 +71,7 @@
 
             <!-- Main content area with game list -->
             <div class="main-content">
-                <h2>Total: {{ game_count }}</h2>
+                <h2>Total: {{ games.count }}</h2>
                 <!-- Game List -->
                 {% for game in games %}
                 <div class="game-item" onclick="location.href='{% url 'dashboard' game.app_id %}'" style="cursor: pointer;">

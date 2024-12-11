@@ -5,6 +5,15 @@ import json
 import random
 from datetime import datetime
 
+from bs4 import BeautifulSoup
+
+def preprocess_pc_requirements(pc_requirements_html):
+    # BeautifulSoup을 사용하여 HTML 파싱
+    soup = BeautifulSoup(pc_requirements_html, 'html.parser')
+    # <ul> 내의 <li> 항목을 추출하여 리스트로 반환
+    requirements = [li.get_text(strip=True) for li in soup.find_all('li')]
+    return requirements
+
 def main_view(request):
     games = Game.objects.all()
     for game in games:
@@ -15,12 +24,10 @@ def main_view(request):
 def search_view(request):
     query = request.GET.get('search', '')
     games = Game.objects.all()
-    # game_count = games.count()
-    
+
     if query:
         games = games.filter(name__icontains=query)
-        # game_count = games.count()
-    
+
     for game in games:
         game.final_price_int = int(float(str(game.final_price)))
         game.initial_price_int = int(float(str(game.initial_price)))
@@ -29,22 +36,15 @@ def search_view(request):
     #         positive_ratio = int(game.positive_reviews / total_reviews * 100)
     #     else:
     #         positive_ratio = negative_ratio = 0  # 리뷰 부족하면 0->?
-
-    # context = {
-    #     'game': game,
-    #     'game_count':game_count,
-    #     'positive_ratio': positive_ratio
-    # }
     
-    # return render(request, "search.html", {'games': games, 'game_count':game_count})
     return render(request, "search.html", {'games': games})
 
 def dashboard_view(request, app_id):
     game = Game.objects.get(app_id=app_id)
     game.final_price_int = int(float(str(game.final_price)))
     game.initial_price_int = int(float(str(game.initial_price)))
-    
-    
+    game.pc_requirements = preprocess_pc_requirements(game.pc_requirements)
+
     review_analysis = ReviewAnalysis.objects.first()
     period_analysis = review_analysis.period_analysis
     all_analysis = review_analysis.all_analysis

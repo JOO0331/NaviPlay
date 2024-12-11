@@ -306,6 +306,15 @@
                         {% endfor %}
                     </div>
                 </div>
+
+                <div class="info-section">
+                    <div class="info-section-title">PC 요구 사항:</div>
+                    <div class="info-list">
+                        {% for requirment in game.pc_requirements %}
+                            <span class="info-tag">{{ requirment }}</span><br>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </aside>
     </div>
