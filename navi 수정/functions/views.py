@@ -24,50 +24,64 @@ def main_view(request):
 
 def search_view(request):
     query = request.GET.get('search', '')
-
     sort_order = request.GET.get('sort', '')
-    released_only = request.GET.get('status', None)
-    players = request.GET.get('players', '')
+    number_of_players = request.GET.get('players', '')
+    price_range = request.GET.get('price', '')
+    release_status = request.GET.get('status', None)
 
     games = Game.objects.all()
 
+    # 이름 검색
     if query:
         games = games.filter(name__icontains=query)
 
-    if sort_order == 'price_desc':
-        games = games.order_by('-final_price')
-    elif sort_order == 'price_asc':
-        games = games.order_by('final_price')
-    elif sort_order == 'discount_desc':
-        games = games.order_by('-discount_percent')
-    elif sort_order == 'discount_asc':
-        games = games.order_by('discount_percent')
+    # 정렬
+    sort_mappings = {
+        'price_desc': '-final_price',
+        'price_asc': 'final_price',
+        'discount_desc': '-discount_percent',
+        'discount_asc': 'discount_percent',
+    }
+    if sort_order in sort_mappings:
+        games = games.order_by(sort_mappings[sort_order])
 
-    if released_only == 'released':
-        games = games.filter(coming_soon=False)
-    elif released_only == 'upcoming':
-        games = games.filter(coming_soon=True)
+    # 플레이어 수 필터링
+    player_category_mappings = {
+        'single_player': 2,
+        'multi_player': 1,
+        'online_coop': 38,
+    }
+    if number_of_players in player_category_mappings:
+        category_id = player_category_mappings[number_of_players]
+        games = [game for game in games if any(category['id'] == category_id for category in game.categories)]
 
-    # if players == 'single_player':
-    #     # games = games.filter(categories__contains=[{'id': 2, 'description': '싱글 플레이어'}])
-    #     games = games.filter(Q(categories__id=2) & Q(categories__description='싱글 플레이어'))
-    # elif players == 'multi_player':
-    #     # games = games.filter(categories__contains=[{'id': 1, 'description': '멀티플레이어'}])
-    #     games = games.filter(Q(categories__id=1) & Q(categories__description='멀티플레이어'))
-    # elif players == 'online_coop':
-    #     # games = games.filter(categories__contains=[{'id': 38, 'description': '온라인 협동'}])
-    #     games = games.filter(Q(categories__id=38) & Q(categories__description='온라인 협동'))
+    # 가격 필터링
+    price_ranges = {
+        '_3': (None, 30000),
+        '3_5': (30000, 50000),
+        '5_7': (50000, 70000),
+        '7_10': (70000, 100000),
+        '10_': (100000, None),
+    }
+    if price_range in price_ranges:
+        min_price, max_price = price_ranges[price_range]
+        games = [
+            game for game in games
+            if (min_price is None or int(float(str(game.final_price))) >= min_price) and
+               (max_price is None or int(float(str(game.final_price))) < max_price)
+        ]
 
+    # 출시 상태 필터링
+    if release_status == 'released':
+        games = [game for game in games if not game.coming_soon]
+    elif release_status == 'upcoming':
+        games = [game for game in games if game.coming_soon]
 
+    # 추가 필드 설정
     for game in games:
         game.final_price_int = int(float(str(game.final_price)))
         game.initial_price_int = int(float(str(game.initial_price)))
-    #     total_reviews = game.positive_reviews + game.negative_reviews
-    #     if total_reviews > 110:
-    #         positive_ratio = int(game.positive_reviews / total_reviews * 100)
-    #     else:
-    #         positive_ratio = negative_ratio = 0  # 리뷰 부족하면 0->?
-    
+
     return render(request, "search.html", {'games': games})
 
 def dashboard_view(request, app_id):
