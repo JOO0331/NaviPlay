@@ -6,7 +6,7 @@ import random
 from datetime import datetime
 
 from bs4 import BeautifulSoup
-from django.db.models import Q
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def preprocess_pc_requirements(pc_requirements_html):
     # BeautifulSoup을 사용하여 HTML 파싱
@@ -24,6 +24,7 @@ def main_view(request):
 
 def search_view(request):
     query = request.GET.get('search', '')
+
     sort_order = request.GET.get('sort', '')
     number_of_players = request.GET.get('players', '')
     price_range = request.GET.get('price', '')
@@ -31,11 +32,9 @@ def search_view(request):
 
     games = Game.objects.all()
 
-    # 이름 검색
     if query:
         games = games.filter(name__icontains=query)
 
-    # 정렬
     sort_mappings = {
         'price_desc': '-final_price',
         'price_asc': 'final_price',
@@ -45,7 +44,6 @@ def search_view(request):
     if sort_order in sort_mappings:
         games = games.order_by(sort_mappings[sort_order])
 
-    # 플레이어 수 필터링
     player_category_mappings = {
         'single_player': 2,
         'multi_player': 1,
@@ -55,7 +53,6 @@ def search_view(request):
         category_id = player_category_mappings[number_of_players]
         games = [game for game in games if any(category['id'] == category_id for category in game.categories)]
 
-    # 가격 필터링
     price_ranges = {
         '_3': (None, 30000),
         '3_5': (30000, 50000),
@@ -71,18 +68,36 @@ def search_view(request):
                (max_price is None or int(float(str(game.final_price))) < max_price)
         ]
 
-    # 출시 상태 필터링
     if release_status == 'released':
         games = [game for game in games if not game.coming_soon]
     elif release_status == 'upcoming':
         games = [game for game in games if game.coming_soon]
 
-    # 추가 필드 설정
     for game in games:
         game.final_price_int = int(float(str(game.final_price)))
         game.initial_price_int = int(float(str(game.initial_price)))
 
-    return render(request, "search.html", {'games': games})
+    page = request.GET.get('page', 1)
+    paginator = Paginator(games, 20)  # 1페이지당 20개씩
+
+    try:
+        paginated_games = paginator.page(page)
+    except PageNotAnInteger:
+        paginated_games = paginator.page(1)
+    except EmptyPage:
+        paginated_games = paginator.page(paginator.num_pages)
+
+    # 쿼리 파라미터 유지
+    context = {
+        'games': paginated_games,
+        'search_query': query,
+        'sort_order': sort_order,
+        'release_status': release_status,
+        'number_of_players': number_of_players,
+        'price_range': price_range,
+    }
+
+    return render(request, "search.html", context)
 
 def dashboard_view(request, app_id):
     game = Game.objects.get(app_id=app_id)

@@ -127,29 +127,35 @@
                 {% endfor %}
 
                 <div class="pagination">
-                    <button class="page-btn" disabled>&laquo;</button>
-                    <button class="page-btn active">1</button>
-                    <button class="page-btn">2</button>
-                    <button class="page-btn">3</button>
-                    <button class="page-btn">4</button>
-                    <button class="page-btn">5</button>
-                    <button class="page-btn">&raquo;</button>
+                    <!-- 이전 페이지 버튼 -->
+                    {% if games.has_previous %}
+                        <button class="page-btn" onclick="location.href='?page={{ games.previous_page_number }}&search={{ search_query }}&sort={{ sort_order }}&players={{ number_of_players }}&price={{ price_range }}&status={{ release_status }}'">&laquo;</button>
+                    {% else %}
+                        <button class="page-btn" disabled>&laquo;</button>
+                    {% endif %}
+
+                    <!-- 페이지 번호 버튼 -->
+                    {% for num in games.paginator.page_range %}
+                        {% if games.number == num %}
+                            <button class="page-btn active" disabled>{{ num }}</button>
+                        {% else %}
+                            <button class="page-btn" onclick="location.href='?page={{ num }}&search={{ search_query }}&sort={{ sort_order }}&players={{ number_of_players }}&price={{ price_range }}&status={{ release_status }}'">{{ num }}</button>
+                        {% endif %}
+                    {% endfor %}
+
+                    <!-- 다음 페이지 버튼 -->
+                    {% if games.has_next %}
+                        <button class="page-btn" onclick="location.href='?page={{ games.next_page_number }}&search={{ search_query }}&sort={{ sort_order }}&players={{ number_of_players }}&price={{ price_range }}&status={{ release_status }}'">&raquo;</button>
+                    {% else %}
+                        <button class="page-btn" disabled>&raquo;</button>
+                    {% endif %}
                 </div>
+
             </div>
         </div>
-    </div>
+
 
 <script>
-    const priceRange = document.getElementById('priceRange');
-    const priceValue = document.getElementById('priceValue');
-
-    // 페이지 로드 시 초기 값 설정
-    priceValue.textContent = priceRange.value;
-
-    // 슬라이더 값이 변경될 때마다 실행되는 함수
-    priceRange.addEventListener('input', function() {
-        priceValue.textContent = priceRange.value;  // 현재 값을 업데이트
-    });
 
     //페이지네이션
     const pageButtons = document.querySelectorAll('.page-btn');
@@ -168,6 +174,3 @@
 </script>
 
 {% endblock %}
-
-
-</html>
