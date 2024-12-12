@@ -14,7 +14,7 @@
             <div class="sidebar filter-section">
                 <h2>검색옵션</h2>
                 <form action="{% url 'search' %}" method="GET">
-                    <!-- 검색어 필드 (이전 검색어 유지) -->
+
                     <input type="hidden" name="search" value="{{ request.GET.search }}">
 
                     <div class="form-group">
@@ -31,6 +31,8 @@
                     <div class="form-group">
                         <label for="players">플레이어 수</label>
                         <select name="players" id="players">
+<!--                            <option value="" {% if not request.GET.players %}selected{% endif %}>전체</option>-->
+
                             <option value="single_player" {% if request.GET.players == 'single_player' %}selected{% endif %}>싱글플레이어</option>
                             <option value="multi_player" {% if request.GET.players == 'multi_player' %}selected{% endif %}>멀티플레이어</option>
                             <option value="online_coop" {% if request.GET.players == 'online_coop' %}selected{% endif %}>온라인협동</option>
@@ -40,34 +42,36 @@
                     <div class="form-group">
                         <label for="tags">태그</label>
                         <select id="tags">
-    <!--                        태그 수만큼 반복문으로-->
                             <option value="">Select Tags</option>
                         </select>
                     </div>
 
-                    <legend>가격</legend>
-                    <fieldset>
-                        <input type="range" id="priceRange" min="0" max="100" step="1" value="50">
-                        <div class="range-cond">
-                            <span class="range-label">Value: <span id="priceValue">50</span></span>
-                            <label> <input type="checkbox" /> 무료게임 </label>
-                        </div>
-                    </fieldset>
+                    <div class="form-group">
+                        <label for="price">가격</label>
+                        <select name="price" id="price">
+<!--                            <option value="" {% if not request.GET.price %}selected{% endif %}>전체</option>-->
+
+                            <option value="_3" {% if request.GET.price == '_3' %}selected{% endif %}>3만원 미만</option>
+                            <option value="3_5" {% if request.GET.price == '3_5' %}selected{% endif %}>3만원 이상 5만원 미만</option>
+                            <option value="5_7" {% if request.GET.price == '5_7' %}selected{% endif %}>5만원 이상 7만원 미만</option>
+                            <option value="7_10" {% if request.GET.price == '7_10' %}selected{% endif %}>7만원 이상 10만원 미만</option>
+                            <option value="10_" {% if request.GET.price == '10_' %}selected{% endif %}>10만원 이상</option>
+                        </select>
+                    </div>
 
                     <legend>출시 여부</legend>
                     <fieldset>
                         <label>
-                            <input type="radio" name="status" value="released" /> 출시됨
+                            <input type="radio" name="status" value="released" {% if request.GET.status == 'released' %}checked{% endif %}> 출시됨
                         </label>
                         <label>
-                            <input type="radio" name="status" value="upcoming" /> 출시 예정
+                            <input type="radio" name="status" value="upcoming" {% if request.GET.status == 'upcoming' %}checked{% endif %}> 출시 예정
                         </label>
                     </fieldset>
 
-                    <!-- Search and Reset buttons -->
                     <div class="button-group">
-                        <button type="submit" class="btn-search-options">검색</button> <!-- 검색옵션의 버튼 -->
-                        <button type="reset" class="btn-reset">초기화</button>
+                        <input type="submit" value="검색" class="btn-search-options"/>
+                        <input type="reset" value="초기화" class="btn-reset"/>
                     </div>
                 </form>
             </div>
