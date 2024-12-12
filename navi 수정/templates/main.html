@@ -11,22 +11,9 @@
 {% block content %}
 
 <div class="container">
-
-    <div class="swiper">
-        <div class="swiper-wrapper">
-            {% for game in games|slice:":3" %}
-            <div class="swiper-slide">
-                <a href="{% url 'dashboard' game.app_id %}">
-                    <img src="{{ game.header_image }}" alt="{{ game.name }}" />
-                </a>
-            </div>
-            {% endfor %}
-        </div>
-        <div class="swiper-pagination"></div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
+    <div class="banner">
+        <img src="{% static 'imgs/banner_8.png' %}" alt="배너 이미지" />
     </div>
-
     <section class="game-categories">
         <nav>
             <a href="#popular" class="active" onclick="changeCategory('popular')">인기 게임</a>
