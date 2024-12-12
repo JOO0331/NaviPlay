@@ -6,6 +6,18 @@
     margin-bottom: 20px;
 }
 
+.banner {
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+.banner img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: contain;
+}
 
 .swiper {
     width: 100%;
@@ -71,6 +83,8 @@
     display: flex;
     flex-wrap: wrap;
     gap :24px;
+    justify-content: center;  /* 카드들을 가로로 가운데 정렬 */
+    align-items: center;      /* 카드들을 세로로 가운데 정렬 */
     width: 60%;
 }
 .card {
