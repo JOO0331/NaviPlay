@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}인기태그{% endblock %}
+
+{% block extra_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/tags.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- 태그 리스트 섹션 -->
+    <div class="tags-section">
+        <h2>Popular Tags</h2>
+        <ul class="tags-list">
+            {% for tag in tags %}
+                <li>
+                    <a href="?tag={{ tag }}" class="{% if tag == selected_tag %}ac  tive{% endif %}">
+                        {{ tag }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- 게임 목록 섹션 -->
+    <div class="games-section">
+        <h1>{{ selected_tag }} 인기 게임</h1>
+        <div class="games-grid">
+            {% for game in page_obj %}
+            <div class="game-card">
+                <a href="{% url 'dashboard' game.app_id %}">
+                    <img src="{{ game.capsule_image }}" alt="{{ game.name }}">
+                    <h3>{{ game.name }}</h3>
+                    <p>₩ {{ game.final_price|default:"Free" }}</p>
+                </a>
+            </div>
+            {% empty %}
+                <p>No games found under this tag.</p>
+            {% endfor %}
+        </div>
+
+        <!-- 페이지네이션 -->
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?tag={{ selected_tag }}&page=1">&laquo; first</a>
+                <a href="?tag={{ selected_tag }}&page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+            <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}
+                <a href="?tag={{ selected_tag }}&page={{ page_obj.next_page_number }}">next</a>
+                <a href="?tag={{ selected_tag }}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
