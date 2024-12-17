@@ -1,0 +1,48 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #ccc;
+}
+
+.header {
+    width: 100%;
+    background-color: #2b2b2b;
+    min-height: 104px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.logo-container {
+    width: 176px;
+    height: 44px;
+}
+
+.logo {
+    width: 100%;
+    object-fit: contain;
+}
+
+.content {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.intro h1 {
+    color: #fff;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.intro p {
+    margin: 10px 0;
+    font-size: 1rem;
+    color: #ccc;
+}
+
+.info-link a {
+    color: #fff

@@ -203,3 +203,7 @@ def dashboard_view(request, app_id):
     }
     
     return render(request, 'dashboard.html', context)
+
+def tags_view(request):
+
+    return render(request, "tags.html")
