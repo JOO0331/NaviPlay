@@ -8,6 +8,8 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+import json
+from django.http import JsonResponse
 def preprocess_pc_requirements(pc_requirements_html):
     if isinstance(pc_requirements_html, (list, dict)):
         pc_requirements_html = str(pc_requirements_html)
@@ -16,6 +18,16 @@ def preprocess_pc_requirements(pc_requirements_html):
     # <ul> 내의 <li> 항목을 추출하여 리스트로 반환
     requirements = [li.get_text(strip=True) for li in soup.find_all('li')]
     return requirements
+def game_javaScript(game):
+    game_data = {
+        'name': game.name,
+        'discount_percent': game.discount_percent,
+        'initial_price': game.initial_price,
+        'final_price': game.final_price,
+        'header_image': game.header_image,
+        'app_id': game.app_id
+    }
+    return JsonResponse(game_data)
 
 def main_view(request):
     games = Game.objects.all()
@@ -201,6 +213,8 @@ def dashboard_view(request, app_id):
     game.initial_price_int = int(float(str(game.initial_price)))
     game.pc_requirements = preprocess_pc_requirements(game.pc_requirements)
 
+    game_json = game_javaScript(game)
+
     review_analysis = ReviewAnalysis.objects.first()
     period_analysis = review_analysis.period_analysis
     all_analysis = review_analysis.all_analysis
@@ -317,7 +331,8 @@ def dashboard_view(request, app_id):
         'negative_keywords' : negative_keywords,
         'period_data': json.dumps(period_data),
         'years': sorted(list(years)),
-        'current_year': current_year
+        'current_year': current_year,
+        'game_json': game_json.content.decode('utf-8')  # JSON 문자열로 context에 추가
     }
 
     return render(request, 'dashboard.html', context)
@@ -350,3 +365,5 @@ def tags_view(request):
     }
 
     return render(request, 'tags.html', context)
+
+

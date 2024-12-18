@@ -1,10 +1,36 @@
 .container {
-    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.navbar ul {
+    list-style-type: none;
+    background-color: #2b2b3c;
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+}
+.navbar li {
+    display: inline;
+}
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 15px;
+    display: block;
+    text-align: center;
+}
+.navbar a:hover {
+    background-color: black;
 }
 
 

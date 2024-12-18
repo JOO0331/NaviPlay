@@ -391,17 +391,34 @@ function saveImg() {
   }
 
 // 카카오 공유 함수
-function kakaoShare() {
-    Kakao.Link.sendDefault({
-        objectType: 'text',
-        text: '카카오톡 공유 예제입니다.',
-        link: {
-            mobileWebUrl: 'https://example.com',
-            webUrl: 'https://example.com',
-        },
-        buttonTitle: '자세히 보기',
-    });
-}
+const game = JSON.parse('{{ game_json|escapejs|safe }}');
+const positive_ratio = {{ positive_ratio }};
+<!--const positive_keywords = {{ positive_keywords }};-->
+<!--const negative_keywords = {{ negative_keywords }};-->
+
+    function kakaoShare() {
+        Kakao.Link.sendCustom({
+            templateId: 115470, // 카카오 디벨로퍼스의 템플릿 ID
+            templateArgs: {
+                app_id: game.app_id,
+                header_image: game.header_image,
+                name: game.name,
+                discount: game.discount_percent,
+                initial_price: game.initial_price,
+                final_price: game.final_price,
+                positive_ratio: positive_ratio,
+<!--                positive_keywords: positive_keywords.slice(0,3),-->
+<!--                negative_keywords: negative_keywords.slice(0,3),-->
+            },
+            success: function () {
+                alert("카카오톡 공유 성공!");
+            },
+            fail: function (error) {
+                console.error("카카오톡 공유 실패:", error);
+                alert("카카오톡 공유 실패!");
+            },
+        });
+    }
 
 
 // 작은 이미지를 클릭하면 큰 이미지가 바뀌도록 하는 함수
