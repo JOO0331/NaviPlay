@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Navi Play{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% block extra_css %} {% endblock %}
+</head>
+<body>
+    <!-- Header -->
+    <header>
+	    {% load static %}
+        <a href="{% url 'main' %}">
+            <img src="{% static 'imgs/logo.png' %}" alt="Logo" style="width: 300px; height: auto;">
+        </a>
+        <form action="{% url 'search' %}" method="GET">
+            <input type="search" name="search" value="{{ request.GET.search }}" placeholder="Search for games" aria-label="Search games">
+            <button type="submit">Search</button>
+        </form>
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- Placeholder for dynamic content -->
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Game Platform. All rights reserved.</p>
+        <nav>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Contact Us</a>
+        </nav>
+    </footer>
+
+</body>
+</html>
