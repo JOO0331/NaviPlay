@@ -361,8 +361,8 @@ function saveImg() {
     const clone = container.cloneNode(true);
 
     // '저장'과 '공유' 버튼을 제외하고 다른 버튼들은 남기기
-    const removeButtons = clone.querySelectorAll(".png, .talk");
-    removeButtons.forEach(button => button.remove());
+    const removes = clone.querySelectorAll(".png, .talk, .section.similar-games");
+    removes.forEach(r => r.remove());
 
     // 임시 캡처용 컨테이너 추가
     const tempDiv = document.createElement("div");
@@ -393,8 +393,6 @@ function saveImg() {
 // 카카오 공유 함수
 const game = JSON.parse('{{ game_json|escapejs|safe }}');
 const positive_ratio = {{ positive_ratio }};
-<!--const positive_keywords = {{ positive_keywords }};-->
-<!--const negative_keywords = {{ negative_keywords }};-->
 
     function kakaoShare() {
         Kakao.Link.sendCustom({
@@ -407,8 +405,6 @@ const positive_ratio = {{ positive_ratio }};
                 initial_price: game.initial_price,
                 final_price: game.final_price,
                 positive_ratio: positive_ratio,
-<!--                positive_keywords: positive_keywords.slice(0,3),-->
-<!--                negative_keywords: negative_keywords.slice(0,3),-->
             },
             success: function () {
                 alert("카카오톡 공유 성공!");
