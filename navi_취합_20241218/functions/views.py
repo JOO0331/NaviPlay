@@ -96,6 +96,26 @@ def search_view(request):
     else:
         positive_ratio = 0
 
+    # 키 값들만 추출하도록 수정
+    positive_keywords = []
+    negative_keywords = []
+
+    for keyword_dict in all_analysis[0]['positive_keywords']:
+        for keyword, count in keyword_dict.items():
+            positive_keywords.append((keyword, count))
+
+    for keyword_dict in all_analysis[0]['negative_keywords']:
+        for keyword, count in keyword_dict.items():
+            negative_keywords.append((keyword, count))
+
+    positive_keywords = [keyword for keyword, count in
+                                sorted(positive_keywords, key=lambda x: x[1], reverse=True)][:5]
+    negative_keywords = [keyword for keyword, count in
+                                sorted(negative_keywords, key=lambda x: x[1], reverse=True)][:5]
+
+    positive_keywords = json.dumps(positive_keywords)
+    negative_keywords = json.dumps(negative_keywords)
+
     query = request.GET.get('search', '')
 
     sort_order = request.GET.get('sort', '')
@@ -195,6 +215,8 @@ def search_view(request):
 
     # 쿼리 파라미터 유지
     context = {
+        'positive_keywords': positive_keywords,
+        'negative_keywords': negative_keywords,
         'games': paginated_games,
         'positive_ratio': positive_ratio,
         'search_query': query,

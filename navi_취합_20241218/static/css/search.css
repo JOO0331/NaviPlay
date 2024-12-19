@@ -311,10 +311,9 @@
     border: 1px solid #ccc;
     border-radius: 8px;
     display: none; /* 기본적으로 숨김 */
-    padding: 20px;
+    padding: 5px;
     box-sizing: border-box;
-    z-index: 10;
-    overflow: hidden;
+
 }
 
 /* game-item hover 시 game-detail 보이도록 */

@@ -157,8 +157,6 @@
     </div>
 </div>
 
-
-
 <script>
     //페이지네이션
     document.addEventListener("DOMContentLoaded", () => {
@@ -193,15 +191,17 @@ gameItems.forEach(item => {
         const gameDetail = document.createElement('div');
         gameDetail.classList.add('game-detail');
 
-        // game-item에 맞는 내용 추가 (예시로 게임의 제목과 가격을 넣음)
+        // game-item- 게임명, 긍정비율, 긍정키워드5, 부정키워드5
         const title = item.querySelector('.game-title').textContent;
-        const price = item.querySelector('.final-price').textContent;
         const positiveRatio = {{ positive_ratio }};
-
+        const positiveKeywords = {{ positive_keywords|safe }};
+        const negativeKeywords = {{ negative_keywords|safe }};
 
         gameDetail.innerHTML = `
-            <h3>${title}</h3>
-            <p>${positiveRatio}</p>
+            <h4>${title}</h4>
+            <p>${positiveRatio}점!</p>
+            <p>긍정키워드 : ${positiveKeywords}</p>
+            <p>부정키워드 : ${negativeKeywords}</p>
 
         `;
 
