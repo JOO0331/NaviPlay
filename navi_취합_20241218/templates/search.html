@@ -98,24 +98,20 @@
             <div class="game-center">
                 <div class="game-title">{{ game.name }}</div>
                 <div class="game-details">
-                    <!-- 태그 출력 (최대 3개) -->
+                    <!-- 플레이어 수 -->
                     <div class="tags">
-                        {% for genre in game.genres %}
-                            {% if forloop.counter <= 3 %}
-                                <span class="tag">{{ genre.description }}</span>
+                        {% for category in game.categories %}
+                            {% if category.id == 2 %}
+                                <span class="tag">싱글플레이어</span>
+                            {% elif category.id == 1 %}
+                                <span class="tag">멀티플레이어</span>
+                            {% elif category.id == 38 %}
+                                <span class="tag">온라인협동</span>
                             {% endif %}
                         {% endfor %}
                     </div>
-                    <!-- 점수 출력 -->
-                    <div class="score">
-                        {% if positive_ratio > 70 %}
-                            <span class="badge green">{{ positive_ratio }}</span>
-                        {% elif positive_ratio > 40 %}
-                            <span class="badge yellow">{{ positive_ratio }}</span>
-                        {% else %}
-                            <span class="badge red">{{ positive_ratio }}</span>
-                        {% endif %}
-                    </div>
+                    <div class="releasedate">출시일 : {{game.release_date}}</div>
+
                 </div>
             </div>
             <!-- 우측 가격 및 할인 정보 -->
@@ -164,7 +160,6 @@
 
 
 <script>
-
     //페이지네이션
     document.addEventListener("DOMContentLoaded", () => {
     const pageButtons = document.querySelectorAll('.page-btn');
@@ -188,6 +183,41 @@
         });
     });
 });
+
+    // 각 game-item에 마우스가 올라가면 game-detail을 동적으로 추가
+const gameItems = document.querySelectorAll('.game-item');
+
+gameItems.forEach(item => {
+    item.addEventListener('mouseenter', function() {
+        // game-item 내에 game-detail div를 동적으로 생성
+        const gameDetail = document.createElement('div');
+        gameDetail.classList.add('game-detail');
+
+        // game-item에 맞는 내용 추가 (예시로 게임의 제목과 가격을 넣음)
+        const title = item.querySelector('.game-title').textContent;
+        const price = item.querySelector('.final-price').textContent;
+        const positiveRatio = {{ positive_ratio }};
+
+
+        gameDetail.innerHTML = `
+            <h3>${title}</h3>
+            <p>${positiveRatio}</p>
+
+        `;
+
+        // game-item에 game-detail div를 추가
+        item.appendChild(gameDetail);
+    });
+
+    item.addEventListener('mouseleave', function() {
+        // 마우스가 떠나면 game-detail div 제거
+        const gameDetail = item.querySelector('.game-detail');
+        if (gameDetail) {
+            item.removeChild(gameDetail);
+        }
+    });
+});
+
 </script>
 
 {% endblock %}

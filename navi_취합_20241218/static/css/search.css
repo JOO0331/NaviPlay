@@ -275,3 +275,49 @@
     color: #111;
     font-weight: bold;
 }
+
+
+
+/* 게임 컨테이너 */
+.game {
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    position: relative;
+    flex-wrap: nowrap;
+}
+
+/* game-item: 높이를 고정하지 않고 내용에 맞게 설정 */
+.game-item {
+    display: flex;
+    width: 70%;
+    padding: 10px;
+    box-sizing: border-box;
+    position: relative;
+    transition: all 0.3s ease;
+    height: auto;  /* 내용에 맞게 높이 자동 조정 */
+}
+
+/* game-detail: game 전체 높이에 맞추어 설정 */
+.game-detail {
+    position: absolute;
+    top: 0;
+    left: 100%; /* game-item의 오른쪽에 위치 */
+    width: 30%; /* 전체 너비의 30% */
+    height: 100%; /* game의 전체 높이에 맞춤 */
+    background-color: #f9f9f9;
+    color:black;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: none; /* 기본적으로 숨김 */
+    padding: 20px;
+    box-sizing: border-box;
+    z-index: 10;
+    overflow: hidden;
+}
+
+/* game-item hover 시 game-detail 보이도록 */
+.game-item:hover .game-detail {
+    display: block;
+}
