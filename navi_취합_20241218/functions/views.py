@@ -10,6 +10,10 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 import json
 from django.http import JsonResponse
+
+from django.db.models import Count
+from collections import Counter
+
 def preprocess_pc_requirements(pc_requirements_html):
     if isinstance(pc_requirements_html, (list, dict)):
         pc_requirements_html = str(pc_requirements_html)
@@ -39,7 +43,7 @@ def main_view(request):
 
     # 필터링 조건 설정
     if category == 'popular':
-        games = Game.objects.all().order_by('-positive_reviews')[:100]
+        games = Game.objects.all()[:100]
     elif category == 'free':
         games = Game.objects.filter(final_price=0)[:100]
     elif category == 'discounted':
@@ -338,8 +342,24 @@ def dashboard_view(request, app_id):
     return render(request, 'dashboard.html', context)
 
 def tags_view(request):
-    # URL 파라미터에서 tag_name을 가져옵니다. 기본값은 'Indie'
-    tag_name = request.GET.get('tag', 'Indie')
+    # URL 파라미터에서 tag_name을 가져옵니다. 기본값은 'Singleplayer'
+    tag_name = request.GET.get('tag', 'Singleplayer')
+
+    # 모든 게임의 tags 필드를 가져옴
+    all_tags = Game.objects.values_list('tags', flat=True)
+
+    # 리스트 형식으로 저장된 태그를 분리
+    tag_counter = Counter()
+    for tag_list in all_tags:
+        if tag_list:  # 빈 리스트 제외
+            # 문자열로 저장된 리스트를 개별 태그로 분리
+            for tag in tag_list:
+                tag = tag.strip()  # 앞뒤 공백 제거
+                if tag:  # 빈 문자열 제외
+                    tag_counter[tag] += 1
+
+    # 태그별 등장 횟수를 기준으로 정렬 후 상위 50개 선택
+    top_tags = [tag for tag, _ in tag_counter.most_common(50)]
 
     # Game 모델에서 해당 태그를 포함하는 게임 필터링
     games = Game.objects.filter(tags__icontains=tag_name).order_by('name')
@@ -349,21 +369,12 @@ def tags_view(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    # 태그 리스트
-    tags = [
-        "Indie", "Action", "Adventure", "Singleplayer", "Casual", "Simulation", "Strategy",
-        "RPG", "Multiplayer", "Great Soundtrack", "Atmospheric", "2D",
-        "Puzzle", "Early Access", "Open World", "Story Rich", "Co-op",
-        "Difficult", "Shooter", "Sci-fi"
-    ]
-
     # 템플릿에 전달할 컨텍스트
     context = {
-        'tags': tags,
+        'tags': top_tags,  # 동적으로 가져온 태그 리스트
         'selected_tag': tag_name,
         'page_obj': page_obj,
     }
 
     return render(request, 'tags.html', context)
-
 
