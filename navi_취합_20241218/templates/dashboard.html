@@ -21,15 +21,6 @@
 <div class="container">
     <div class="multi">
             <h1>{{ game.name }}</h1>
-            {% if positive_ratio == 0 %}
-                <span class="badge gray">{{ positive_ratio }}</span>
-            {% elif positive_ratio > 70 %}
-                <span class="badge green">{{ positive_ratio }}</span>
-            {% elif positive_ratio > 40 %}
-                <span class="badge yellow">{{ positive_ratio }}</span>
-            {% else %}
-                <span class="badge red">{{ positive_ratio }}</span>
-            {% endif %}
             <div class="buttons">
                 <button class="png" onclick="saveImg()">저장</button>
                 <button class="talk" onclick="kakaoShare()">공유</button>
@@ -279,7 +270,24 @@
 
             <div class="info">
                 <div class="info-section">
-                    <div class="info-section-title">카테고리:</div>
+                    <div class="info-section-title">분석 결과</div>
+                        <div class="info-list">
+                                <div class="positive_negative_ratio">
+                                {% if positive_ratio == 0 %}
+                                    <span class="badge gray">{{ positive_ratio }}</span>
+                                {% elif positive_ratio > 70 %}
+                                    <span class="badge green">{{ positive_ratio }}</span>
+                                {% elif positive_ratio > 40 %}
+                                    <span class="badge yellow">{{ positive_ratio }}</span>
+                                {% else %}
+                                    <span class="badge red">{{ positive_ratio }}</span>
+                                {% endif %}
+                                    <img src="{% static 'imgs/logo.png' %}" alt="Logo" style="width: 270px; height: auto;">
+                                </div>
+                        </div>
+                </div>
+                <div class="info-section">
+                    <div class="info-section-title">카테고리</div>
                     <div class="info-list">
                         {% for category in game.categories %}
                             <span class="info-tag">{{ category.description }}</span>
@@ -288,7 +296,7 @@
                 </div>
 
                 <div class="info-section">
-                    <div class="info-section-title">장르:</div>
+                    <div class="info-section-title">장르</div>
                     <div class="info-list">
                         {% for genre in game.genres %}
                             <span class="info-tag">{{ genre.description }}</span>
@@ -297,7 +305,7 @@
                 </div>
 
               <div class="info-section">
-                    <div class="info-section-title">태그:</div>
+                    <div class="info-section-title">태그</div>
                     <div class="info-list">
                         {% for tag in game.tags %}
                             <span class="info-tag"><a href="{% url 'tags' %}?tag={{ tag }}">{{ tag }}</a></span>
@@ -306,7 +314,7 @@
                 </div>
 
                 <div class="info-section">
-                    <div class="info-section-title">지원 언어:</div>
+                    <div class="info-section-title">지원 언어</div>
                     <div class="info-list">
                         {% for language in game.supported_languages %}
                             <span class="info-tag">{{ language }}</span>
@@ -315,14 +323,14 @@
                 </div>
 
                 <div class="info-section">
-                    <div class="info-section-title">출시일:</div>
+                    <div class="info-section-title">출시일</div>
                     <div class="info-list">
                             <span class="info-tag">{{ game.release_date }}</span>
                     </div>
                 </div>
 
                 <div class="info-section">
-                    <div class="info-section-title">개발사:</div>
+                    <div class="info-section-title">개발사</div>
                     <div class="info-list">
                         {% for developer in game.developers %}
                             <span class="info-tag">{{ developer }}</span>
@@ -331,7 +339,7 @@
                 </div>
 
                 <div class="info-section">
-                    <div class="info-section-title">배급사:</div>
+                    <div class="info-section-title">배급사</div>
                     <div class="info-list">
                         {% for publisher in game.publishers %}
                             <span class="info-tag">{{ publisher }}</span>
@@ -340,7 +348,7 @@
                 </div>
 
                 <div class="info-section">
-                    <div class="info-section-title">PC 요구 사항:</div>
+                    <div class="info-section-title">PC 요구 사항</div>
                     <div class="info-list">
                         {% for requirment in game.pc_requirements %}
                             <span class="info-tag">{{ requirment }}</span><br>
