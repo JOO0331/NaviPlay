@@ -191,7 +191,7 @@
         } else if (category === 'single') {
             cardsHTML = `
             {% for game in games %}
-            {% if "Single-player" in game.categories|join:", " %}
+            {% if "싱글 플레이어" in game.categories|join:", " %}
                 <div class="card" onclick="window.location.href='{% url 'dashboard' game.app_id %}'">
                     <div class="scoreBackground"></div>
                     <img src="{{ game.header_image }}" alt="{{ game.name }}">
@@ -239,7 +239,7 @@
         } else if (category === 'multi') {
             cardsHTML = `
             {% for game in games %}
-                {% if "Multi-player" in game.categories|join:", " %}
+                {% if "멀티플레이어" in game.categories|join:", " %}
                     <div class="card" onclick="window.location.href='{% url 'dashboard' game.app_id %}'">
                         <div class="scoreBackground"></div>
                         <img src="{{ game.header_image }}" alt="{{ game.name }}">
