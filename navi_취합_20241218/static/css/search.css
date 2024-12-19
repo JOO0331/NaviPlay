@@ -1,0 +1,277 @@
+/* 전체 컨테이너 */
+.container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #1e1e1e; /* 다크 블루 배경 */
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+}
+
+/* 검색 옵션 섹션 (좌측) */
+.sidebar.filter-section {
+    flex: 1;
+    max-width: 25%;
+    background-color: #2b2b3c;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.sidebar.filter-section h2 {
+    font-size: 1.5em;
+    color: #ffcc00;
+    border-bottom: 2px solid #444;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+}
+
+.sidebar.filter-section .form-group {
+    margin-bottom: 15px;
+}
+
+.sidebar.filter-section label {
+    display: block;
+    font-size: 1em;
+    color: #ddd;
+    margin-bottom: 5px;
+}
+
+.sidebar.filter-section select,
+.sidebar.filter-section input[type="submit"],
+.sidebar.filter-section input[type="reset"] {
+    width: 100%;
+    padding: 8px;
+    font-size: 1em;
+    border: 1px solid #555;
+    background-color: #1b1b2b;
+    color: #fff;
+    border-radius: 5px;
+    transition: border-color 0.3s;
+}
+
+.sidebar.filter-section select:focus,
+.sidebar.filter-section input:hover {
+    border-color: #ffcc00;
+}
+
+.sidebar.filter-section .button-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-search-options {
+    background-color: #ffcc00;
+    color: #111;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-search-options:hover {
+    background-color: #e6b800;
+}
+
+.btn-reset {
+    background-color: #555;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-reset:hover {
+    background-color: #777;
+}
+
+/* 게임 리스트 섹션 (우측) */
+.main-content {
+    flex: 3;
+    margin-left: 20px;
+}
+
+.main-content h2 {
+    font-size: 1.8em;
+    color: #ffcc00;
+    margin-bottom: 20px;
+}
+
+/* 게임 리스트 아이템 전체 스타일 */
+.game-item {
+    display: flex;
+    align-items: center;
+    background-color: #2b2b3c;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.game-item:hover {
+    transform: scale(1.02);
+}
+
+/* 좌측 이미지 스타일 */
+.game-left {
+    flex: 0 0 120px;
+    margin-right: 20px;
+}
+
+.game-left img {
+    width: 231px;
+    height: 87px;
+    object-fit: cover;
+    border-radius: 5px;
+    border: 1px solid #444;
+}
+
+/* 중앙 콘텐츠 스타일 */
+.game-center {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+
+.game-title {
+    font-size: 1.7em;
+    font-weight: bold;
+    color: #ffcc00;
+    margin-bottom: 8px;
+}
+
+.game-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9em;
+    color: #ccc;
+}
+
+.tags {
+    display: flex;
+}
+
+.tag {
+    background-color: #444;
+    color: #fff;
+    padding: 3px 6px;
+    font-size: 1.1em; /* 글자 크기 통일 */
+    line-height: 1.5; /* 라인 높이 설정 */
+    align-items: center; /* 수직 정렬 중앙 */
+    margin-right: 5px;
+    border-radius: 3px;
+    font-size: 0.8em;
+}
+
+/* 점수 섹션 스타일 */
+.score {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin-bottom: 10px; /* 다른 요소와의 간격 */
+}
+
+
+/* 배지 스타일 (둥근 직사각형) */
+.badge {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    padding: 8px 15px; /* 가로 세로 패딩 조정 */
+    font-size: 2.3em; /* 글자 크기 */
+    font-weight: bold;
+    border-radius: 12px; /* 모서리를 둥글게 */
+    color: #fff; /* 글자 색상 */
+    min-width: 60px; /* 최소 너비 */
+    text-align: center;
+    line-height: 60px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* 배지 색상 */
+.badge.green {
+    background-color: #28a745; /* 초록색 */
+}
+
+.badge.yellow {
+    background-color: #ffc107; /* 노란색 */
+    color: #111; /* 글자 색상 */
+}
+
+.badge.red {
+    background-color: #dc3545; /* 빨간색 */
+}
+
+
+
+/* 우측 가격 및 할인 스타일 */
+.game-right {
+    flex: 0 0 100px;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.discount {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 0.8em;
+    width: 60px; /* 가로 길이 조정 */
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.original-price {
+    font-size: 0.9em;
+    color: #aaa;
+    text-decoration: line-through;
+}
+
+.final-price {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #ffcc00;
+}
+
+/* 페이지네이션 */
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.page-btn {
+    background-color: #444;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.page-btn:hover {
+    background-color: #ffcc00;
+    color: #111;
+}
+
+.page-btn.active {
+    background-color: #ffcc00;
+    color: #111;
+    font-weight: bold;
+}
