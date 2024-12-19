@@ -15,9 +15,9 @@
         <a href="{% url 'main' %}">
             <img src="{% static 'imgs/logo.png' %}" alt="Logo" style="width: 300px; height: auto;">
         </a>
-        <form action="{% url 'search' %}" method="GET">
-            <input type="search" name="search" value="{{ request.GET.search }}" placeholder="Search for games" aria-label="Search games">
-            <button type="submit">Search</button>
+        <form action="{% url 'search' %}" method="GET" onsubmit="return validateSearch()">
+            <input type="search" name="search" value="{{ request.GET.search }}" placeholder="게임 이름을 검색하세요." aria-label="Search games">
+            <button type="submit">검색</button>
         </form>
     </header>
 
@@ -39,3 +39,35 @@
 
 </body>
 </html>
+
+<script>
+    function validateSearch() {
+        const searchInput = document.querySelector('input[name="search"]');
+
+        if (!searchInput.value.trim()) {
+            // 커스텀 alert 메시지
+            const messageBox = document.createElement("div");
+            messageBox.style.position = "absolute";
+            messageBox.style.left = searchInput.getBoundingClientRect().left + "px"; // 검색창의 왼쪽 위치
+            messageBox.style.top = searchInput.getBoundingClientRect().top - 1 + "px"; // 검색창 바로 위에 위치 (35px 위로 이동)
+            messageBox.style.padding = "10px 20px";
+            messageBox.style.backgroundColor = "#d19636";
+            messageBox.style.color = "#fff";
+            messageBox.style.fontSize = "15px";
+            messageBox.style.borderRadius = "5px";
+            messageBox.textContent = "검색어를 입력해주세요.";
+
+            // 메시지를 본문에 추가
+            document.body.appendChild(messageBox);
+
+            // 초 후 메시지 사라짐
+            setTimeout(() => {
+                messageBox.remove();
+            }, 1500);
+
+            return false; // 폼 제출 막기
+        }
+
+        return true; // 폼 제출 진행
+    }
+</script>
