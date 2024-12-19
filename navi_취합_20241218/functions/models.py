@@ -69,8 +69,8 @@ class Game(models.Model):
 # #리뷰 감성분석 내용
 class ReviewAnalysis(models.Model):
     game = models.OneToOneField(Game, on_delete=models.CASCADE, related_name='review_analysis')
-    period_analysis = models.JSONField(default=list)
-    all_analysis = models.JSONField(default=list)
+    period_analysis = MongoSafeJSONField(default=list)
+    all_analysis = MongoSafeJSONField(default=list)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
