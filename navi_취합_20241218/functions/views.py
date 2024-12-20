@@ -5,7 +5,7 @@ import json
 import random
 from datetime import datetime
 
-import html
+from bs4 import BeautifulSoup
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 import json
@@ -14,6 +14,14 @@ from django.http import JsonResponse
 from django.db.models import Count
 from collections import Counter
 
+def preprocess_pc_requirements(pc_requirements_html):
+    if isinstance(pc_requirements_html, (list, dict)):
+        pc_requirements_html = str(pc_requirements_html)
+    # BeautifulSoup을 사용하여 HTML 파싱
+    soup = BeautifulSoup(pc_requirements_html, 'html.parser')
+    # <ul> 내의 <li> 항목을 추출하여 리스트로 반환
+    requirements = [li.get_text(strip=True) for li in soup.find_all('li')]
+    return requirements
 def game_javaScript(game):
     game_data = {
         'name': game.name,
@@ -229,9 +237,7 @@ def dashboard_view(request, app_id):
     game = Game.objects.get(app_id=app_id)
     game.final_price_int = int(float(str(game.final_price)))
     game.initial_price_int = int(float(str(game.initial_price)))
-    game.short_description = str(game.short_description)
-    # game.short_description = re.sub('&quot;', '"', game.short_description)
-    game.short_description = html.unescape(game.short_description)
+    game.pc_requirements = preprocess_pc_requirements(game.pc_requirements)
 
     game_json = game_javaScript(game)
 
@@ -263,9 +269,8 @@ def dashboard_view(request, app_id):
     else:
         positive_ratio = 0
 
-    youtubes = Youtube.objects.filter(game=app_id)
+    youtubes = Youtube.objects.filter(game=game.app_id)
     for youtube in youtubes:
-        youtube.title = html.unescape(youtube.title)
         youtube.publishedAt = datetime.strptime(youtube.publishedAt, "%Y-%m-%dT%H:%M:%SZ").strftime("%Y년 %m월 %d일")
 
     if isinstance(game.tags, str):
