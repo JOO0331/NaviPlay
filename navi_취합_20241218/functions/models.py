@@ -88,8 +88,8 @@ class ReviewAnalysis(models.Model):
 #
 # #유튜브 리뷰영상 요약 내용
 class Youtube(models.Model):
-    game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name='youtube')  # 앱아이디
-    video_id = models.CharField(max_length=100, default=None)  # 중복 방지
+    game = models.IntegerField()  # 앱아이디
+    videoId = models.CharField(max_length=100, primary_key=True, default=None)  # 중복 방지
     thumbnails = models.URLField()
     title = models.CharField(max_length=200, db_index=True)
     channelImage = models.URLField(default='https://example.com/default-image.jpg')

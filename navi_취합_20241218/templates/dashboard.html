@@ -131,7 +131,7 @@
                 <div class="videos">
                     {% for youtube in youtubes %}
                         <div class="video">
-                            <a href="https://www.youtube.com/watch?v={{ youtube.video_id }}">
+                            <a href="https://www.youtube.com/watch?v={{ youtube.videoId }}">
                                 <img src="{{ youtube.thumbnails }}" alt="Review Video Thumbnail">
                             </a>
                             <div class="youtube-info">
@@ -145,8 +145,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <button class="summary-btn" onclick="toggleSummary('{{ youtube.video_id }}')">영상요약</button>
-                            <div id="summary-content-{{ youtube.video_id }}" class="summary-content" style="display: none;">
+                            <button class="summary-btn" onclick="toggleSummary('{{ youtube.videoId }}')">영상요약</button>
+                            <div id="summary-content-{{ youtube.videoId }}" class="summary-content" style="display: none;">
                                 <p>{{ youtube.summary }}</p>
                             </div>
                         </div>

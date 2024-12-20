@@ -269,9 +269,9 @@ def dashboard_view(request, app_id):
     else:
         positive_ratio = 0
 
-    youtubes = Youtube.objects.filter(game=game)
+    youtubes = Youtube.objects.filter(game=game.app_id)
     for youtube in youtubes:
-        youtube.publishedAt = youtube.publishedAt.strftime("%Y년 %m월 %d일")
+        youtube.publishedAt = datetime.strptime(youtube.publishedAt, "%Y-%m-%dT%H:%M:%SZ").strftime("%Y년 %m월 %d일")
 
     if isinstance(game.tags, str):
         game.tags = [tag.strip() for tag in game.tags.split(',')]
