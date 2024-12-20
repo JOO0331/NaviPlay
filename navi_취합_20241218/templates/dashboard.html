@@ -38,13 +38,14 @@
                 <!-- 작은 썸네일 이미지들 -->
                 <div class="thumbnail-container">
                         {% for screenshot in game.screenshots %}
-                        <img src="{{ screenshot.path_full }}" alt="Thumbnail {{ forloop.counter }}" onclick="changeImage(this)" style="width: 100px; height: auto;">
+                        <img src="{{ screenshot.path_full }}" alt="Thumbnail {{ forloop.counter }}" onclick="changeImage(this)">
                         {% endfor %}
                 </div>
             </div>
 
+            <h3>설명글</h3>
             <div class="section description">
-                <h3>설명글</h3>
+
                 <p>{{game.short_description}}</p>
             </div>
 
@@ -177,7 +178,7 @@
                     {% endif %}
                 {% endif %}
                 </div>
-                <div class="positive_negative_ratio">
+                <div class="positive_negative_ratio_2">
                     {% if first_recommendation.positive_ratio == 0 %}
                         <span class="badge gray">{{ first_recommendation.positive_ratio }}</span>
                     {% elif first_recommendation.positive_ratio > 70 %}
@@ -218,7 +219,7 @@
                     {% endif %}
                 {% endif %}
                 </div>
-                <div class="positive_negative_ratio">
+                <div class="positive_negative_ratio_3">
                     {% if rec.positive_ratio == 0 %}
                         <span class="badge gray">{{ rec.positive_ratio }}</span>
                     {% elif rec.positive_ratio > 70 %}
@@ -325,7 +326,7 @@
                 <div class="info-section">
                     <div class="info-section-title">출시일</div>
                     <div class="info-list">
-                            <span class="info-tag">{{ game.release_date }}</span>
+                            <p style="font-size: 1.1em; color: #34495e; margin-bottom: 8px;">{{ game.release_date }}</p>
                     </div>
                 </div>
 
@@ -333,7 +334,7 @@
                     <div class="info-section-title">개발사</div>
                     <div class="info-list">
                         {% for developer in game.developers %}
-                            <span class="info-tag">{{ developer }}</span>
+                            <p style="font-size: 1.1em; color: #34495e; margin-bottom: 8px;">{{ developer }}</p>
                         {% endfor %}
                     </div>
                 </div>
@@ -342,7 +343,7 @@
                     <div class="info-section-title">배급사</div>
                     <div class="info-list">
                         {% for publisher in game.publishers %}
-                            <span class="info-tag">{{ publisher }}</span>
+                            <p style="font-size: 1.1em; color: #34495e; margin-bottom: 8px;">{{ publisher }}</p>
                         {% endfor %}
                     </div>
                 </div>
@@ -351,7 +352,7 @@
                     <div class="info-section-title">PC 요구 사항</div>
                     <div class="info-list">
                         {% for requirment in game.pc_requirements %}
-                            <span class="info-tag">{{ requirment }}</span><br>
+                            <p style="font-size: 1.1em; color: #34495e; margin-bottom: 8px;">{{ requirment }}</p>
                         {% endfor %}
                     </div>
                 </div>
