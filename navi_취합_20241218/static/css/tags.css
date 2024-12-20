@@ -96,10 +96,11 @@
 
 .game-card h3 {
     font-size: 1.2em;
-    margin: 10px 0;
+    margin: 10px 30px 10px 30px;
     color: #595959;
     padding-bottom: 8px 0;
     height: 50px;
+    border-bottom: 1px solid #444;
     text-overflow: ellipsis;
     display: flex;
     align-items: center;
