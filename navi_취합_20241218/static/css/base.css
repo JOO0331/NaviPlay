@@ -53,3 +53,37 @@ footer a {
 footer a:hover {
     text-decoration: underline;
 }
+
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+}
+.navbar ul {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+    gap: 20px;
+}
+.navbar li {
+    display: inline;
+}
+.navbar a {
+    text-align: center;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+.navbar a.active {
+    background-color: #8f72a6;
+    color: white;
+}

@@ -15,10 +15,16 @@
         <a href="{% url 'main' %}">
             <img src="{% static 'imgs/logo.png' %}" alt="Logo" style="width: 300px; height: auto;">
         </a>
-        <form action="{% url 'search' %}" method="GET" onsubmit="return validateSearch()">
+       <form action="{% url 'search' %}" method="GET" onsubmit="return validateSearch()">
             <input type="search" name="search" value="{{ request.GET.search }}" placeholder="게임 이름을 검색하세요." aria-label="Search games">
             <button type="submit">검색</button>
         </form>
+        <nav class="navbar">
+        <ul>
+            <li><a href={% url 'search' %}>전체 게임 검색</a></li>
+            <li><a href={% url 'tags' %}>태그별 페이지</a></li>
+        </ul>
+    </nav>
     </header>
 
     <main>
@@ -70,4 +76,15 @@
 
         return true; // 폼 제출 진행
     }
+    document.addEventListener('DOMContentLoaded', function() {
+    // 네비게이션 링크에 active 클래스 추가
+    const links = document.querySelectorAll('.navbar a');
+    const currentUrl = window.location.href;
+
+    links.forEach(link => {
+        if (link.href === currentUrl) {
+            link.classList.add('active'); // 현재 URL과 일치하면 active 클래스 추가
+        }
+    });
+});
 </script>

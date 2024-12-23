@@ -11,14 +11,9 @@
 {% block content %}
 
 <div class="container">
-    <nav class="navbar">
-        <ul>
-            <li><a href={% url 'search' %}>전체 게임 검색</a></li>
-            <li><a href={% url 'tags' %}>태그별 페이지</a></li>
-        </ul>
-    </nav>
+
     <div class="banner">
-        <img src="{% static 'imgs/1.png' %}" alt="배너 이미지" />
+        <img src="{% static 'imgs/popup-banner.png' %}" alt="배너 이미지" />
     </div>
     <section class="game-categories">
         <nav>
@@ -289,12 +284,12 @@
 
         cardContainer.innerHTML = cardsHTML;
     }
-
     // Load default category
     window.onload = () => {
         changeCategory('popular');
     }
-</script>
 
+
+</script>
 {% endblock %}
 
