@@ -89,7 +89,10 @@
     <div class="main-content">
 
         {% for game in games %}
-        <div class="game-item" onclick="location.href='{% url 'dashboard' game.app_id %}'">
+        <div class="game-item" onclick="location.href='{% url 'dashboard' game.app_id %}'" 
+            data-positive-ratio="{{ game.positive_ratio }}"
+            data-positive-keywords="{{ game.positive_keywords|safe }}"
+            data-negative-keywords="{{ game.negative_keywords|safe }}">
             <!-- 좌측 이미지 -->
             <div class="game-left">
                 <img src="{{ game.capsule_image }}" alt="{{ game.name }}">
@@ -193,9 +196,9 @@ gameItems.forEach(item => {
 
         // game-item- 게임명, 긍정비율, 긍정키워드5, 부정키워드5
         const title = item.querySelector('.game-title').textContent;
-        const positiveRatio = {{ positive_ratio }};
-        const positiveKeywords = {{ positive_keywords|safe }};
-        const negativeKeywords = {{ negative_keywords|safe }};
+        const positiveRatio = item.getAttribute('data-positive-ratio');
+        const positiveKeywords = item.getAttribute('data-positive-keywords');
+        const negativeKeywords = item.getAttribute('data-negative-keywords');
 
         gameDetail.innerHTML = `
             <h4>${title}</h4>

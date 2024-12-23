@@ -28,8 +28,6 @@ def game_javaScript(game):
 
 def main_view(request):
     games = Game.objects.all()
-    review_analysis = ReviewAnalysis.objects.first()
-    all_analysis = review_analysis.all_analysis
 
     # URL 파라미터에서 카테고리를 가져옴. 기본값은 'popular'
     category = request.GET.get('category', 'popular')
@@ -52,18 +50,21 @@ def main_view(request):
         game.final_price_int = int(float(str(game.final_price)))
         game.initial_price_int = int(float(str(game.initial_price)))
 
-    total_positive = all_analysis[0]['positive']
-    total_negative = all_analysis[0]['negative']
-
-    total_reviews = total_positive + total_negative
-    if total_reviews > 10:
-        positive_ratio = int(total_positive / total_reviews * 100)
-    else:
-        positive_ratio = 0
-
-    for game in games:
+        review_analysis = ReviewAnalysis.objects.filter(app_id=game.app_id).first()
+        if review_analysis and review_analysis.all_analysis:
+            all_analysis = review_analysis.all_analysis
+            total_positive = all_analysis[0]['positive']
+            total_negative = all_analysis[0]['negative']
+            total_reviews = total_positive + total_negative
+            
+            if total_reviews > 10:
+                positive_ratio = int(total_positive / total_reviews * 100)
+            else:
+                positive_ratio = 0
+        else:
+            positive_ratio = 0
         game.positive_ratio = positive_ratio
-        # 구간별 비율 표시 미리 계산
+
         if positive_ratio == 0:
             game.green_ratio = 0
             game.yellow_ratio = 0
@@ -76,39 +77,6 @@ def main_view(request):
     return render(request, "main.html", {'games': games})
 
 def search_view(request):
-    review_analysis = ReviewAnalysis.objects.first()
-    period_analysis = review_analysis.period_analysis
-    all_analysis = review_analysis.all_analysis
-
-    total_positive = all_analysis[0]['positive']
-    total_negative = all_analysis[0]['negative']
-    total_reviews = total_positive + total_negative
-
-    if total_reviews > 10:
-        positive_ratio = int(total_positive / total_reviews * 100)
-    else:
-        positive_ratio = 0
-
-    # 키 값들만 추출하도록 수정
-    positive_keywords = []
-    negative_keywords = []
-
-    for keyword_dict in all_analysis[0]['positive_keywords']:
-        for keyword, count in keyword_dict.items():
-            positive_keywords.append((keyword, count))
-
-    for keyword_dict in all_analysis[0]['negative_keywords']:
-        for keyword, count in keyword_dict.items():
-            negative_keywords.append((keyword, count))
-
-    positive_keywords = [keyword for keyword, count in
-                                sorted(positive_keywords, key=lambda x: x[1], reverse=True)][:5]
-    negative_keywords = [keyword for keyword, count in
-                                sorted(negative_keywords, key=lambda x: x[1], reverse=True)][:5]
-
-    positive_keywords = json.dumps(positive_keywords)
-    negative_keywords = json.dumps(negative_keywords)
-
     query = request.GET.get('search', '')
 
     sort_order = request.GET.get('sort', '')
@@ -188,6 +156,39 @@ def search_view(request):
     for game in games:
         game.final_price_int = int(float(str(game.final_price)))
         game.initial_price_int = int(float(str(game.initial_price)))
+        review_analysis = ReviewAnalysis.objects.filter(app_id=game.app_id).first()
+        if review_analysis and review_analysis.all_analysis:
+            all_analysis = review_analysis.all_analysis
+            total_positive = all_analysis[0]['positive']
+            total_negative = all_analysis[0]['negative']
+            total_reviews = total_positive + total_negative
+            positive_keywords = []
+            negative_keywords = []
+
+            for keyword_dict in all_analysis[0]['positive_keywords']:
+                for keyword, count in keyword_dict.items():
+                    positive_keywords.append((keyword, count))
+
+            for keyword_dict in all_analysis[0]['negative_keywords']:
+                for keyword, count in keyword_dict.items():
+                    negative_keywords.append((keyword, count))
+
+            positive_keywords = [keyword for keyword, count in
+                                        sorted(positive_keywords, key=lambda x: x[1], reverse=True)][:5]
+            negative_keywords = [keyword for keyword, count in
+                                        sorted(negative_keywords, key=lambda x: x[1], reverse=True)][:5]
+
+            game.positive_keywords = ', '.join(positive_keywords)
+            game.negative_keywords = ', '.join(negative_keywords)
+                
+            if total_reviews > 10:
+                game.positive_ratio = int(total_positive / total_reviews * 100)
+            else:
+                game.positive_ratio = 0
+        else:
+            game.positive_ratio = 0
+            game.positive_keywords = []
+            game.negative_keywords = []
 
     page = request.GET.get('page', 1)
     paginator = Paginator(games, 20)  # 1페이지당 20개씩
@@ -211,7 +212,6 @@ def search_view(request):
         'positive_keywords': positive_keywords,
         'negative_keywords': negative_keywords,
         'games': paginated_games,
-        'positive_ratio': positive_ratio,
         'search_query': query,
         'sort_order': sort_order,
         'release_status': release_status,
@@ -234,32 +234,38 @@ def dashboard_view(request, app_id):
 
     game_json = game_javaScript(game)
 
-    review_analysis = ReviewAnalysis.objects.first()
-    period_analysis = review_analysis.period_analysis
-    all_analysis = review_analysis.all_analysis
+    review_analysis = ReviewAnalysis.objects.filter(app_id=app_id).first()
+    if review_analysis and review_analysis.all_analysis:
+        period_analysis = review_analysis.period_analysis
+        all_analysis = review_analysis.all_analysis
 
-    total_positive = all_analysis[0]['positive']
-    total_negative = all_analysis[0]['negative']
+        total_positive = all_analysis[0]['positive']
+        total_negative = all_analysis[0]['negative']
 
-    positive_keywords = []
-    negative_keywords = []
+        positive_keywords = []
+        negative_keywords = []
 
-    for keyword_dict in all_analysis[0]['positive_keywords']:
-        for keyword, count in keyword_dict.items():
-            positive_keywords.append((keyword, count))
+        for keyword_dict in all_analysis[0]['positive_keywords']:
+            for keyword, count in keyword_dict.items():
+                positive_keywords.append((keyword, count))
 
-    for keyword_dict in all_analysis[0]['negative_keywords']:
-        for keyword, count in keyword_dict.items():
-            negative_keywords.append((keyword, count))
+        for keyword_dict in all_analysis[0]['negative_keywords']:
+            for keyword, count in keyword_dict.items():
+                negative_keywords.append((keyword, count))
 
-    positive_keywords = sorted(positive_keywords, key=lambda x: x[1], reverse=True)
-    negative_keywords = sorted(negative_keywords, key=lambda x: x[1], reverse=True)
+        positive_keywords = sorted(positive_keywords, key=lambda x: x[1], reverse=True)
+        negative_keywords = sorted(negative_keywords, key=lambda x: x[1], reverse=True)
 
-
-    total_reviews = total_positive + total_negative
-    if total_reviews > 10:
-        positive_ratio = int(total_positive / total_reviews * 100)
+        total_reviews = total_positive + total_negative
+        if total_reviews > 10:
+            positive_ratio = int(total_positive / total_reviews * 100)
+        else:
+            positive_ratio = 0
     else:
+        period_analysis = []
+        all_analysis = []
+        positive_keywords = []
+        negative_keywords = []
         positive_ratio = 0
 
     youtubes = Youtube.objects.filter(game=game.app_id)
@@ -289,8 +295,13 @@ def dashboard_view(request, app_id):
     first_game.final_price_int = int(float(str(first_game.final_price)))
     first_game.initial_price_int = int(float(str(first_game.initial_price)))
 
-    total_positive_first_game = all_analysis[0]['positive']
-    total_negative_first_game = all_analysis[0]['negative']
+    first_game_review = ReviewAnalysis.objects.filter(app_id=first_id).first()
+    if first_game_review and first_game_review.all_analysis:
+        total_positive_first_game = first_game_review.all_analysis[0]['positive']
+        total_negative_first_game = first_game_review.all_analysis[0]['negative']
+    else:
+        total_positive_first_game = 0
+        total_negative_first_game = 0
 
     total_reviews_first_game = total_positive_first_game + total_negative_first_game
     if total_reviews_first_game > 10:
@@ -308,8 +319,13 @@ def dashboard_view(request, app_id):
         random_game.final_price_int = int(float(str(random_game.final_price)))
         random_game.initial_price_int = int(float(str(random_game.initial_price)))
 
-        total_positive_random = all_analysis[0]['positive']
-        total_negative_random = all_analysis[0]['negative']
+        random_game_review = ReviewAnalysis.objects.filter(app_id=random_game.app_id).first()
+        if random_game_review and random_game_review.all_analysis:
+            total_positive_random = random_game_review.all_analysis[0]['positive']
+            total_negative_random = random_game_review.all_analysis[0]['negative']
+        else:
+            total_positive_random = 0
+            total_negative_random = 0
         total_reviews_random = total_positive_random + total_negative_random
         if total_reviews_random > 10:
             positive_ratio_random = int(total_positive_random / total_reviews_random * 100)
