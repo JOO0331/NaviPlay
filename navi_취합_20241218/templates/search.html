@@ -16,52 +16,69 @@
             <input type="hidden" name="search" value="{{ request.GET.search }}">
             <div class="form-group">
                 <label for="sort">정렬순</label>
-                <select name="sort" id="sort">
-                    <option value="" {% if not request.GET.sort %}selected{% endif %}>정렬 선택</option>
-                    <option value="release_desc" {% if request.GET.sort == 'release_desc' %}selected{% endif %}>최신순</option>
-                    <option value="release_asc" {% if request.GET.sort == 'release_asc' %}selected{% endif %}>오래된순</option>
-                    <option value="price_desc" {% if request.GET.sort == 'price_desc' %}selected{% endif %}>높은가격</option>
-                    <option value="price_asc" {% if request.GET.sort == 'price_asc' %}selected{% endif %}>낮은가격</option>
-                    <option value="discount_desc" {% if request.GET.sort == 'discount_desc' %}selected{% endif %}>높은할인율</option>
-                    <option value="discount_asc" {% if request.GET.sort == 'discount_asc' %}selected{% endif %}>낮은할인율</option>
-                </select>
+                <div class="selectBox" id="customDropdown">
+                    <div class="label">전체</div>
+                    <ul class="optionList">
+                        <li class="optionItem" data-value="">전체</li>
+                        <li class="optionItem" data-value="release_desc">최신순</li>
+                        <li class="optionItem" data-value="release_asc">오래된순</li>
+                        <li class="optionItem" data-value="price_desc">높은가격</li>
+                        <li class="optionItem" data-value="price_asc">낮은가격</li>
+                        <li class="optionItem" data-value="discount_desc">높은할인율</li>
+                        <li class="optionItem" data-value="discount_asc">낮은할인율</li>
+                    </ul>
+                </div>
+                <input type="hidden" name="sort" id="sort" value="">
             </div>
 
             <div class="form-group">
-                <label for="players">플레이어 수</label>
-                <select name="players" id="players">
-                    <option value="" {% if not request.GET.players %}selected{% endif %}>전체</option>
-                    <option value="single_player" {% if request.GET.players == 'single_player' %}selected{% endif %}>싱글플레이어</option>
-                    <option value="multi_player" {% if request.GET.players == 'multi_player' %}selected{% endif %}>멀티플레이어</option>
-                    <option value="online_coop" {% if request.GET.players == 'online_coop' %}selected{% endif %}>온라인협동</option>
-                </select>
+                <label for="players">플레이어수</label>
+                <div class="selectBox" id="customDropdown2">
+                    <div class="label">전체 </div>
+                    <ul class="optionList">
+                        <li class="optionItem" data-value="">전체</li>
+                        <li class="optionItem" data-value="single_player">싱글플레이어</li>
+                        <li class="optionItem" data-value="multi_player">멀티플레이어</li>
+                        <li class="optionItem" data-value="online_coop">온라인협동</li>
+                    </ul>
+                </div>
+                <input type="hidden" name="players" id="players" value="">
             </div>
+
             <div class="form-group">
                 <label for="tags">태그</label>
-                <select name="tags" id="tags">
-                    <option value="" {% if not request.GET.tags %}selected{% endif %}>전체</option>
-                    <option value="Indie" {% if request.GET.tags == "Indie" %}selected{% endif %}>Indie</option>
-                    <option value="Action" {% if request.GET.tags == "Action" %}selected{% endif %}>Action</option>
-                    <option value="Adventure" {% if request.GET.tags == "Adventure" %}selected{% endif %}>Adventure</option>
-                    <option value="Casual" {% if request.GET.tags == "Casual" %}selected{% endif %}>Casual</option>
-                    <option value="Simulation" {% if request.GET.tags == "Simulation" %}selected{% endif %}>Simulation</option>
-                    <option value="Strategy" {% if request.GET.tags == "Strategy" %}selected{% endif %}>Strategy</option>
-                    <option value="RPG" {% if request.GET.tags == "RPG" %}selected{% endif %}>RPG</option>
-                    <option value="Puzzle" {% if request.GET.tags  == "Puzzle" %}selected{% endif %}>Puzzle</option>
-                    <option value="2D" {% if request.GET.tags == "2D" %}selected{% endif %}>2D</option>
-                </select>
+                <div class="selectBox" id="customDropdown3">
+                    <div class="label">전체</div>
+                    <ul class="optionList">
+                        <li class="optionItem" data-value="">전체</li>
+                        <li class="optionItem" data-value="Indie">Indie</li>
+                        <li class="optionItem" data-value="Action">Action</li>
+                        <li class="optionItem" data-value="Adventure">Adventure</li>
+                        <li class="optionItem" data-value="Casual">Casual</li>
+                        <li class="optionItem" data-value="Simulation">Simulation</li>
+                        <li class="optionItem" data-value="Strategy">Strategy</li>
+                        <li class="optionItem" data-value="RPG">RPG</li>
+                        <li class="optionItem" data-value="Puzzle">Puzzle</li>
+                        <li class="optionItem" data-value="2D">2D</li>
+                    </ul>
+                </div>
+                <input type="hidden" name="tags" id="tags" value="">
             </div>
 
             <div class="form-group">
-                        <label for="price">가격</label>
-                        <select name="price" id="price">
-                            <option value="" {% if not request.GET.price %}selected{% endif %}>전체</option>
-                            <option value="_3" {% if request.GET.price == '_3' %}selected{% endif %}>3만원 미만</option>
-                            <option value="3_5" {% if request.GET.price == '3_5' %}selected{% endif %}>3만원 이상 5만원 미만</option>
-                            <option value="5_7" {% if request.GET.price == '5_7' %}selected{% endif %}>5만원 이상 7만원 미만</option>
-                            <option value="7_10" {% if request.GET.price == '7_10' %}selected{% endif %}>7만원 이상 10만원 미만</option>
-                            <option value="10_" {% if request.GET.price == '10_' %}selected{% endif %}>10만원 이상</option>
-                        </select>
+                <label for="price">가격</label>
+                <div class="selectBox" id="customDropdown4">
+                    <div class="label">전체</div>
+                    <ul class="optionList">
+                        <li class="optionItem" data-value="">전체</li>
+                        <li class="optionItem" data-value="_3">3만원 미만</li>
+                        <li class="optionItem" data-value="3_5">3만원 이상 5만원 미만</li>
+                        <li class="optionItem" data-value="5_7">5만원 이상 7만원 미만</li>
+                        <li class="optionItem" data-value="7_10">7만원 이상 10만원 미만</li>
+                        <li class="optionItem" data-value="10_">10만원 이상</li>
+                    </ul>
+                </div>
+                <input type="hidden" name="price" id="price" value="">
             </div>
 
 
@@ -82,12 +99,13 @@
                 <input type="submit" value="검색" class="btn-search-options"/>
                 <input type="reset" value="초기화" class="btn-reset"/>
             </div>
+
         </form>
     </div>
 
     <!-- 우측 게임 리스트 -->
     <div class="main-content">
-
+        <h2>{{ games.paginator.count }}개의 게임이 검색되었습니다.</h2>
         {% for game in games %}
         <div class="game-item" onclick="location.href='{% url 'dashboard' game.app_id %}'" 
             data-positive-ratio="{{ game.positive_ratio }}"
@@ -221,6 +239,174 @@ gameItems.forEach(item => {
     });
 });
 
+    document.addEventListener('DOMContentLoaded', () => {
+    // '정렬순' 드롭다운 관련 요소
+    const sortLabel = document.querySelector('#customDropdown .label');
+    const sortOptions = document.querySelectorAll('#customDropdown .optionItem');
+    const sortHiddenInput = document.getElementById('sort'); // 숨겨진 input (정렬)
+
+    // '플레이어 수' 드롭다운 관련 요소
+    const playersLabel = document.querySelector('#customDropdown2 .label');
+    const playersOptions = document.querySelectorAll('#customDropdown2 .optionItem');
+    const playersHiddenInput = document.getElementById('players'); // 숨겨진 input (플레이어 수)
+
+    // '태그' 드롭다운 관련 요소
+    const tagsLabel = document.querySelector('#customDropdown3 .label');
+    const tagsOptions = document.querySelectorAll('#customDropdown3 .optionItem');
+    const tagsHiddenInput = document.getElementById('tags'); // 숨겨진 input (태그)
+
+    // '가격' 드롭다운 관련 요소
+    const priceLabel = document.querySelector('#customDropdown4 .label');
+    const priceOptions = document.querySelectorAll('#customDropdown4 .optionItem');
+    const priceHiddenInput = document.getElementById('price'); // 숨겨진 input (가격)
+
+    // URL의 쿼리 파라미터에서 정렬 옵션을 확인하여 선택된 값을 라벨에 표시
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedSort = urlParams.get('sort');
+    const selectedPlayers = urlParams.get('players');
+    const selectedTags = urlParams.get('tags');
+    const selectedPrice = urlParams.get('price');
+
+    // 정렬순 값 설정
+    if (selectedSort) {
+        const selectedSortOption = document.querySelector(`#customDropdown .optionItem[data-value="${selectedSort}"]`);
+        if (selectedSortOption) {
+            sortLabel.textContent = selectedSortOption.textContent; // 선택된 옵션 텍스트로 라벨 업데이트
+            sortHiddenInput.value = selectedSort; // 숨겨진 input에 값 설정
+        }
+    }
+
+    // 플레이어 수 값 설정
+    if (selectedPlayers) {
+        const selectedPlayersOption = document.querySelector(`#customDropdown2 .optionItem[data-value="${selectedPlayers}"]`);
+        if (selectedPlayersOption) {
+            playersLabel.textContent = selectedPlayersOption.textContent; // 선택된 옵션 텍스트로 라벨 업데이트
+            playersHiddenInput.value = selectedPlayers; // 숨겨진 input에 값 설정
+        }
+    }
+
+    // 태그 값 설정
+    if (selectedTags) {
+        const selectedTagsOption = document.querySelector(`#customDropdown3 .optionItem[data-value="${selectedTags}"]`);
+        if (selectedTagsOption) {
+            tagsLabel.textContent = selectedTagsOption.textContent; // 선택된 옵션 텍스트로 라벨 업데이트
+            tagsHiddenInput.value = selectedTagsOption; // 숨겨진 input에 값 설정
+        }
+    }
+
+    // 가격 값 설정
+    if (selectedPrice) {
+        const selectedPriceOption = document.querySelector(`#customDropdown4 .optionItem[data-value="${selectedPrice}"]`);
+        if (selectedPriceOption) {
+            priceLabel.textContent = selectedPriceOption.textContent; // 선택된 옵션 텍스트로 라벨 업데이트
+            priceHiddenInput.value = selectedPriceOption; // 숨겨진 input에 값 설정
+        }
+    }
+
+    // 옵션 클릭 시 선택값 업데이트
+    const handleSelect = (item, label, hiddenInput) => {
+        const value = item.getAttribute('data-value');
+        const text = item.textContent;
+
+        // 라벨 업데이트
+        label.textContent = text;
+
+        // 숨겨진 input 값 업데이트
+        hiddenInput.value = value;
+
+        // 드롭다운 닫기
+        item.closest('.selectBox').classList.remove('active');
+    };
+
+    // 각 드롭다운 옵션에 클릭 이벤트 추가
+    sortOptions.forEach(option => {
+        option.addEventListener('click', (event) => {
+            event.stopPropagation(); // 클릭 이벤트 전파 방지
+            handleSelect(option, sortLabel, sortHiddenInput);
+        });
+    });
+
+    playersOptions.forEach(option => {
+        option.addEventListener('click', (event) => {
+            event.stopPropagation(); // 클릭 이벤트 전파 방지
+            handleSelect(option, playersLabel, playersHiddenInput);
+        });
+    });
+
+    tagsOptions.forEach(option => {
+        option.addEventListener('click', (event) => {
+            event.stopPropagation(); // 클릭 이벤트 전파 방지
+            handleSelect(option, tagsLabel, tagsHiddenInput);
+        });
+    });
+
+    priceOptions.forEach(option => {
+        option.addEventListener('click', (event) => {
+            event.stopPropagation(); // 클릭 이벤트 전파 방지
+            handleSelect(option, priceLabel, priceHiddenInput);
+        });
+    });
+
+    // 드롭다운 열고 닫기 (정렬순)
+    sortLabel.addEventListener('click', (event) => {
+        event.stopPropagation(); // 클릭 이벤트 전파 방지
+        // 정렬 드롭다운 열기 전에 다른 드롭다운 닫기
+        document.querySelector('#customDropdown2').classList.remove('active');
+        document.querySelector('#customDropdown3').classList.remove('active');
+        document.querySelector('#customDropdown4').classList.remove('active');
+        document.querySelector('#customDropdown').classList.toggle('active');
+    });
+
+    // 드롭다운 열고 닫기 (플레이어 수)
+    playersLabel.addEventListener('click', (event) => {
+        event.stopPropagation(); // 클릭 이벤트 전파 방지
+        // 플레이어 수 드롭다운 열기 전에 다른 드롭다운 닫기
+        document.querySelector('#customDropdown').classList.remove('active');
+        document.querySelector('#customDropdown3').classList.remove('active');
+        document.querySelector('#customDropdown4').classList.remove('active');
+        document.querySelector('#customDropdown2').classList.toggle('active');
+    });
+
+    // 드롭다운 열고 닫기 (태그)
+    tagsLabel.addEventListener('click', (event) => {
+        event.stopPropagation(); // 클릭 이벤트 전파 방지
+        // 플레이어 수 드롭다운 열기 전에 다른 드롭다운 닫기
+        document.querySelector('#customDropdown').classList.remove('active');
+        document.querySelector('#customDropdown2').classList.remove('active');
+        document.querySelector('#customDropdown4').classList.remove('active');
+        document.querySelector('#customDropdown3').classList.toggle('active');
+    });
+
+    // 드롭다운 열고 닫기 (가격)
+    priceLabel.addEventListener('click', (event) => {
+        event.stopPropagation(); // 클릭 이벤트 전파 방지
+        // 플레이어 수 드롭다운 열기 전에 다른 드롭다운 닫기
+        document.querySelector('#customDropdown').classList.remove('active');
+        document.querySelector('#customDropdown2').classList.remove('active');
+        document.querySelector('#customDropdown3').classList.remove('active');
+        document.querySelector('#customDropdown4').classList.toggle('active');
+    });
+
+    // 외부 클릭 시 드롭다운 닫기
+    document.addEventListener('click', () => {
+        document.querySelectorAll('.selectBox').forEach(dropdown => dropdown.classList.remove('active'));
+    });
+
+    // 초기화 버튼 클릭 시 라벨과 숨겨진 input 초기화
+    const resetButton = document.querySelector('.btn-reset'); // 초기화 버튼
+    if (resetButton) {
+        resetButton.addEventListener('click', () => {
+            sortLabel.textContent = '전체';
+            sortHiddenInput.value = '';
+            playersLabel.textContent = '전체';
+            playersHiddenInput.value = '';
+            tagsLabel.textContent = '전체';
+            tagsHiddenInput.value = '';
+            priceLabel.textContent = '전체';
+            priceHiddenInput.value = '';
+        });
+    }
+});
 </script>
 
 {% endblock %}

@@ -3,7 +3,7 @@
     display: flex;
     justify-content: space-between;
     padding: 20px;
-    background-color: #1e1e1e; /* 다크 블루 배경 */
+    background-color: #1e1e1e;
     color: #fff;
     font-family: 'Arial', sans-serif;
 }
@@ -37,7 +37,6 @@
     margin-bottom: 5px;
 }
 
-.sidebar.filter-section select,
 .sidebar.filter-section input[type="submit"],
 .sidebar.filter-section input[type="reset"] {
     width: 100%;
@@ -50,7 +49,6 @@
     transition: border-color 0.3s;
 }
 
-.sidebar.filter-section select:focus,
 .sidebar.filter-section input:hover {
     border-color: #ffcc00;
 }
@@ -58,32 +56,10 @@
 .sidebar.filter-section .button-group {
     display: flex;
     justify-content: space-between;
+    gap: 20px;
 }
 
-.btn-search-options {
-    background-color: #ffcc00;
-    color: #111;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
 
-.btn-search-options:hover {
-    background-color: #e6b800;
-}
-
-.btn-reset {
-    background-color: #555;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.btn-reset:hover {
-    background-color: #777;
-}
 
 /* 게임 리스트 섹션 (우측) */
 .main-content {
@@ -320,3 +296,90 @@
 .game-item:hover .game-detail {
     display: block;
 }
+
+
+fieldset {
+            border: none;
+            padding: 0;
+            margin: 0;
+        }
+input[type="radio"] {
+            accent-color: #ffcc00;
+            margin-right: 10px;
+        }
+
+.selectBox * { box-sizing: border-box; }
+.selectBox {
+  position: relative;
+  height: 35px;
+  border-radius: 4px;
+  border: 2px solid #444;
+  background-color: #1b1b2b;
+  background-image: url('/static/imgs/pngwing.com.png');
+  background-position: calc(100% - 7px) center;
+  background-size: 20px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.selectBox:hover{
+    border:2px solid #ffcc00;
+}
+
+.selectBox.active {
+    z-index: 20; /* 드롭다운이 열리면 위로 올라오도록 z-index 설정 */
+}
+
+.selectBox .label {
+  display: flex;
+  align-items: center;
+  width: inherit;
+  height: inherit;
+  border: 0 none;
+  outline: 0 none;
+  padding-left: 15px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.selectBox .optionList {
+  position: absolute;
+  top: 28px;
+  left: 0;
+  width: 100%;
+  background: #1b1b2b;
+  color: #fff;
+  list-style-type: none;
+  padding: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  max-height: 0;
+}
+
+.selectBox.active .optionList {
+  max-height: 500px;
+}
+
+.selectBox .optionItem {
+  border-bottom: 1px dashed #555;
+  padding: 5px 15px 5px;
+  transition: .1s;
+}
+
+.selectBox .optionItem:hover {
+  background: #ffcc00;
+}
+
+.selectBox .optionItem.selected {
+  background: #ffcc00;
+}
+.selectBox .optionItem:last-child {
+  border-bottom: 0 none;
+}
+
+// 스크롤 커스텀
+.selectBox .optionList::-webkit-scrollbar {width: 6px;}
+.selectBox .optionList::-webkit-scrollbar-track {background: transparent; }
+.selectBox .optionList::-webkit-scrollbar-thumb {background: #303030; border-radius: 45px;}
+.selectBox .optionList::-webkit-scrollbar-thumb:hover {background: #303030;}
