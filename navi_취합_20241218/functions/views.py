@@ -209,8 +209,6 @@ def search_view(request):
 
     # 쿼리 파라미터 유지
     context = {
-        'positive_keywords': positive_keywords,
-        'negative_keywords': negative_keywords,
         'games': paginated_games,
         'search_query': query,
         'sort_order': sort_order,
