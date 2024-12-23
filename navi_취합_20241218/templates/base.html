@@ -17,7 +17,9 @@
         </a>
        <form action="{% url 'search' %}" method="GET" onsubmit="return validateSearch()">
             <input type="search" name="search" value="{{ request.GET.search }}" placeholder="게임 이름을 검색하세요." aria-label="Search games">
-            <button type="submit">검색</button>
+            <button type="submit">
+                <img src="/static/imgs/search.png" alt="검색" style="width: 15px; height: 15px;">
+            </button>
         </form>
         <nav class="navbar">
         <ul>

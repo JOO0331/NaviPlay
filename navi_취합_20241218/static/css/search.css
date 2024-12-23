@@ -11,11 +11,14 @@
 /* 검색 옵션 섹션 (좌측) */
 .sidebar.filter-section {
     flex: 1;
-    max-width: 25%;
+    width: 25%;
     background-color: #2b2b3c;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    height: 550px; /* 고정된 높이, 화면 높이에 맞게 설정 */
+    position: sticky;
+    top: 20px; /* 화면을 스크롤해도 상단에 고정되도록 설정 */
 }
 
 .sidebar.filter-section h2 {
@@ -65,6 +68,7 @@
 .main-content {
     flex: 3;
     margin-left: 20px;
+    height:75%;
 }
 
 .main-content h2 {

@@ -8,12 +8,41 @@ from datetime import datetime
 import html
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-import json
+from bs4 import BeautifulSoup
 from django.http import JsonResponse
 
 from django.db.models import Count
 from collections import Counter
 
+def preprocess_pc_requirements(pc_requirements):
+    # 키 값 변환 테이블
+    key_translation = {
+        "minimum": "최소",
+        "recommended": "권장"
+    }
+
+    requirements_dict = {}
+    for key, html_content in pc_requirements.items():
+        # <li> 태그 안의 내용을 추출
+        li_contents = re.findall(r'<li>(.*?)</li>', html_content, re.DOTALL)
+        # 태그 제거 및 정리
+        cleaned_contents = [
+            re.sub(r'<.*?>', '', li).replace('<br>', '').strip()
+            for li in li_contents
+        ]
+        # 번역된 키 값으로 저장
+        translated_key = key_translation.get(key, key)  # 키 변환, 기본적으로 원래 키 사용
+        requirements_dict[translated_key] = cleaned_contents
+    return requirements_dict
+
+# 사용 예시
+pc_requirements = {
+    "minimum": '<strong>Minimum:</strong><br><ul class="bb_ul"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS:</strong> Windows 10 (64-bit versions only)<br></li><li><strong>Processor:</strong> Intel Core i5-3570K or AMD FX-8310<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA GeForce GTX 760 or AMD Radeon RX 470<br></li><li><strong>DirectX:</strong> Version 12<br></li><li><strong>Storage:</strong> 15 GB available space</li></ul>',
+    "recommended": '<strong>Recommended:</strong><br><ul class="bb_ul"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS:</strong> Windows 10 (64-bit versions only)<br></li><li><strong>Processor:</strong> Intel Core i7-4790 or AMD Ryzen 3 3200G<br></li><li><strong>Memory:</strong> 12 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA GeForce GTX 1060 6GB / GTX 1660 Super or Radeon RX 590<br></li><li><strong>DirectX:</strong> Version 12<br></li><li><strong>Storage:</strong> 15 GB available space</li></ul>'
+}
+
+result = preprocess_pc_requirements(pc_requirements)
+print(result)
 
 def game_javaScript(game):
     game_data = {
@@ -81,9 +110,9 @@ def search_view(request):
 
     sort_order = request.GET.get('sort', '')
     number_of_players = request.GET.get('players', '')
+    select_tags = request.GET.get('tags', '')
     price_range = request.GET.get('price', '')
     release_status = request.GET.get('status', None)
-    select_tags = request.GET.get('tags', '')
 
     games = Game.objects.all()
 
@@ -111,6 +140,7 @@ def search_view(request):
         if number_of_players in player_category_mappings:
             category_id = player_category_mappings[number_of_players]
             games = [game for game in games if any(category['id'] == category_id for category in game.categories)]
+
     if select_tags:
         if select_tags == 'Indie':
             games = [game for game in games if 'Indie' in game.tags]
@@ -229,6 +259,7 @@ def dashboard_view(request, app_id):
     game.final_price_int = int(float(str(game.final_price)))
     game.initial_price_int = int(float(str(game.initial_price)))
     game.short_description = html.unescape(game.short_description)
+    game.pc_requirements = preprocess_pc_requirements(game.pc_requirements)
 
     game_json = game_javaScript(game)
 
