@@ -178,9 +178,9 @@
                     <span class="final-price">Free</span>
                     {% else %}
                         {% if first_recommendation.discount_percent > 0 %}
-                        <span class="discount">{{ first_recommendation.discount_percent }}% Off</span>
-                        <span class="original-price">{{ first_recommendation.initial_price_int|intcomma }} ₩</span>
-                        <span class="final-price">{{ first_recommendation.final_price_int|intcomma }} ₩</span>
+                            <span class="original-price"><del>{{ game.initial_price_int |intcomma}}₩</del></span>
+                            <div class="discount">{{ game.discount_percent }}% Off</div>
+                            <span class="final-price">{{ game.final_price_int |intcomma }} ₩</span>
                     {% else %}
                         <span class="final-price">{{ first_recommendation.final_price_int|intcomma }} ₩</span>
                     {% endif %}
@@ -221,9 +221,9 @@
                         <span class="final-price">Free</span>
                         {% else %}
                             {% if rec.discount_percent > 0 %}
-                            <span class="discount">{{ rec.discount_percent }}% Off</span>
-                            <span class="original-price">{{ rec.initial_price_int|intcomma }} ₩</span>
-                            <span class="final-price">{{ rec.final_price_int |intcomma}} ₩</span>
+                                <span class="original-price"><del>{{ game.initial_price_int |intcomma}}₩</del></span>
+                                <div class="discount">{{ game.discount_percent }}% Off</div>
+                                <span class="final-price">{{ game.final_price_int |intcomma }} ₩</span>
                         {% else %}
                             <span class="final-price">{{ rec.final_price_int|intcomma }} ₩</span>
                         {% endif %}
@@ -276,7 +276,7 @@
                             <li><strong>정상가:</strong> <del>{{ game.initial_price_int|intcomma }}₩</del> </li>
                             <li><strong>할인가:</strong> {{ game.final_price_int |intcomma}} ₩</li>
                         {% else %}
-                            <li><strong>가격:</strong> {{ game.final_price_int }} ₩</li>
+                            <li><strong>가격:</strong> {{ game.final_price_int |intcomma }} ₩</li>
                         {% endif %}
                     {% endif %}
                     <li><button class="purchase-btn" onclick="window.location.href='https://store.steampowered.com/app/{{ game.app_id }}/'">구매하러 가기</button></li>

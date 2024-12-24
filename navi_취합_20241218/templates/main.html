@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-
+{% load humanize %}
 <div class="container">
 
     <div class="banner">
@@ -71,11 +71,11 @@
                                 <span class="final-price">Free</span>
                             {% else %}
                                 {% if game.discount_percent > 0 %}
-                                    <span class="discount">{{ game.discount_percent }}% Off</span>
-                                    <span class="original-price">{{ game.initial_price_int }} ₩</span>
-                                    <span class="final-price">{{ game.final_price_int }} ₩</span>
+                                    <span class="original-price"><del>{{ game.initial_price_int |intcomma}}₩</del></span>
+                                    <div class="discount">{{ game.discount_percent }}% Off</div>
+                                    <span class="final-price">{{ game.final_price_int |intcomma }} ₩</span>
                                 {% else %}
-                                    <span class="final-price">{{ game.final_price_int }} ₩</span>
+                                    <span class="final-price">{{ game.final_price_int|intcomma }} ₩</span>
                                 {% endif %}
                             {% endif %}
                         </div>
@@ -97,7 +97,7 @@
                             <div class="progress-bar gray" style="width: 100%;"></div>
                         {% else %}
                             <div class="progress-bar green" style="width: {{ game.green_ratio }}%;"></div>
-                            <div class="progress-bar yellow" style="width: {{ game.yellow_ratio }}%;"></div>
+
                             <div class="progress-bar red" style="width: {{ game.red_ratio }}%;"></div>
                         {% endif %}
                     </div>
@@ -134,7 +134,7 @@
                                 <div class="progress-bar gray" style="width: 100%;"></div>
                             {% else %}
                                 <div class="progress-bar green" style="width: {{ game.green_ratio }}%;"></div>
-                                <div class="progress-bar yellow" style="width: {{ game.yellow_ratio }}%;"></div>
+
                                 <div class="progress-bar red" style="width: {{ game.red_ratio }}%;"></div>
                             {% endif %}
                         </div>
@@ -152,9 +152,9 @@
                         <h3>{{ game.name }}</h3>
                         <div class="status">
                             <div class="pricing">
-                                <span class="discount">{{ game.discount_percent }}% Off</span>
-                                <span class="original-price">{{ game.initial_price_int }} ₩</span>
-                                <span class="final-price">{{ game.final_price_int }} ₩</span>
+                                    <span class="original-price"><del>{{ game.initial_price_int |intcomma}}₩</del></span>
+                                    <div class="discount">{{ game.discount_percent }}% Off</div>
+                                    <span class="final-price">{{ game.final_price_int |intcomma }} ₩</span>
                             </div>
                             <div class="positive_negative_ratio">
                                 {% if game.positive_ratio == 0 %}
@@ -174,7 +174,7 @@
                                     <div class="progress-bar gray" style="width: 100%;"></div>
                                 {% else %}
                                     <div class="progress-bar green" style="width: {{ game.green_ratio }}%;"></div>
-                                    <div class="progress-bar yellow" style="width: {{ game.yellow_ratio }}%;"></div>
+
                                     <div class="progress-bar red" style="width: {{ game.red_ratio }}%;"></div>
                                 {% endif %}
                             </div>
@@ -197,11 +197,11 @@
                                 <span class="final-price">Free</span>
                             {% else %}
                                 {% if game.discount_percent > 0 %}
-                                    <span class="discount">{{ game.discount_percent }}% Off</span>
-                                    <span class="original-price">{{ game.initial_price_int }} ₩</span>
-                                    <span class="final-price">{{ game.final_price_int }} ₩</span>
+                                    <span class="original-price"><del>{{ game.initial_price_int |intcomma}}₩</del></span>
+                                    <div class="discount">{{ game.discount_percent }}% Off</div>
+                                    <span class="final-price">{{ game.final_price_int |intcomma }} ₩</span>
                                 {% else %}
-                                    <span class="final-price">{{ game.final_price_int }} ₩</span>
+                                    <span class="final-price">{{ game.final_price_int |intcomma}} ₩</span>
                                 {% endif %}
                             {% endif %}
                         </div>
@@ -223,7 +223,7 @@
                                 <div class="progress-bar gray" style="width: 100%;"></div>
                             {% else %}
                                 <div class="progress-bar green" style="width: {{ game.green_ratio }}%;"></div>
-                                <div class="progress-bar yellow" style="width: {{ game.yellow_ratio }}%;"></div>
+
                                 <div class="progress-bar red" style="width: {{ game.red_ratio }}%;"></div>
                             {% endif %}
                     </div>
@@ -245,11 +245,11 @@
                                     <span class="final-price">Free</span>
                                 {% else %}
                                     {% if game.discount_percent > 0 %}
-                                        <span class="discount">{{ game.discount_percent }}% Off</span>
-                                        <span class="original-price">{{ game.initial_price_int }} ₩</span>
-                                        <span class="final-price">{{ game.final_price_int }} ₩</span>
+                                    <span class="original-price"><del>{{ game.initial_price_int |intcomma}}₩</del></span>
+                                    <div class="discount">{{ game.discount_percent }}% Off</div>
+                                    <span class="final-price">{{ game.final_price_int |intcomma }} ₩</span>
                                     {% else %}
-                                        <span class="final-price">{{ game.final_price_int }} ₩</span>
+                                        <span class="final-price">{{ game.final_price_int|intcomma }} ₩</span>
                                     {% endif %}
                                 {% endif %}
                             </div>
@@ -271,7 +271,7 @@
                                     <div class="progress-bar gray" style="width: 100%;"></div>
                                 {% else %}
                                     <div class="progress-bar green" style="width: {{ game.green_ratio }}%;"></div>
-                                    <div class="progress-bar yellow" style="width: {{ game.yellow_ratio }}%;"></div>
+
                                     <div class="progress-bar red" style="width: {{ game.red_ratio }}%;"></div>
                                 {% endif %}
                             </div>

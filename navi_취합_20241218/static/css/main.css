@@ -162,25 +162,25 @@
     height: 70px;
     flex-wrap: wrap;
     display: flex;
+    gap: 10px;
     align-items: center;
 }
 
 /* 할인 가격 스타일 */
-.pricing .discount {
-    color:  #595959;
+.price, .discount {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 5px;
     font-weight: bold;
-    font-size: 18px;
-    background-color: rgba(255, 87, 34, 0.2);
-    padding: 10px 10px;
-    border-radius: 100%;
-    display: inline-block;
-    box-shadow:
-        0 0 8px rgba(255, 87, 34, 0.7),
-        0 0 15px rgba(255, 87, 34, 0.5);
-    transition: box-shadow 0.3s ease, transform 0.2s ease;
-    margin-right: 10px;
+    font-size: 0.8em;
+    width: 60px; /* 가로 길이 조정 */
+    margin-bottom: 5px;
+    margin-right: 5px;
+    text-align: center;
 }
-.pricing .initial-price {
+
+.pricing .original-price {
     text-decoration: line-through;
     color: #595959; /* #b0b0b0 */
     font-size: 16px;
@@ -193,10 +193,14 @@
     font-size: 24px;
     color: #595959; /* #d19636 */
     font-weight: bold;
-    margin-left: 12px;
+    /* margin-left: 12px;*/
     padding-left: 10px;
-    border-left: 2px solid #595959; /* d19636 */
+    /*border-left: 2px solid #595959; /* d19636 */
 }
-
+del {
+    color: #888; /* 텍스트 색상을 흐리게 */
+    text-decoration: line-through; /* 취소선 */
+    font-style: italic; /* 기울임꼴 (선택 사항) */
+}
 
 

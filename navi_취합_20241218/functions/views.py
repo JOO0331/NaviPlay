@@ -94,15 +94,18 @@ def main_view(request):
         else:
             positive_ratio = 0
         game.positive_ratio = positive_ratio
+        # if positive_ratio == 0:
+        #     game.green_ratio = 0
+        #     game.yellow_ratio = 0
+        #     game.red_ratio = 0
+        # else:
+        #     game.green_ratio = positive_ratio
+        #     game.yellow_ratio = max(0, min(positive_ratio - 40, 30))
+        #     game.red_ratio = max(0, 100 - game.green_ratio - game.yellow_ratio)
 
-        if positive_ratio == 0:
-            game.green_ratio = 0
-            game.yellow_ratio = 0
-            game.red_ratio = 0
-        else:
-            game.green_ratio = min(positive_ratio, 70)
-            game.yellow_ratio = max(0, min(positive_ratio - 40, 30))
-            game.red_ratio = max(0, 100 - game.green_ratio - game.yellow_ratio)
+        game.green_ratio = positive_ratio
+
+        game.red_ratio = 100 - positive_ratio
 
     return render(request, "main.html", {'games': games})
 
