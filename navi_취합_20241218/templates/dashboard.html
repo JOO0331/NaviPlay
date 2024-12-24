@@ -477,16 +477,55 @@ function updateChart(year) {
         
         const tooltipPositive = bar.querySelector('.tooltip-positive ul');
         const tooltipNegative = bar.querySelector('.tooltip-negative ul');
+        const tooltipContainer = bar.querySelector('.keywords-tooltip');
+        const barContainer = bar.querySelector('.bar-container');
         
-        tooltipPositive.innerHTML = monthData.positive_keywords.map(kw => {
-            const [keyword, count] = Object.entries(kw)[0] || ['', 0];
-            return `<li><span>${keyword}</span><span>${count}</span></li>`;
-        }).join('');
+        if (barContainer._showTooltip) {
+            barContainer.removeEventListener('mouseenter', barContainer._showTooltip);
+            barContainer.removeEventListener('mouseleave', barContainer._hideTooltip);
+        }
         
-        tooltipNegative.innerHTML = monthData.negative_keywords.map(kw => {
-            const [keyword, count] = Object.entries(kw)[0] || ['', 0];
-            return `<li><span>${keyword}</span><span>${count}</span></li>`;
-        }).join('');
+        barContainer._showTooltip = () => {
+            if (total > 0) {
+                tooltipContainer.classList.add('show');
+            }
+        };
+        
+        barContainer._hideTooltip = () => {
+            tooltipContainer.classList.remove('show');
+        };
+        
+        barContainer.addEventListener('mouseenter', barContainer._showTooltip);
+        barContainer.addEventListener('mouseleave', barContainer._hideTooltip);
+        
+        tooltipContainer.classList.remove('show');
+        
+        tooltipPositive.innerHTML = '';
+        tooltipNegative.innerHTML = '';
+        
+        if (total > 0) { 
+            if (monthData.positive > 0) {
+                if (monthData.positive_keywords.length === 0) {
+                    tooltipPositive.innerHTML = '<li><span>키워드가 존재하지 않습니다</span></li>';
+                } else {
+                    tooltipPositive.innerHTML = monthData.positive_keywords.map(kw => {
+                        const [keyword, count] = Object.entries(kw)[0] || ['', 0];
+                        return `<li><span>${keyword}</span><span>${count}</span></li>`;
+                    }).join('');
+                }
+            }
+            
+            if (monthData.negative > 0) {
+                if (monthData.negative_keywords.length === 0) {
+                    tooltipNegative.innerHTML = '<li><span>키워드가 존재하지 않습니다</span></li>';
+                } else {
+                    tooltipNegative.innerHTML = monthData.negative_keywords.map(kw => {
+                        const [keyword, count] = Object.entries(kw)[0] || ['', 0];
+                        return `<li><span>${keyword}</span><span>${count}</span></li>`;
+                    }).join('');
+                }
+            }
+        }
         
         if (total === 0) {
             positiveBar.style.height = '0%';

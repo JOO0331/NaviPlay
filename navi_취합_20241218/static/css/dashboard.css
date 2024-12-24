@@ -470,7 +470,7 @@ button.purchase-btn:hover {
 .similar-games {
     padding-top: 5px;
     padding-bottom: 10px;
-    margin- bottom: 10px;
+    margin-bottom: 10px;
     border-top: 1px solid #ddd;
 }
 
@@ -732,10 +732,6 @@ button.purchase-btn:hover {
     position: relative;
 }
 
-.bar-container:hover .keywords-tooltip {
-    display: block;
-}
-
 .period-bar:first-child .keywords-tooltip {
     left: 0;
     transform: none;
@@ -766,4 +762,8 @@ button.purchase-btn:hover {
 .period-bar:not(:first-child):not(:last-child) .keywords-tooltip::after {
     left: 50%;
     transform: translateX(-50%);
+}
+
+.keywords-tooltip.show {
+    display: block;
 }
