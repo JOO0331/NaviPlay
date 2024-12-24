@@ -69,21 +69,21 @@ h2, h3{
     margin-top: 20px;
 }
 .left-content {
-    background-color: #2b2b3c;
+    background-color: transparent;
     padding: 15px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    width: 65%;
+    box-shadow: none;
     box-sizing: border-box;
+    width: 65%;
 }
 
 .right-content {
-    background-color: #2b2b3c;
+    background-color: transparent;
     padding: 15px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    width: 35%;
+    box-shadow: none;
     box-sizing: border-box;
+    width: 35%;
 }
 
 .game-screenshot-container {
@@ -110,6 +110,9 @@ h2, h3{
     padding-right: 10px;
     box-sizing: border-box;
     max-width: 100%;
+    border-top: 1px solid rgba(143, 114, 166, 0.2);
+    padding-top: 15px;
+    margin-top: 15px;
 }
 .thumbnail-container img {
     width: auto;
@@ -292,7 +295,8 @@ h2, h3{
     gap:5px;
 }
 .card {
-    background-color: #e0e0e0;
+    background-color: transparent;
+    border: 1px solid #444;
     border-radius: 8px;
     width: 250px;
     padding: 16px;
@@ -323,6 +327,7 @@ h2, h3{
     text-overflow: ellipsis;
     display: flex;
     align-items: center;
+    color: #ffffff;
 }
 .card .tags {
     display: flex;
@@ -361,7 +366,7 @@ h2, h3{
 
 .pricing .original-price {
     text-decoration: line-through;
-    color: #595959;
+    color: #888;
     font-size: 16px;
     font-weight: bold;
     margin-left: 12px;
@@ -371,7 +376,7 @@ h2, h3{
 
 .pricing .final-price {
     font-size: 24px;
-    color: #595959;
+    color: #ffffff;
     font-weight: bold;
     margin-left: 12px;
     padding-left: 10px;
@@ -390,7 +395,7 @@ h2, h3{
     height: 100px;
     padding-left: 10px;
     box-sizing: border-box;
-    background-color: #e0e0e0;
+    background-color: transparent;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -413,12 +418,18 @@ h2, h3{
     width: 100%;
     height: auto;
     display: block;
-    margin-bottom:20px;
+    margin-bottom: 0;
+    border-radius: 8px;
+    box-shadow: 
+        0 0 0 3px rgba(143, 114, 166, 0.4),
+        0 0 20px rgba(143, 114, 166, 0.3); 
 }
 .price, .info {
     margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #ddd;
+    padding: 15px;
+    border: 1px solid #444;
+    border-radius: 6px;
+    background-color: transparent;
 }
 .price ul, .info ul {
     list-style-type: none;
@@ -428,9 +439,10 @@ h2, h3{
 .price li, .info li {
     font-size: 1rem;
     margin-bottom: 10px;
+    color: #ffffff;
 }
 .price strong {
-    color: #2c3e50;
+    color: #ffffff;
 }
 
 button.purchase-btn {
@@ -449,20 +461,22 @@ button.purchase-btn:hover {
     background-color: #d19636;
 }
 .screenshot {
-    padding-bottom: 20px;
-    border-bottom: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(143, 114, 166, 0.3);
+    border-radius: 8px;
+    background: linear-gradient(to bottom, rgba(143, 114, 166, 0.1), transparent);
 }
 
 .description {
-    margin:5px 5px 20px 5px;
+    margin: 5px 5px 20px 5px;
     padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
+    background-color: transparent;
+    border: 1px solid #444;
     border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: none;
     overflow-x: hidden;
-    border: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
+    color: #ffffff;
 }
 .period-analysis,
 .keyword-rank,
@@ -497,22 +511,22 @@ button.purchase-btn:hover {
 .info-section {
     margin-bottom: 20px;
     padding: 10px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
+    background-color: transparent;
+    border: 1px solid #444;
     border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: none;
 }
 
 .info-section-title {
     font-weight: bold;
     font-size: 1.1em;
-    color: #34495e;
+    color: #ffffff;
     margin-bottom: 8px;
 }
 
 .info-contents {
     font-size: 0.9em;
-    color: #34495e;
+    color: #ffffff;
     margin-bottom: 8px;
 }
 .positive_negative_ratio {
@@ -523,33 +537,31 @@ button.purchase-btn:hover {
 }
 
 .info-tag {
-    background-color: #757575;
-    color: white;
+    background-color: #444;
+    color: #ffffff;
     flex-wrap: wrap;
     padding: 6px 12px;
     font-size: 0.9em;
     border-radius: 4px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: none;
     transition: background-color 0.3s ease;
     text-decoration: none;
     margin: 5px;
-
 }
 .info-tag a {
-    background-color: #757575;
-    color: white;
+    background-color: #444;
+    color: #ffffff;
     padding: 6px 12px;
     font-size: 0.9em;
     border-radius: 4px;
     white-space: nowrap;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: none;
     transition: background-color 0.3s ease;
     text-decoration: underline;
-}
-.info-tag a:active,
+}.info-tag a:active,
 .info-tag a:focus,
 .info-tag a:visited {
-    background-color: #757575;
+    background-color: #444444;
     color: white;
 }
 
@@ -766,4 +778,41 @@ button.purchase-btn:hover {
 
 .keywords-tooltip.show {
     display: block;
+}
+
+.screenshot h2 {
+    color: #ffcc00;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #444;
+}
+
+.price ul li strong {
+    color: #ffffff;
+}
+
+.price ul li {
+    color: #ffffff;
+}
+
+.right-content > h2 {
+    margin-bottom: 15px;
+    padding: 15px;
+    border: none;
+    background-color: transparent;
+    color: #ffcc00;
+}
+
+.price {
+    margin-top: 0;
+    border: 1px solid #444;
+    border-radius: 6px;
+    background-color: transparent;
+}
+
+.header-image {
+    padding: 15px;
+    border: none;
+    margin-bottom: 20px;
+    background-color: transparent;
 }
