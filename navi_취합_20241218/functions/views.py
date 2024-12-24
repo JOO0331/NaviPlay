@@ -4,6 +4,8 @@ import re
 import json
 import random
 from datetime import datetime
+import os
+from django.conf import settings
 
 import html
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -36,13 +38,13 @@ def preprocess_pc_requirements(pc_requirements):
     return requirements_dict
 
 # 사용 예시
-pc_requirements = {
-    "minimum": '<strong>Minimum:</strong><br><ul class="bb_ul"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS:</strong> Windows 10 (64-bit versions only)<br></li><li><strong>Processor:</strong> Intel Core i5-3570K or AMD FX-8310<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA GeForce GTX 760 or AMD Radeon RX 470<br></li><li><strong>DirectX:</strong> Version 12<br></li><li><strong>Storage:</strong> 15 GB available space</li></ul>',
-    "recommended": '<strong>Recommended:</strong><br><ul class="bb_ul"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS:</strong> Windows 10 (64-bit versions only)<br></li><li><strong>Processor:</strong> Intel Core i7-4790 or AMD Ryzen 3 3200G<br></li><li><strong>Memory:</strong> 12 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA GeForce GTX 1060 6GB / GTX 1660 Super or Radeon RX 590<br></li><li><strong>DirectX:</strong> Version 12<br></li><li><strong>Storage:</strong> 15 GB available space</li></ul>'
-}
+# pc_requirements = {
+#     "minimum": '<strong>Minimum:</strong><br><ul class="bb_ul"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS:</strong> Windows 10 (64-bit versions only)<br></li><li><strong>Processor:</strong> Intel Core i5-3570K or AMD FX-8310<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA GeForce GTX 760 or AMD Radeon RX 470<br></li><li><strong>DirectX:</strong> Version 12<br></li><li><strong>Storage:</strong> 15 GB available space</li></ul>',
+#     "recommended": '<strong>Recommended:</strong><br><ul class="bb_ul"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS:</strong> Windows 10 (64-bit versions only)<br></li><li><strong>Processor:</strong> Intel Core i7-4790 or AMD Ryzen 3 3200G<br></li><li><strong>Memory:</strong> 12 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA GeForce GTX 1060 6GB / GTX 1660 Super or Radeon RX 590<br></li><li><strong>DirectX:</strong> Version 12<br></li><li><strong>Storage:</strong> 15 GB available space</li></ul>'
+# }
 
-result = preprocess_pc_requirements(pc_requirements)
-print(result)
+# result = preprocess_pc_requirements(pc_requirements)
+# print(result)
 
 def game_javaScript(game):
     game_data = {
@@ -56,14 +58,20 @@ def game_javaScript(game):
     return JsonResponse(game_data)
 
 def main_view(request):
-    games = Game.objects.all()
-
     # URL 파라미터에서 카테고리를 가져옴. 기본값은 'popular'
     category = request.GET.get('category', 'popular')
 
     # 필터링 조건 설정
     if category == 'popular':
-        games = Game.objects.all()[:100]
+        json_path = os.path.join(settings.BASE_DIR, 'functions', 'top_100_games.json')
+        try:
+            with open(json_path, 'r', encoding='utf-8') as f:
+                top_games_data = json.load(f)
+        
+            app_ids = [game['app_id'] for game in top_games_data]
+            games = Game.objects.filter(app_id__in=app_ids)
+        except (FileNotFoundError, json.JSONDecodeError):
+            games = Game.objects.all()[:100]
     elif category == 'free':
         games = Game.objects.filter(final_price=0)[:100]
     elif category == 'discounted':
@@ -383,8 +391,12 @@ def dashboard_view(request, app_id):
             'negative_keywords': item['negative_keywords']
         }
 
+    years = sorted(period_data.keys())
     current_year = datetime.now().year
-
+    
+    if current_year not in period_data:
+        current_year = max(years) if years else current_year
+    
     context = {
         'game': game,
         'first_recommendation': first_game,
@@ -395,7 +407,7 @@ def dashboard_view(request, app_id):
         'positive_keywords' : positive_keywords,
         'negative_keywords' : negative_keywords,
         'period_data': json.dumps(period_data),
-        'years': sorted(list(years)),
+        'years': years,
         'current_year': current_year,
         'game_json': game_json.content.decode('utf-8')  # JSON 문자열로 context에 추가
     }
