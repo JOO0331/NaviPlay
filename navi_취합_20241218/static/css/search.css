@@ -10,8 +10,7 @@
 
 /* 검색 옵션 섹션 (좌측) */
 .sidebar.filter-section {
-    flex: 1;
-    width: 25%;
+    width:25%;
     background-color: #2b2b3c;
     padding: 20px;
     border-radius: 10px;
@@ -66,9 +65,8 @@
 
 /* 게임 리스트 섹션 (우측) */
 .main-content {
-    flex: 3;
+    width:75%;
     margin-left: 20px;
-    height:75%;
 }
 
 .main-content h2 {
@@ -148,47 +146,25 @@
     font-size: 0.8em;
 }
 
-/* 점수 섹션 스타일 */
-.score {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    margin-bottom: 10px; /* 다른 요소와의 간격 */
-}
 
-
-/* 배지 스타일 (둥근 직사각형) */
 .badge {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
+    display: inline-block;
     width: 60px;
     height: 60px;
-    padding: 8px 15px; /* 가로 세로 패딩 조정 */
-    font-size: 2.3em; /* 글자 크기 */
-    font-weight: bold;
-    border-radius: 12px; /* 모서리를 둥글게 */
-    color: #fff; /* 글자 색상 */
-    min-width: 60px; /* 최소 너비 */
+    border-radius: 50%;
+    color: #595959;
+    border-radius: 20px;
     text-align: center;
     line-height: 60px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    font-size: 25px;
+    font-weight: bold;
+    border: 2px solid transparent;
+    font-weight: lighter;
 }
-
-/* 배지 색상 */
-.badge.green {
-    background-color: #28a745; /* 초록색 */
-}
-
-.badge.yellow {
-    background-color: #ffc107; /* 노란색 */
-    color: #111; /* 글자 색상 */
-}
-
-.badge.red {
-    background-color: #dc3545; /* 빨간색 */
-}
+.badge.gray { background-color: gray; }
+.badge.green { background-color: #00CE7A; }
+.badge.red { background-color: #FF6874; }
+.badge.yellow { background-color: #FFBD3F; }
 
 
 
@@ -258,48 +234,134 @@
 
 
 
-/* 게임 컨테이너 */
-.game {
-    display: flex;
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    position: relative;
-    flex-wrap: nowrap;
-}
 
-/* game-item: 높이를 고정하지 않고 내용에 맞게 설정 */
+
+
+/* game-item: 기본 스타일 */
 .game-item {
     display: flex;
-    width: 70%;
-    padding: 10px;
-    box-sizing: border-box;
+    align-items: center;
+    background-color: #2b2b3c;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease;
+    cursor: pointer;
     position: relative;
-    transition: all 0.3s ease;
-    height: auto;  /* 내용에 맞게 높이 자동 조정 */
 }
 
-/* game-detail: game 전체 높이에 맞추어 설정 */
+/* game-item hover 시 확대 효과 */
+.game-item:hover {
+    transform: scale(1.02);
+}
+
+/* game-detail: 게임 세부 정보 영역 */
 .game-detail {
     position: absolute;
     top: 0;
-    left: 100%; /* game-item의 오른쪽에 위치 */
-    width: 30%; /* 전체 너비의 30% */
-    height: 100%; /* game의 전체 높이에 맞춤 */
+    right: 100%;
+    width: 30%;
+    padding: 15px;
     background-color: #f9f9f9;
-    color:black;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    display: none; /* 기본적으로 숨김 */
-    padding: 5px;
-    box-sizing: border-box;
-
+    color: #333;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transform: translateX(10px); /* 약간의 간격을 줘서 띄우기 */
+    opacity: 0; /* 처음에는 보이지 않음 */
+    pointer-events: none; /* 클릭 방지 */
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
-/* game-item hover 시 game-detail 보이도록 */
+/* 마우스가 game-item에 있을 때 game-detail 보이게 설정 */
 .game-item:hover .game-detail {
-    display: block;
+    opacity: 1;
+    transform: translateX(0); /* game-item의 오른쪽으로 바로 보이게 */
+    pointer-events: auto; /* 클릭 가능하게 */
 }
+
+/* game-detail의 제목 */
+.game-detail h4 {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #ffcc00;
+    margin-bottom: 10px;
+}
+
+/* game-detail 내에서 game-header 스타일 */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* game-title과 positiveRatio 스타일 */
+.game-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #ffcc00;
+    margin: 0;
+}
+
+.positive-ratio {
+    font-size: 1.1em;
+    color: #28a745; /* 초록색 (긍정) */
+}
+
+/* 나머지 게임 정보 */
+.game-detail p {
+    font-size: 1em;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.game-detail p span {
+    font-weight: bold;
+    color: #ffcc00;
+}
+
+/* 슬라이드 컨테이너 스타일 */
+.slideshow {
+    position: relative;
+    width: 100%; /* 원하는 크기 설정 (100%로 설정하면 부모의 크기에 맞게 설정됨) */
+    height: 200px; /* 슬라이드의 높이를 설정 */
+    overflow: hidden; /* 넘치는 이미지들은 보이지 않게 설정 */
+}
+
+/* 개별 슬라이드 스타일 */
+.slideshow .slide {
+    position: absolute; /* 모든 이미지를 같은 위치에 겹쳐 놓기 위해 absolute 사용 */
+    top: 0;
+    left: 0;
+    width: 100%; /* 슬라이드 이미지 크기를 100%로 설정 */
+    height: 100%; /* 슬라이드 이미지 크기를 100%로 설정 */
+    opacity: 0; /* 기본적으로 모든 이미지는 숨김 */
+    transition: opacity 0.1s ease-in-out; /* 이미지 전환을 부드럽게 하기 위한 트랜지션 */
+}
+
+/* 활성화된 슬라이드 */
+.slideshow .slide.active {
+    opacity: 1; /* 활성화된 이미지만 보이게 함 */
+}
+
+.positive {
+    color: #00CE7A !important;
+}
+.negative {
+    color: #FF6874 !important;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 fieldset {

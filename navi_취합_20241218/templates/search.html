@@ -107,10 +107,16 @@
     <div class="main-content">
         <h2>{{ games.paginator.count }}개의 게임이 검색되었습니다.</h2>
         {% for game in games %}
-        <div class="game-item" onclick="location.href='{% url 'dashboard' game.app_id %}'" 
-            data-positive-ratio="{{ game.positive_ratio }}"
+        <div class="game-item" onclick="location.href='{% url 'dashboard' game.app_id %}'"
+            data-total-reviews="{{ game.total_reviews }}"
+            data-total-positive="{{ game.total_positive }}"
+            data-total-negative="{{ game.game.total_negative }}"
             data-positive-keywords="{{ game.positive_keywords|safe }}"
-            data-negative-keywords="{{ game.negative_keywords|safe }}">
+            data-negative-keywords="{{ game.negative_keywords|safe }}"
+            data-screenshots-path="{{ game.screenshots_path|safe }}"
+            data-tags3="{{ game.tags3|safe }}"
+            data-positive-ratio="{{ game.positive_ratio }}">
+
             <!-- 좌측 이미지 -->
             <div class="game-left">
                 <img src="{{ game.capsule_image }}" alt="{{ game.name }}">
@@ -203,7 +209,11 @@
     });
 });
 
-    // 각 game-item에 마우스가 올라가면 game-detail을 동적으로 추가
+
+
+
+
+// 각 game-item에 마우스가 올라가면 game-detail을 동적으로 추가
 const gameItems = document.querySelectorAll('.game-item');
 
 gameItems.forEach(item => {
@@ -214,30 +224,94 @@ gameItems.forEach(item => {
 
         // game-item- 게임명, 긍정비율, 긍정키워드5, 부정키워드5
         const title = item.querySelector('.game-title').textContent;
-        const positiveRatio = item.getAttribute('data-positive-ratio');
+        const totalReviews = item.getAttribute('data-total-reviews');
+        const totalPositive = item.getAttribute('data-total-positive');
+        const totalNegative = item.getAttribute('data-total-negative');
         const positiveKeywords = item.getAttribute('data-positive-keywords');
         const negativeKeywords = item.getAttribute('data-negative-keywords');
+        const imagesString = item.getAttribute('data-screenshots-path');
+        const tags3 = item.getAttribute('data-tags3');
+        const positiveRatio = item.getAttribute('data-positive-ratio');
 
-        gameDetail.innerHTML = `
-            <h4>${title}</h4>
-            <p>${positiveRatio}점!</p>
-            <p>긍정키워드 : ${positiveKeywords}</p>
-            <p>부정키워드 : ${negativeKeywords}</p>
 
+        // 작은따옴표를 큰따옴표로 바꿔 JSON 파싱 준비
+        const validJsonString = imagesString.replace(/'/g, '"');
+
+        let imagesArray = [];
+
+        try {
+            // 이제 유효한 JSON 형식으로 파싱
+            imagesArray = JSON.parse(validJsonString);
+        } catch (error) {
+            console.error('Invalid JSON format:', error);
+        }
+
+        console.log(imagesArray); // 변환된 이미지 배열
+
+        const slideShow = `
+            <div class="slideshow">
+                ${imagesArray.map((src, idx) => `<img src="${src}" class="slide ${idx === 0 ? 'active' : ''}">`).join('')}
+            </div>
         `;
 
-        // game-item에 game-detail div를 추가
-        item.appendChild(gameDetail);
-    });
+        gameDetail.innerHTML = `
+            <div class="game-header">
+                <h4 class="game-title">${title}</h4>
+                <div class="positive_negative_ratio">
+                    ${
+                      positiveRatio == 0
+                        ? `<span class="badge gray">${positiveRatio}</span>`
+                        : positiveRatio > 70
+                        ? `<span class="badge green">${positiveRatio}</span>`
+                        : positiveRatio > 40
+                        ? `<span class="badge yellow">${positiveRatio}</span>`
+                        : `<span class="badge red">${positiveRatio}</span>`
+                    }
+                </div>
+            </div>
+            <p>${tags3}</p>
+            ${slideShow}
+            <p>전체 리뷰 : ${totalReviews} (${totalPositive}/${totalNegative})</p>
+            <p class="positive">${positiveKeywords}</p>
+            <p class="negative">${negativeKeywords}</p>
+        `;
 
-    item.addEventListener('mouseleave', function() {
-        // 마우스가 떠나면 game-detail div 제거
-        const gameDetail = item.querySelector('.game-detail');
-        if (gameDetail) {
-            item.removeChild(gameDetail);
+        item.appendChild(gameDetail);
+
+        // 슬라이드 전환 로직 추가
+        let currentSlideIndex = 0;
+        const slides = gameDetail.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function changeSlide() {
+            slides[currentSlideIndex].classList.remove('active');
+            currentSlideIndex = (currentSlideIndex + 1) % totalSlides;
+            slides[currentSlideIndex].classList.add('active');
         }
+
+        const slideInterval = setInterval(changeSlide, 1500);
+
+        item.addEventListener('mouseleave', function() {
+            clearInterval(slideInterval); // 슬라이드 전환 멈추기
+            // game-detail div 제거
+            const gameDetail = item.querySelector('.game-detail');
+            if (gameDetail) {
+                item.removeChild(gameDetail);
+            }
+        });
+
     });
 });
+
+
+
+
+
+
+
+
+
+
 
     document.addEventListener('DOMContentLoaded', () => {
     // '정렬순' 드롭다운 관련 요소

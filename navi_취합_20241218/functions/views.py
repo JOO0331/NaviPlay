@@ -37,15 +37,6 @@ def preprocess_pc_requirements(pc_requirements):
         requirements_dict[translated_key] = cleaned_contents
     return requirements_dict
 
-# 사용 예시
-# pc_requirements = {
-#     "minimum": '<strong>Minimum:</strong><br><ul class="bb_ul"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS:</strong> Windows 10 (64-bit versions only)<br></li><li><strong>Processor:</strong> Intel Core i5-3570K or AMD FX-8310<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA GeForce GTX 760 or AMD Radeon RX 470<br></li><li><strong>DirectX:</strong> Version 12<br></li><li><strong>Storage:</strong> 15 GB available space</li></ul>',
-#     "recommended": '<strong>Recommended:</strong><br><ul class="bb_ul"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS:</strong> Windows 10 (64-bit versions only)<br></li><li><strong>Processor:</strong> Intel Core i7-4790 or AMD Ryzen 3 3200G<br></li><li><strong>Memory:</strong> 12 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA GeForce GTX 1060 6GB / GTX 1660 Super or Radeon RX 590<br></li><li><strong>DirectX:</strong> Version 12<br></li><li><strong>Storage:</strong> 15 GB available space</li></ul>'
-# }
-
-# result = preprocess_pc_requirements(pc_requirements)
-# print(result)
-
 def game_javaScript(game):
     game_data = {
         'name': game.name,
@@ -117,18 +108,16 @@ def main_view(request):
 
 def search_view(request):
     query = request.GET.get('search', '')
-
     sort_order = request.GET.get('sort', '')
     number_of_players = request.GET.get('players', '')
-    select_tags = request.GET.get('tags', '')
     price_range = request.GET.get('price', '')
     release_status = request.GET.get('status', None)
+    select_tags = request.GET.get('tags', '')
+    page = request.GET.get('page', 1)
 
     games = Game.objects.all()
-
     if query:
         games = games.filter(name__icontains=query)
-
     if sort_order:
         sort_mappings = {
             'price_desc': '-final_price',
@@ -140,7 +129,6 @@ def search_view(request):
         }
         if sort_order in sort_mappings:
             games = games.order_by(sort_mappings[sort_order])
-
     if number_of_players:
         player_category_mappings = {
             'single_player': 2,
@@ -150,27 +138,8 @@ def search_view(request):
         if number_of_players in player_category_mappings:
             category_id = player_category_mappings[number_of_players]
             games = [game for game in games if any(category['id'] == category_id for category in game.categories)]
-
     if select_tags:
-        if select_tags == 'Indie':
-            games = [game for game in games if 'Indie' in game.tags]
-        elif select_tags == 'Action':
-            games = [game for game in games if 'Action' in game.tags]
-        elif select_tags == 'Adventure':
-            games = [game for game in games if 'Adventure' in game.tags]
-        elif select_tags == 'Causal':
-            games = [game for game in games if 'Causal' in game.tags]
-        elif select_tags == 'Simulation':
-            games = [game for game in games if 'Simulation' in game.tags]
-        elif select_tags == 'Strategy':
-            games = [game for game in games if 'Strategy' in game.tags]
-        elif select_tags == 'RPG':
-            games = [game for game in games if 'RPG' in game.tags]
-        elif select_tags == '2D':
-            games = [game for game in games if '2D' in game.tags]
-        elif select_tags == 'Puzzle':
-            games = [game for game in games if 'Puzzle' in game.tags]
-
+        games = [game for game in games if select_tags in game.tags]
     if price_range:
         price_ranges = {
             '_3': (None, 30000),
@@ -186,16 +155,19 @@ def search_view(request):
                 if (min_price is None or int(float(str(game.final_price))) >= min_price) and
                    (max_price is None or int(float(str(game.final_price))) < max_price)
             ]
-
     if release_status:
         if release_status == 'released':
             games = [game for game in games if not game.coming_soon]
         elif release_status == 'upcoming':
             games = [game for game in games if game.coming_soon]
 
+    # 키워드 분석 및 추가 속성 처리
     for game in games:
         game.final_price_int = int(float(str(game.final_price)))
         game.initial_price_int = int(float(str(game.initial_price)))
+        game.screenshots_path = [screenshot['path_thumbnail'] for screenshot in game.screenshots]
+        game.tags3 = game.tags[:3]
+
         review_analysis = ReviewAnalysis.objects.filter(app_id=game.app_id).first()
         if review_analysis and review_analysis.all_analysis:
             all_analysis = review_analysis.all_analysis
@@ -204,35 +176,35 @@ def search_view(request):
             total_reviews = total_positive + total_negative
             positive_keywords = []
             negative_keywords = []
-
             for keyword_dict in all_analysis[0]['positive_keywords']:
                 for keyword, count in keyword_dict.items():
                     positive_keywords.append((keyword, count))
-
             for keyword_dict in all_analysis[0]['negative_keywords']:
                 for keyword, count in keyword_dict.items():
                     negative_keywords.append((keyword, count))
-
             positive_keywords = [keyword for keyword, count in
                                         sorted(positive_keywords, key=lambda x: x[1], reverse=True)][:5]
             negative_keywords = [keyword for keyword, count in
                                         sorted(negative_keywords, key=lambda x: x[1], reverse=True)][:5]
 
+            game.total_reviews = total_reviews
+            game.total_positive = total_positive
+            game.total_negative = total_negative
             game.positive_keywords = ', '.join(positive_keywords)
             game.negative_keywords = ', '.join(negative_keywords)
-                
             if total_reviews > 10:
                 game.positive_ratio = int(total_positive / total_reviews * 100)
             else:
                 game.positive_ratio = 0
         else:
-            game.positive_ratio = 0
+            game.total_reviews = 0
+            game.total_positive = 0
+            game.total_negative = 0
             game.positive_keywords = []
             game.negative_keywords = []
 
-    page = request.GET.get('page', 1)
+    # 페이징 처리
     paginator = Paginator(games, 20)  # 1페이지당 20개씩
-
     try:
         paginated_games = paginator.page(page)
     except PageNotAnInteger:
@@ -240,14 +212,14 @@ def search_view(request):
     except EmptyPage:
         paginated_games = paginator.page(paginator.num_pages)
 
-    # 페이지 그룹: 10개 단위로 나누기
+    # 페이지 그룹 계산
     current_page = paginated_games.number
     total_pages = paginator.num_pages
     page_group = (current_page - 1) // 10 + 1
     start_page = (page_group - 1) * 10 + 1
     end_page = min(start_page + 9, total_pages)
 
-    # 쿼리 파라미터 유지
+    # 컨텍스트 생성
     context = {
         'games': paginated_games,
         'search_query': query,
