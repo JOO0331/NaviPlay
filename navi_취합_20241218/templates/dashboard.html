@@ -165,6 +165,7 @@
             <div class="section similar-games">
     <h3>유사 게임 추천</h3>
     <div class="card-container">
+        {% if first_recommendation %}
         <!-- 카드 1 -->
         <div class="card" onclick="window.location.href='{% url 'dashboard' first_recommendation.app_id %}'">
             <div class="scoreBackground"></div>
@@ -205,49 +206,55 @@
                 </div>
              </div>
         </div>
+        {% endif %}
 
         <!-- 카드 2, 3 -->
-        {% for rec in random_recommendations %}
-        <div class="card" onclick="window.location.href='{% url 'dashboard' rec.app_id %}'">
-            <div class="scoreBackground"></div>
-            <img src="{{ rec.header_image }}" alt="Game Thumbnail">
-            <h3>{{ rec.name }}</h3>
-            <div class="status">
-                <div class="pricing">
-                    {% if rec.final_price_int == 0 %}
-                    <span class="final-price">Free</span>
-                    {% else %}
-                        {% if rec.discount_percent > 0 %}
-                        <span class="discount">{{ rec.discount_percent }}% Off</span>
-                        <span class="original-price">{{ rec.initial_price_int|intcomma }} ₩</span>
-                        <span class="final-price">{{ rec.final_price_int |intcomma}} ₩</span>
-                    {% else %}
-                        <span class="final-price">{{ rec.final_price_int|intcomma }} ₩</span>
+        {% if random_recommendations %}
+            {% for rec in random_recommendations %}
+            <div class="card" onclick="window.location.href='{% url 'dashboard' rec.app_id %}'">
+                <div class="scoreBackground"></div>
+                <img src="{{ rec.header_image }}" alt="Game Thumbnail">
+                <h3>{{ rec.name }}</h3>
+                <div class="status">
+                    <div class="pricing">
+                        {% if rec.final_price_int == 0 %}
+                        <span class="final-price">Free</span>
+                        {% else %}
+                            {% if rec.discount_percent > 0 %}
+                            <span class="discount">{{ rec.discount_percent }}% Off</span>
+                            <span class="original-price">{{ rec.initial_price_int|intcomma }} ₩</span>
+                            <span class="final-price">{{ rec.final_price_int |intcomma}} ₩</span>
+                        {% else %}
+                            <span class="final-price">{{ rec.final_price_int|intcomma }} ₩</span>
+                        {% endif %}
                     {% endif %}
-                {% endif %}
+                    </div>
+                    <div class="positive_negative_ratio_3">
+                        {% if rec.positive_ratio == 0 %}
+                            <span class="badge gray">{{ rec.positive_ratio }}</span>
+                        {% elif rec.positive_ratio > 70 %}
+                            <span class="badge green">{{ rec.positive_ratio }}</span>
+                        {% elif rec.positive_ratio > 40 %}
+                            <span class="badge yellow">{{ rec.positive_ratio }}</span>
+                        {% else %}
+                            <span class="badge red">{{ rec.positive_ratio }}</span>
+                        {% endif %}
+                    </div>
                 </div>
-                <div class="positive_negative_ratio_3">
-                    {% if rec.positive_ratio == 0 %}
-                        <span class="badge gray">{{ rec.positive_ratio }}</span>
-                    {% elif rec.positive_ratio > 70 %}
-                        <span class="badge green">{{ rec.positive_ratio }}</span>
-                    {% elif rec.positive_ratio > 40 %}
-                        <span class="badge yellow">{{ rec.positive_ratio }}</span>
-                    {% else %}
-                        <span class="badge red">{{ rec.positive_ratio }}</span>
-                    {% endif %}
+                <div class="tag-box">
+                    <div class="tags">
+                       {% for genre in rec.genres|slice:":2" %}
+                           <span class="info-tag">{{ genre.description }}</span>
+                       {% endfor %}
+                    </div>
                 </div>
             </div>
-            <div class="tag-box">
-                <div class="tags">
-                   {% for genre in rec.genres|slice:":2" %}
-                       <span class="info-tag">{{ genre.description }}</span>
-                   {% endfor %}
-                </div>
-            </div>
-        </div>
+            {% endfor %}
+        {% endif %}
 
-        {% endfor %}
+        {% if not first_recommendation and not random_recommendations %}
+            <p>추천 게임이 없습니다.</p>
+        {% endif %}
     </div>
 </div>
         </section>

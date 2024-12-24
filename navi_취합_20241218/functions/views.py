@@ -329,49 +329,54 @@ def dashboard_view(request, app_id):
 
     recommendations = game.recommendations
 
-    first_id = recommendations[0]['app_id']
-    first_game = Game.objects.get(app_id=first_id)
-    first_game.final_price_int = int(float(str(first_game.final_price)))
-    first_game.initial_price_int = int(float(str(first_game.initial_price)))
+    first_game = None
+    random_games = []
+    
+    if recommendations:
+        first_id = recommendations[0]['app_id']
+        first_game = Game.objects.get(app_id=first_id)
+        first_game.final_price_int = int(float(str(first_game.final_price)))
+        first_game.initial_price_int = int(float(str(first_game.initial_price)))
 
-    first_game_review = ReviewAnalysis.objects.filter(app_id=first_id).first()
-    if first_game_review and first_game_review.all_analysis:
-        total_positive_first_game = first_game_review.all_analysis[0]['positive']
-        total_negative_first_game = first_game_review.all_analysis[0]['negative']
-    else:
-        total_positive_first_game = 0
-        total_negative_first_game = 0
-
-    total_reviews_first_game = total_positive_first_game + total_negative_first_game
-    if total_reviews_first_game > 10:
-        positive_ratio_first_game = int(total_positive_first_game / total_reviews_first_game * 100)
-    else:
-        positive_ratio_first_game = 0
-
-    first_game.positive_ratio = positive_ratio_first_game
-
-    remain_ids = [rec['app_id'] for rec in recommendations[1:]]
-    random_ids = random.sample(remain_ids, 2)
-    random_games = [Game.objects.get(app_id=rec_id) for rec_id in random_ids]
-
-    for random_game in random_games:
-        random_game.final_price_int = int(float(str(random_game.final_price)))
-        random_game.initial_price_int = int(float(str(random_game.initial_price)))
-
-        random_game_review = ReviewAnalysis.objects.filter(app_id=random_game.app_id).first()
-        if random_game_review and random_game_review.all_analysis:
-            total_positive_random = random_game_review.all_analysis[0]['positive']
-            total_negative_random = random_game_review.all_analysis[0]['negative']
+        first_game_review = ReviewAnalysis.objects.filter(app_id=first_id).first()
+        if first_game_review and first_game_review.all_analysis:
+            total_positive_first_game = first_game_review.all_analysis[0]['positive']
+            total_negative_first_game = first_game_review.all_analysis[0]['negative']
         else:
-            total_positive_random = 0
-            total_negative_random = 0
-        total_reviews_random = total_positive_random + total_negative_random
-        if total_reviews_random > 10:
-            positive_ratio_random = int(total_positive_random / total_reviews_random * 100)
-        else:
-            positive_ratio_random = 0
+            total_positive_first_game = 0
+            total_negative_first_game = 0
 
-        random_game.positive_ratio = positive_ratio_random
+        total_reviews_first_game = total_positive_first_game + total_negative_first_game
+        if total_reviews_first_game > 10:
+            positive_ratio_first_game = int(total_positive_first_game / total_reviews_first_game * 100)
+        else:
+            positive_ratio_first_game = 0
+
+        first_game.positive_ratio = positive_ratio_first_game
+
+        if len(recommendations) > 1:
+            remain_ids = [rec['app_id'] for rec in recommendations[1:]]
+            random_ids = random.sample(remain_ids, min(2, len(remain_ids)))
+            random_games = [Game.objects.get(app_id=rec_id) for rec_id in random_ids]
+
+            for random_game in random_games:
+                random_game.final_price_int = int(float(str(random_game.final_price)))
+                random_game.initial_price_int = int(float(str(random_game.initial_price)))
+
+                random_game_review = ReviewAnalysis.objects.filter(app_id=random_game.app_id).first()
+                if random_game_review and random_game_review.all_analysis:
+                    total_positive_random = random_game_review.all_analysis[0]['positive']
+                    total_negative_random = random_game_review.all_analysis[0]['negative']
+                else:
+                    total_positive_random = 0
+                    total_negative_random = 0
+                total_reviews_random = total_positive_random + total_negative_random
+                if total_reviews_random > 10:
+                    positive_ratio_random = int(total_positive_random / total_reviews_random * 100)
+                else:
+                    positive_ratio_random = 0
+
+                random_game.positive_ratio = positive_ratio_random
 
     years = set()
     period_data = {}
