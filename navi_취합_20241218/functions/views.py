@@ -70,6 +70,8 @@ def main_view(request):
         
             app_ids = [game['app_id'] for game in top_games_data]
             games = Game.objects.filter(app_id__in=app_ids)
+            games_dict = {game.app_id: game for game in games}
+            games = [games_dict[app_id] for app_id in app_ids if app_id in games_dict]
         except (FileNotFoundError, json.JSONDecodeError):
             games = Game.objects.all()[:100]
     elif category == 'free':
