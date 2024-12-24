@@ -18,6 +18,7 @@
         Kakao.isInitialized();
 </script>
 
+{% load humanize %}
 <div class="container">
     <div class="multi">
             <h1>{{ game.name }}</h1>
@@ -142,16 +143,22 @@
                                     <div class="youtube-info3">
                                         <span>채널명: {{ youtube.channelName }}</span>
                                         <span>업로드날짜: {{ youtube.publishedAt }}</span>
-                                        <span>조회수: {{ youtube.viewCount }}</span>
+                                        <span>조회수: {{ youtube.viewCount|intcomma  }}</span>
                                     </div>
                                 </div>
                             </div>
                             <button class="summary-btn" onclick="toggleSummary('{{ youtube.videoId }}')">영상요약</button>
-                            <div id="summary-content-{{ youtube.videoId }}" class="summary-content" style="display: none;">
+                            <div id="summary-content-{{ youtube.videoId }}" class="summary-content" style="white-space: pre-line;">
                                 <p>{{ youtube.summary }}</p>
                             </div>
                         </div>
                     {% endfor %}
+                </div>
+                <div class="youtube-search">
+                    <a href="https://www.youtube.com/results?search_query={{ game.name }} 리뷰"  target="_blank" class="youtube-search-link">
+                        <span class="youtube-icon">▶</span>
+                        <span>Search on YouTube</span>
+                    </a>
                 </div>
             </div>
 
@@ -171,10 +178,10 @@
                     {% else %}
                         {% if first_recommendation.discount_percent > 0 %}
                         <span class="discount">{{ first_recommendation.discount_percent }}% Off</span>
-                        <span class="original-price">{{ first_recommendation.initial_price_int }} ₩</span>
-                        <span class="final-price">{{ first_recommendation.final_price_int }} ₩</span>
+                        <span class="original-price">{{ first_recommendation.initial_price_int|intcomma }} ₩</span>
+                        <span class="final-price">{{ first_recommendation.final_price_int|intcomma }} ₩</span>
                     {% else %}
-                        <span class="final-price">{{ first_recommendation.final_price_int }} ₩</span>
+                        <span class="final-price">{{ first_recommendation.final_price_int|intcomma }} ₩</span>
                     {% endif %}
                 {% endif %}
                 </div>
@@ -212,10 +219,10 @@
                     {% else %}
                         {% if rec.discount_percent > 0 %}
                         <span class="discount">{{ rec.discount_percent }}% Off</span>
-                        <span class="original-price">{{ rec.initial_price_int }} ₩</span>
-                        <span class="final-price">{{ rec.final_price_int }} ₩</span>
+                        <span class="original-price">{{ rec.initial_price_int|intcomma }} ₩</span>
+                        <span class="final-price">{{ rec.final_price_int |intcomma}} ₩</span>
                     {% else %}
-                        <span class="final-price">{{ rec.final_price_int }} ₩</span>
+                        <span class="final-price">{{ rec.final_price_int|intcomma }} ₩</span>
                     {% endif %}
                 {% endif %}
                 </div>
@@ -258,9 +265,9 @@
                         <li><strong>가격:</strong> Free</li>
                     {% else %}
                         {% if game.discount_percent > 0 %}
-                            <li><strong>할인율:</strong> {{ game.discount_percent }}% Off</li>
-                            <li><strong>정상가:</strong> {{ game.initial_price_int }} ₩</li>
-                            <li><strong>할인가:</strong> {{ game.final_price_int }} ₩</li>
+                            <li> <div class="discount">{{ game.discount_percent }}% Off</div> </li>
+                            <li><strong>정상가:</strong> <del>{{ game.initial_price_int|intcomma }}₩</del> </li>
+                            <li><strong>할인가:</strong> {{ game.final_price_int |intcomma}} ₩</li>
                         {% else %}
                             <li><strong>가격:</strong> {{ game.final_price_int }} ₩</li>
                         {% endif %}
@@ -326,7 +333,7 @@
                 <div class="info-section">
                     <div class="info-section-title">출시일</div>
                     <div class="info-list">
-                            <p style="font-size: 1.1em; color: #34495e; margin-bottom: 8px;">{{ game.release_date }}</p>
+                            <p style="font-size: 1.1em; color: white; margin-bottom: 8px;">{{ game.release_date }}</p>
                     </div>
                 </div>
 
@@ -334,7 +341,7 @@
                     <div class="info-section-title">개발사</div>
                     <div class="info-list">
                         {% for developer in game.developers %}
-                            <p style="font-size: 1.1em; color: #34495e; margin-bottom: 8px;">{{ developer }}</p>
+                            <p style="font-size: 1.1em; color: white; margin-bottom: 8px;">{{ developer }}</p>
                         {% endfor %}
                     </div>
                 </div>
@@ -343,7 +350,7 @@
                     <div class="info-section-title">배급사</div>
                     <div class="info-list">
                         {% for publisher in game.publishers %}
-                            <p style="font-size: 1.1em; color: #34495e; margin-bottom: 8px;">{{ publisher }}</p>
+                            <p style="font-size: 1.1em; color: white; margin-bottom: 8px;">{{ publisher }}</p>
                         {% endfor %}
                     </div>
                 </div>
@@ -352,7 +359,7 @@
                     <div class="info-section-title">PC 요구 사항</div>
                     <div class="info-list">
                         {% for category, requirements in game.pc_requirements.items %}
-                            <h3 style="color: #2c3e50; margin-top: 20px;">{{ category }}</h3>
+                            <h3 style="color: white; margin-top: 20px;">{{ category }}</h3>
                             <ul style="margin-left: 20px;">
                                 {% for requirement in requirements %}
                                     <li style="font-size: 1.1em; color: #34495e; margin-bottom: 8px;">{{ requirement }}</li>

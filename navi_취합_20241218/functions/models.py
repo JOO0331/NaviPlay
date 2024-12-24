@@ -97,7 +97,10 @@ class Youtube(models.Model):
     publishedAt = models.DateTimeField(db_index=True)
     viewCount = models.BigIntegerField(default=0)
     summary = models.TextField()
-#
+
+    class Meta:
+        db_table = 'youtube'
+
 #     # class Meta:
 #     #     indexes = [
 #     #         models.Index(fields=['game']),  # 특정 게임의 유튜브 정보 조회

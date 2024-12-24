@@ -224,11 +224,13 @@ h2, h3{
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
+    color: #ffcc00;
 }
 .youtube-info span {
     margin-bottom: 10px;
 }
 .youtube-info2 {
+    color: white;
     display: flex;
 }
 .youtube-info2 img {
@@ -280,6 +282,46 @@ h2, h3{
     z-index: 1;
     width: 80%;
     height: 70%;
+}
+.youtube-search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.youtube-search-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 25px;
+    background-color: #FF0000; /* 유튜브 레드 */
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.youtube-search-link:hover {
+    background-color: #CC0000; /* 어두운 레드 */
+    transform: scale(1.05);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+}
+
+.youtube-icon {
+    font-size: 1.5rem;
+    background: white;
+    color: #FF0000;
+    border-radius: 50%;
+    padding: 5px 10px;
+    display: inline-block;
+    line-height: 1;
+    text-align: center;
+    font-weight: bold;
 }
 
 .similar-games {
@@ -351,17 +393,16 @@ h2, h3{
     align-items: center;
 }
 .pricing .discount {
-    color: #ff5f5f; /* 밝은 빨간색, 네온 느낌 */
+    background-color: #dc3545;
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 5px;
     font-weight: bold;
-    font-size: 18px;
-    background-color: rgba(255, 87, 34, 0.2); /* 얇은 오렌지 배경 (네온 느낌) */
-    padding: 10px 10px;
-    border-radius: 100%;
-    display: inline-block;
-    box-shadow:
-        0 0 8px rgba(255, 87, 34, 0.7),  /* 오렌지 네온 그림자 */
-        0 0 15px rgba(255, 87, 34, 0.5); /* 좀 더 큰 오렌지 네온 그림자 */
-    transition: box-shadow 0.3s ease, transform 0.2s ease; /* 변화 애니메이션 */
+    font-size: 0.8em;
+    width: 60px; /* 가로 길이 조정 */
+    margin-bottom: 5px;
+    text-align: center;
+
 }
 
 .pricing .original-price {
@@ -430,6 +471,22 @@ h2, h3{
     border: 1px solid #444;
     border-radius: 6px;
     background-color: transparent;
+}
+price, .discount {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 0.8em;
+    width: 60px; /* 가로 길이 조정 */
+    margin-bottom: 5px;
+    text-align: center;
+}
+del {
+    color: #888; /* 텍스트 색상을 흐리게 */
+    text-decoration: line-through; /* 취소선 */
+    font-style: italic; /* 기울임꼴 (선택 사항) */
 }
 .price ul, .info ul {
     list-style-type: none;
@@ -647,6 +704,7 @@ button.purchase-btn:hover {
 .chart-legend {
     display: flex;
     gap: 20px;
+    color:white;
     align-items: center;
 }
 
@@ -816,3 +874,5 @@ button.purchase-btn:hover {
     margin-bottom: 20px;
     background-color: transparent;
 }
+
+
