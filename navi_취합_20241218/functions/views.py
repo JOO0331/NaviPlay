@@ -416,15 +416,24 @@ def tags_view(request):
     # 태그별 등장 횟수를 기준으로 정렬 후 상위 50개 선택
     top_tags = [tag for tag, _ in tag_counter.most_common(50)]
 
-    # Game 모델에서 해당 태그를 포함하는 게임 필터링
-    games = Game.objects.filter(tags__icontains=tag_name).order_by('name')
-    
+    games = Game.objects.filter(tags__icontains=tag_name).only(
+        'name', 'final_price', 'initial_price', 'header_image', 'app_id', 'discount_percent'
+    ).order_by('name')
+
+    processed_games = []
     for game in games:
-        game.final_price_int = int(float(str(game.final_price)))
-        game.initial_price_int = int(float(str(game.initial_price)))
+        game_dict = {
+            'name': game.name,
+            'header_image': game.header_image,
+            'app_id': game.app_id,
+            'discount_percent': game.discount_percent,
+            'final_price_int': int(float(str(game.final_price))) if game.final_price else 0,
+            'initial_price_int': int(float(str(game.initial_price))) if game.initial_price else 0
+        }
+        processed_games.append(game_dict)
 
     # Paginator로 페이지네이션 (9개씩)
-    paginator = Paginator(games, 9)
+    paginator = Paginator(processed_games, 9)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
