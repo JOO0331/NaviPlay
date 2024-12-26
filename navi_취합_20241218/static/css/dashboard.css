@@ -23,14 +23,16 @@ h2, h3{
 }
 
 .badge {
-    display: inline-block;
+    display: flex;
     width: 15%;
     aspect-ratio: 1;
     border-radius: 50%;
     color: #595959;
     border-radius: 20px;
     text-align: center;
-    line-height: 60px;
+    justify-content: center;
+    align-items: center;
+
     font-size: 25px;
     font-weight: bold;
     border: 2px solid transparent;
