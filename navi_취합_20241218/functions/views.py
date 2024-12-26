@@ -170,6 +170,7 @@ def search_view(request):
         game.initial_price_int = int(float(str(game.initial_price)))
         game.screenshots_path = [screenshot['path_thumbnail'] for screenshot in game.screenshots]
         game.tags3 = game.tags[:3]
+        game.tags3 = ', '.join(game.tags3)
 
         review_analysis = ReviewAnalysis.objects.filter(app_id=game.app_id).first()
         if review_analysis and review_analysis.all_analysis:

@@ -88,9 +88,6 @@
     cursor: pointer;
 }
 
-.game-item:hover {
-    transform: scale(1.02);
-}
 
 /* 좌측 이미지 스타일 */
 .game-left {
@@ -251,33 +248,29 @@
     position: relative;
 }
 
-/* game-item hover 시 확대 효과 */
-.game-item:hover {
-    transform: scale(1.02);
-}
 
-/* game-detail: 게임 세부 정보 영역 */
 .game-detail {
     position: absolute;
     top: 0;
     right: 100%;
-    width: 30%;
+    margin-right: 20px;
+    width: 35%; /* 너비를 25%로 설정 */
     padding: 15px;
     background-color: #f9f9f9;
     color: #333;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    transform: translateX(10px); /* 약간의 간격을 줘서 띄우기 */
-    opacity: 0; /* 처음에는 보이지 않음 */
-    pointer-events: none; /* 클릭 방지 */
+    opacity: 0;
+    pointer-events: none;
     transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
+
+
+
 
 /* 마우스가 game-item에 있을 때 game-detail 보이게 설정 */
 .game-item:hover .game-detail {
     opacity: 1;
-    transform: translateX(0); /* game-item의 오른쪽으로 바로 보이게 */
-    pointer-events: auto; /* 클릭 가능하게 */
 }
 
 /* game-detail의 제목 */
