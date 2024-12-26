@@ -188,7 +188,7 @@
                 </div>
                 <div class="positive_negative_ratio_2">
                     {% if first_recommendation.positive_ratio == 0 %}
-                        <span class="badge gray">{{ first_recommendation.positive_ratio }}</span>
+                        <span class="badge gray">?</span>
                     {% elif first_recommendation.positive_ratio > 70 %}
                         <span class="badge green">{{ first_recommendation.positive_ratio }}</span>
                     {% elif first_recommendation.positive_ratio > 40 %}
@@ -231,7 +231,7 @@
                     </div>
                     <div class="positive_negative_ratio_3">
                         {% if rec.positive_ratio == 0 %}
-                            <span class="badge gray">{{ rec.positive_ratio }}</span>
+                            <span class="badge gray">?</span>
                         {% elif rec.positive_ratio > 70 %}
                             <span class="badge green">{{ rec.positive_ratio }}</span>
                         {% elif rec.positive_ratio > 40 %}
