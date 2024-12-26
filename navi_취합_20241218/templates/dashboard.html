@@ -188,13 +188,13 @@
                 </div>
                 <div class="positive_negative_ratio_2">
                     {% if first_recommendation.positive_ratio == 0 %}
-                        <span class="badge gray">?</span>
+                        <span class="badge2 gray">?</span>
                     {% elif first_recommendation.positive_ratio > 70 %}
-                        <span class="badge green">{{ first_recommendation.positive_ratio }}</span>
+                        <span class="badge2 green">{{ first_recommendation.positive_ratio }}</span>
                     {% elif first_recommendation.positive_ratio > 40 %}
-                        <span class="badge yellow">{{ first_recommendation.positive_ratio }}</span>
+                        <span class="badge2 yellow">{{ first_recommendation.positive_ratio }}</span>
                     {% else %}
-                        <span class="badge red">{{ first_recommendation.positive_ratio }}</span>
+                        <span class="badge2 red">{{ first_recommendation.positive_ratio }}</span>
                     {% endif %}
                 </div>
             </div>
@@ -231,13 +231,13 @@
                     </div>
                     <div class="positive_negative_ratio_3">
                         {% if rec.positive_ratio == 0 %}
-                            <span class="badge gray">?</span>
+                            <span class="badge2 gray">?</span>
                         {% elif rec.positive_ratio > 70 %}
-                            <span class="badge green">{{ rec.positive_ratio }}</span>
+                            <span class="badge2 green">{{ rec.positive_ratio }}</span>
                         {% elif rec.positive_ratio > 40 %}
-                            <span class="badge yellow">{{ rec.positive_ratio }}</span>
+                            <span class="badge2 yellow">{{ rec.positive_ratio }}</span>
                         {% else %}
-                            <span class="badge red">{{ rec.positive_ratio }}</span>
+                            <span class="badge2 red">{{ rec.positive_ratio }}</span>
                         {% endif %}
                     </div>
                 </div>
@@ -297,7 +297,7 @@
                                 {% else %}
                                     <span class="badge red">{{ positive_ratio }}</span>
                                 {% endif %}
-                                    <img src="{% static 'imgs/logo.png' %}" alt="Logo" style="width: 270px; height: auto;">
+                                    <img src="{% static 'imgs/logo.png' %}" alt="Logo" style="width: 70%; height: auto;">
                                 </div>
                         </div>
                 </div>
@@ -387,6 +387,8 @@
 function saveImg() {
     const container = document.querySelector(".container");
 
+    // 배경 색상 변경 (원하는 색상으로 변경)
+    container.style.backgroundColor = "#1E1E1E";
     // 캡처용 복제 노드 생성
     const clone = container.cloneNode(true);
 
@@ -485,7 +487,6 @@ function toggleSummary(id) {
         window.removeEventListener('resize', adjustBoxSize);
     }
 }
-
 function setSummarySize(imgElement, content) {
     const imgWidth = imgElement.offsetWidth; // 이미지 현재 너비
     const imgHeight = (imgElement.naturalHeight / imgElement.naturalWidth) * imgWidth; // 원본 비율 기반 높이 계산
@@ -528,6 +529,8 @@ function updateChart(year) {
         barContainer._showTooltip = () => {
             if (total > 0) {
                 tooltipContainer.classList.add('show');
+
+
             }
         };
         

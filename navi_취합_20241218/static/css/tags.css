@@ -9,7 +9,7 @@
 
 /* 좌측 태그 섹션 */
 .tags-section {
-    flex: 1;
+
     min-width: 25%;
     background-color: #2b2b3c;
     padding: 20px;
@@ -52,7 +52,7 @@
 }
 /* 우측 게임 섹션 */
 .games-section {
-    flex: 3;
+    width:75%;
     background-color: #2b2b3c;
     padding: 20px;
     border-radius: 10px;
@@ -73,7 +73,7 @@
 }
 
 .game-card {
-    width: 400px;
+    width: 100%;
     height: auto;
     background-color: #e0e0e0;
     border-radius: 10px;
@@ -99,10 +99,14 @@
     margin: 10px 30px 10px 30px;
     color: #595959;
     padding-bottom: 8px 0;
-    height: 50px;
+    height: 45px;
     border-bottom: 1px solid #444;
     text-overflow: ellipsis;
-    display: flex;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;       /* 텍스트가 한 줄로 잘리게 설정 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;            /* 넘치는 텍스트를 숨김 */
+    white-space: normal;         /* 줄 바꿈을 허용 */
     align-items: center;
     justify-content: center;
     text-align: center;
