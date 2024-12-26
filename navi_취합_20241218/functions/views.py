@@ -120,7 +120,8 @@ def search_view(request):
 
     # 필요한 필드만 가져오기
     games = Game.objects.all().only(
-        'name', 'final_price', 'initial_price', 'release_date', 'coming_soon', 'categories', 'tags', 'screenshots', 'discount_percent'
+        'name', 'final_price', 'initial_price', 'release_date', 'coming_soon', 
+        'categories', 'tags', 'screenshots', 'discount_percent', 'capsule_image', 'app_id'
     )
 
     # 이름 검색 필터
@@ -143,11 +144,14 @@ def search_view(request):
     if select_tags:
         games = games.filter(tags__icontains=select_tags)
 
+    # 모든 게임을 메모리로 가져오기 (이 시점에서 QuerySet 실행)
+    games_list = list(games)
+    
     # 출시 상태 필터
     if release_status == 'released':
-        games = [game for game in games if not game.coming_soon]
+        games_list = [game for game in games_list if not game.coming_soon]
     elif release_status == 'upcoming':
-        games = [game for game in games if game.coming_soon]
+        games_list = [game for game in games_list if game.coming_soon]
 
     # 플레이어 조건 필터 (Python에서 필터링)
     if number_of_players:
@@ -158,7 +162,7 @@ def search_view(request):
         }
         if number_of_players in player_category_mappings:
             category_id = player_category_mappings[number_of_players]
-            games = [game for game in games if any(category['id'] == category_id for category in game.categories)]
+            games_list = [game for game in games_list if any(category['id'] == category_id for category in game.categories)]
 
     # 가격 범위 필터 (Python에서 필터링)
     if price_range:
@@ -173,16 +177,61 @@ def search_view(request):
             min_price, max_price = price_ranges[price_range]
             min_price = float(min_price) if min_price is not None else 0
             max_price = float(max_price) if max_price is not None else float('inf')
-            games = [game for game in games if min_price <= game.final_price < max_price]
+            games_list = [game for game in games_list if min_price <= game.final_price < max_price]
 
-    # 페이징 처리
-    paginator = Paginator(games, 20)  # 1페이지당 20개씩
+    processed_games = []
+    for game in games_list:
+        game_dict = {
+            'name': game.name,
+            'app_id': game.app_id,
+            'final_price_int': int(float(str(game.final_price))),
+            'initial_price_int': int(float(str(game.initial_price))),
+            'discount_percent': game.discount_percent,
+            'screenshots_path': [screenshot['path_thumbnail'] for screenshot in game.screenshots],
+            'tags3': ', '.join(game.tags[:3]) if game.tags else [],
+            'capsule_image': game.capsule_image,
+            'categories': game.categories,
+            'release_date': game.release_date,
+            'total_reviews': 0,
+            'total_positive': 0,
+            'total_negative': 0,
+            'positive_ratio': 0,
+            'positive_keywords': '',
+            'negative_keywords': ''
+        }
+        processed_games.append(game_dict)
+
+    paginator = Paginator(processed_games, 20)
     try:
         paginated_games = paginator.page(page)
     except PageNotAnInteger:
         paginated_games = paginator.page(1)
     except EmptyPage:
         paginated_games = paginator.page(paginator.num_pages)
+
+    current_page_game_ids = [game['app_id'] for game in paginated_games.object_list]
+
+    review_analyses = {
+        ra.app_id: ra 
+        for ra in ReviewAnalysis.objects.filter(app_id__in=current_page_game_ids).only('app_id', 'all_analysis')
+    }
+
+    for game in paginated_games.object_list:
+        review_analysis = review_analyses.get(game['app_id'])
+        if review_analysis and review_analysis.all_analysis:
+            all_analysis = review_analysis.all_analysis
+            total_positive = all_analysis[0]['positive']
+            total_negative = all_analysis[0]['negative']
+            total_reviews = total_positive + total_negative
+            
+            game.update({
+                'total_reviews': total_reviews,
+                'total_positive': total_positive,
+                'total_negative': total_negative,
+                'positive_ratio': int(total_positive / total_reviews * 100) if total_reviews > 10 else 0,
+                'positive_keywords': ', '.join([list(kw.keys())[0] for kw in all_analysis[0]['positive_keywords'][:5]]),
+                'negative_keywords': ', '.join([list(kw.keys())[0] for kw in all_analysis[0]['negative_keywords'][:5]])
+            })
 
     # AJAX 요청 처리
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
@@ -198,6 +247,13 @@ def search_view(request):
                 'categories': game.categories,
                 'tags': game.tags,
                 'screenshots': [screenshot['path_thumbnail'] for screenshot in game.screenshots],
+                'capsule_image': game.capsule_image,
+                'total_reviews': game.total_reviews,
+                'total_positive': game.total_positive,
+                'total_negative': game.total_negative,
+                'positive_ratio': game.positive_ratio,
+                'positive_keywords': game.positive_keywords,
+                'negative_keywords': game.negative_keywords,
             }
             for game in paginated_games
         ]
