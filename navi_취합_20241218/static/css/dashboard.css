@@ -875,4 +875,38 @@ button.purchase-btn:hover {
     background-color: transparent;
 }
 
+.pc-requirements {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.requirement-category {
+    background-color: rgba(52, 73, 94, 0.1);
+    border-radius: 4px;
+    padding: 15px;
+}
+
+.requirement-category h3 {
+    color: #ffcc00;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 8px;
+}
+
+.requirement-category ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.requirement-category li {
+    color: #ffffff;
+    font-size: 0.9em;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
 

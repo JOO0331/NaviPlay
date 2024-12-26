@@ -364,14 +364,16 @@
 
                 <div class="info-section">
                     <div class="info-section-title">PC 요구 사항</div>
-                    <div class="info-list">
+                    <div class="pc-requirements">
                         {% for category, requirements in game.pc_requirements.items %}
-                            <h3 style="color: white; margin-top: 20px;">{{ category }}</h3>
-                            <ul style="margin-left: 20px;">
-                                {% for requirement in requirements %}
-                                    <li style="font-size: 1.1em; color: #34495e; margin-bottom: 8px;">{{ requirement }}</li>
-                                {% endfor %}
-                            </ul>
+                            <div class="requirement-category">
+                                <h3>{{ category }}</h3>
+                                <ul>
+                                    {% for requirement in requirements %}
+                                        <li>{{ requirement }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         {% endfor %}
                     </div>
                 </div>
