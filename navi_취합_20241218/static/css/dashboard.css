@@ -215,6 +215,7 @@ h2, h3{
     text-align: center;
     position: relative;
     display: inline-block;
+    overflow: hidden;
 }
 .video img {
     width: 100%;
@@ -225,6 +226,7 @@ h2, h3{
     flex-direction: column;
     margin-bottom: 20px;
     color: #ffcc00;
+    font-size: 1.2em;
 }
 .youtube-info span {
     margin-bottom: 10px;
@@ -232,6 +234,9 @@ h2, h3{
 .youtube-info2 {
     color: white;
     display: flex;
+    align-items: center; /* 수직 정렬 */
+
+
 }
 .youtube-info2 img {
     width: 70px;
@@ -252,6 +257,7 @@ h2, h3{
     margin-top: 10px;
     font-size: 0.9em;
 }
+
 .summary-btn {
     position: absolute;
     top: 10px;
@@ -261,7 +267,9 @@ h2, h3{
     color: white;
     border: none;
     cursor: pointer;
+    margin-bottom: 10px;
     z-index: 2;
+    transition: background-color 0.3s ease;
 }
 .summary-btn.active {
     background-color: #d19636;
@@ -270,18 +278,18 @@ h2, h3{
     background-color: #d19636;
 }
 .summary-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px;
-    background-color: rgba(0, 0, 0, 0.7);
+    position: absolute; /* 부모 요소를 기준으로 배치 */
+    top: 0; /* 부모의 상단에 위치 */
+    left: 0; /* 부모의 왼쪽에 위치 */
+    transform: translate(0, 0);
+    background-color: rgba(0, 0, 0, 0.85);
     color: white;
     border-radius: 8px;
     display: none;
-    z-index: 1;
-    width: 80%;
-    height: 70%;
+    overflow-y: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 .youtube-search {
     display: flex;

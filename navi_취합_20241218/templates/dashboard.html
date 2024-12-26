@@ -143,7 +143,7 @@
                                     <div class="youtube-info3">
                                         <span>채널명: {{ youtube.channelName }}</span>
                                         <span>업로드날짜: {{ youtube.publishedAt }}</span>
-                                        <span>조회수: {{ youtube.viewCount|intcomma  }}</span>
+                                        <!--<span>조회수: {{ youtube.viewCount|intcomma  }}</span> -->
                                     </div>
                                 </div>
                             </div>
@@ -458,6 +458,20 @@ function changeImage(thumbnail) {
 function toggleSummary(id) {
     const button = event.target;
     const content = document.getElementById(`summary-content-${id}`);  // 해당 video_id를 가진 요약 내용 선택
+    const videoElement = button.closest('.video'); // 버튼이 포함된 .video 컨테이너
+    const imgElement = videoElement.querySelector('img');
+
+    const adjustBoxSize = () => {
+        setSummarySize(imgElement, content);
+    };
+
+    if (imgElement.complete) {
+        setSummarySize(imgElement, content);
+    } else {
+        imgElement.addEventListener('load', () => {
+
+        });
+    }
 
     // 버튼 클릭 시 색상 토글
     button.classList.toggle('active');
@@ -465,9 +479,19 @@ function toggleSummary(id) {
     // 요약 내용 보이기/숨기기
     if (content.style.display === 'none' || content.style.display === '') {
         content.style.display = 'block';  // 내용 보이기
+        window.addEventListener('resize', adjustBoxSize);
     } else {
         content.style.display = 'none';   // 내용 숨기기
+        window.removeEventListener('resize', adjustBoxSize);
     }
+}
+
+function setSummarySize(imgElement, content) {
+    const imgWidth = imgElement.offsetWidth; // 이미지 현재 너비
+    const imgHeight = (imgElement.naturalHeight / imgElement.naturalWidth) * imgWidth; // 원본 비율 기반 높이 계산
+
+    content.style.width = `${imgWidth}px`;
+    content.style.height = `${imgHeight}px`;
 }
 
 const periodData = {{ period_data|safe }};
