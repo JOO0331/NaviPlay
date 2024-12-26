@@ -418,6 +418,10 @@ def tags_view(request):
 
     # Game 모델에서 해당 태그를 포함하는 게임 필터링
     games = Game.objects.filter(tags__icontains=tag_name).order_by('name')
+    
+    for game in games:
+        game.final_price_int = int(float(str(game.final_price)))
+        game.initial_price_int = int(float(str(game.initial_price)))
 
     # Paginator로 페이지네이션 (9개씩)
     paginator = Paginator(games, 9)

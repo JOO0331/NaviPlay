@@ -4,6 +4,7 @@
 
 {% block extra_css %}
 {% load static %}
+{% load humanize %}
 <link rel="stylesheet" href="{% static 'css/tags.css' %}">
 {% endblock %}
 
@@ -32,7 +33,18 @@
                 <a href="{% url 'dashboard' game.app_id %}">
                     <img src="{{ game.header_image }}" alt="{{ game.name }}">
                     <h3>{{ game.name }}</h3>
-                    <p>₩ {{ game.final_price|default:"Free" }}</p>
+                    <div class="pricing">
+                        {% if game.final_price_int == 0 %}
+                            <span class="final-price">Free</span>
+                        {% else %}
+                            {% if game.discount_percent > 0 %}
+                                <div class="discount">{{ game.discount_percent }}% Off</div>
+                                <span class="final-price">{{ game.final_price_int |intcomma }} ₩</span>
+                            {% else %}
+                                <span class="final-price">{{ game.final_price_int|intcomma }} ₩</span>
+                            {% endif %}
+                        {% endif %}
+                    </div>
                 </a>
             </div>
             {% empty %}
