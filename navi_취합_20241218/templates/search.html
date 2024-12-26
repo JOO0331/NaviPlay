@@ -382,14 +382,20 @@ gameItems.forEach(item => {
 
     // 정렬순 값 설정
     if (selectedSort) {
-        sortLabel.textContent = sortTextMapping[selectedSort] || '전체';
-        sortHiddenInput.value = selectedSort;
+        const selectedSortOption = document.querySelector(`#customDropdown .optionItem[data-value="${selectedSort}"]`);
+        if (selectedSortOption) {
+            sortLabel.textContent = selectedSortOption.textContent; // 선택된 옵션 텍스트로 라벨 업데이트
+            sortHiddenInput.value = selectedSort; // 숨겨진 input에 값 설정
+        }
     }
 
     // 플레이어 수 값 설정
     if (selectedPlayers) {
-        playersLabel.textContent = playerTextMapping[selectedPlayers] || '전체';
-        playersHiddenInput.value = selectedPlayers;
+        const selectedPlayersOption = document.querySelector(`#customDropdown2 .optionItem[data-value="${selectedPlayers}"]`);
+        if (selectedPlayersOption) {
+            playersLabel.textContent = selectedPlayersOption.textContent; // 선택된 옵션 텍스트로 라벨 업데이트
+            playersHiddenInput.value = selectedPlayers; // 숨겨진 input에 값 설정
+        }
     }
 
     // 태그 값 설정
@@ -403,8 +409,11 @@ gameItems.forEach(item => {
 
     // 가격 값 설정
     if (selectedPrice) {
-        priceLabel.textContent = priceTextMapping[selectedPrice] || '전체';
-        priceHiddenInput.value = selectedPrice;
+        const selectedPriceOption = document.querySelector(`#customDropdown4 .optionItem[data-value="${selectedPrice}"]`);
+        if (selectedPriceOption) {
+            priceLabel.textContent = selectedPriceOption.textContent; // 선택된 옵션 텍스트로 라벨 업데이트
+            priceHiddenInput.value = selectedPriceOption; // 숨겨진 input에 값 설정
+        }
     }
 
     // 옵션 클릭 시 선택값 업데이트
