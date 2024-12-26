@@ -221,9 +221,9 @@
                         <span class="final-price">Free</span>
                         {% else %}
                             {% if rec.discount_percent > 0 %}
-                                <span class="original-price"><del>{{ game.initial_price_int |intcomma}}₩</del></span>
-                                <div class="discount">{{ game.discount_percent }}% Off</div>
-                                <span class="final-price">{{ game.final_price_int |intcomma }} ₩</span>
+                                <span class="original-price"><del>{{ rec.initial_price_int |intcomma}}₩</del></span>
+                                <div class="discount">{{ rec.discount_percent }}% Off</div>
+                                <span class="final-price">{{ rec.final_price_int |intcomma }} ₩</span>
                         {% else %}
                             <span class="final-price">{{ rec.final_price_int|intcomma }} ₩</span>
                         {% endif %}

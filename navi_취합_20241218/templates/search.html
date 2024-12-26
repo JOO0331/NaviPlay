@@ -13,11 +13,11 @@
     <div class="sidebar filter-section">
         <h2>검색옵션</h2>
         <form action="{% url 'search' %}" method="GET">
-            <input type="hidden" name="search" value="{{ request.GET.search }}">
+            <input type="hidden" name="search" value="{{ search_query }}">
             <div class="form-group">
                 <label for="sort">정렬순</label>
                 <div class="selectBox" id="customDropdown">
-                    <div class="label">전체</div>
+                    <div class="label">{% if sort_order %}{{ sort_order }}{% else %}전체{% endif %}</div>
                     <ul class="optionList">
                         <li class="optionItem" data-value="">전체</li>
                         <li class="optionItem" data-value="release_desc">최신순</li>
@@ -34,7 +34,7 @@
             <div class="form-group">
                 <label for="players">플레이어수</label>
                 <div class="selectBox" id="customDropdown2">
-                    <div class="label">전체 </div>
+                    <div class="label">{% if number_of_players %}{{ number_of_players }}{% else %}전체{% endif %}</div>
                     <ul class="optionList">
                         <li class="optionItem" data-value="">전체</li>
                         <li class="optionItem" data-value="single_player">싱글플레이어</li>
@@ -48,7 +48,7 @@
             <div class="form-group">
                 <label for="tags">태그</label>
                 <div class="selectBox" id="customDropdown3">
-                    <div class="label">전체</div>
+                    <div class="label">{% if select_tags %}{{ select_tags }}{% else %}전체{% endif %}</div>
                     <ul class="optionList">
                         <li class="optionItem" data-value="">전체</li>
                         <li class="optionItem" data-value="Indie">Indie</li>
@@ -68,7 +68,7 @@
             <div class="form-group">
                 <label for="price">가격</label>
                 <div class="selectBox" id="customDropdown4">
-                    <div class="label">전체</div>
+                    <div class="label">{% if price_range %}{{ price_range }}{% else %}전체{% endif %}</div>
                     <ul class="optionList">
                         <li class="optionItem" data-value="">전체</li>
                         <li class="optionItem" data-value="_3">3만원 미만</li>
@@ -382,20 +382,14 @@ gameItems.forEach(item => {
 
     // 정렬순 값 설정
     if (selectedSort) {
-        const selectedSortOption = document.querySelector(`#customDropdown .optionItem[data-value="${selectedSort}"]`);
-        if (selectedSortOption) {
-            sortLabel.textContent = selectedSortOption.textContent; // 선택된 옵션 텍스트로 라벨 업데이트
-            sortHiddenInput.value = selectedSort; // 숨겨진 input에 값 설정
-        }
+        sortLabel.textContent = sortTextMapping[selectedSort] || '전체';
+        sortHiddenInput.value = selectedSort;
     }
 
     // 플레이어 수 값 설정
     if (selectedPlayers) {
-        const selectedPlayersOption = document.querySelector(`#customDropdown2 .optionItem[data-value="${selectedPlayers}"]`);
-        if (selectedPlayersOption) {
-            playersLabel.textContent = selectedPlayersOption.textContent; // 선택된 옵션 텍스트로 라벨 업데이트
-            playersHiddenInput.value = selectedPlayers; // 숨겨진 input에 값 설정
-        }
+        playersLabel.textContent = playerTextMapping[selectedPlayers] || '전체';
+        playersHiddenInput.value = selectedPlayers;
     }
 
     // 태그 값 설정
@@ -409,11 +403,8 @@ gameItems.forEach(item => {
 
     // 가격 값 설정
     if (selectedPrice) {
-        const selectedPriceOption = document.querySelector(`#customDropdown4 .optionItem[data-value="${selectedPrice}"]`);
-        if (selectedPriceOption) {
-            priceLabel.textContent = selectedPriceOption.textContent; // 선택된 옵션 텍스트로 라벨 업데이트
-            priceHiddenInput.value = selectedPriceOption; // 숨겨진 input에 값 설정
-        }
+        priceLabel.textContent = priceTextMapping[selectedPrice] || '전체';
+        priceHiddenInput.value = selectedPrice;
     }
 
     // 옵션 클릭 시 선택값 업데이트
