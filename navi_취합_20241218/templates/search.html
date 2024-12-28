@@ -8,6 +8,7 @@
 {% endblock %}
 
 {% block content %}
+{% load humanize %}
 <div class="container">
     <!-- 좌측 검색 옵션 -->
     <div class="sidebar filter-section">
@@ -148,7 +149,7 @@
                 {% endif %}
                 <div class="pricing">
                     {% if game.final_price_int > 0 %}
-                        <div class="final-price">{{ game.final_price_int }}₩</div>
+                        <div class="final-price">{{ game.final_price_int|intcomma }}₩</div>
                     {% else %}
                         <div class="final-price">Free</div>
                     {% endif %}
