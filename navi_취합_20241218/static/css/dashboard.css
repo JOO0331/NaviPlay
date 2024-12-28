@@ -369,7 +369,7 @@ h2, h3{
 }
 .card {
     background-color: transparent;
-    border: 1px solid #444;
+    border: 1px solid rgba(143, 114, 166, 0.4);
     border-radius: 8px;
     width: 250px;
     padding: 16px;
@@ -504,7 +504,7 @@ h2, h3{
 .price, .info {
     margin-bottom: 20px;
     padding: 15px;
-    border: 1px solid #444;
+    border: 1px solid rgba(143, 114, 166, 0.4);
     border-radius: 6px;
     background-color: transparent;
 }
@@ -565,7 +565,7 @@ button.purchase-btn:hover {
     margin: 5px 5px 20px 5px;
     padding: 20px;
     background-color: transparent;
-    border: 1px solid #444;
+    border: 1px solid rgba(143, 114, 166, 0.4);
     border-radius: 6px;
     box-shadow: none;
     overflow-x: hidden;
@@ -606,7 +606,7 @@ button.purchase-btn:hover {
     margin-bottom: 20px;
     padding: 10px;
     background-color: transparent;
-    border: 1px solid #444;
+    border: 1px solid rgba(143, 114, 166, 0.4);
     border-radius: 6px;
     box-shadow: none;
 }
@@ -916,7 +916,7 @@ button.purchase-btn:hover {
 
 .price {
     margin-top: 0;
-    border: 1px solid #444;
+    border: 1px solid rgba(143, 114, 166, 0.4);
     border-radius: 6px;
     background-color: transparent;
 }

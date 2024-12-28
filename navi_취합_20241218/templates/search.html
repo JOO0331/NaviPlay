@@ -418,7 +418,7 @@ gameItems.forEach(item => {
         const selectedTagsOption = document.querySelector(`#customDropdown3 .optionItem[data-value="${selectedTags}"]`);
         if (selectedTagsOption) {
             tagsLabel.textContent = selectedTagsOption.textContent; // 선택된 옵션 텍스트로 라벨 업데이트
-            tagsHiddenInput.value = selectedTagsOption; // 숨겨진 input에 값 설정
+            tagsHiddenInput.value = selectedTags; // 숨겨진 input에 값 설정
         }
     }
 
@@ -427,7 +427,7 @@ gameItems.forEach(item => {
         const selectedPriceOption = document.querySelector(`#customDropdown4 .optionItem[data-value="${selectedPrice}"]`);
         if (selectedPriceOption) {
             priceLabel.textContent = selectedPriceOption.textContent; // 선택된 옵션 텍스트로 라벨 업데이트
-            priceHiddenInput.value = selectedPriceOption; // 숨겨진 input에 값 설정
+            priceHiddenInput.value = selectedPrice; // 숨겨진 input에 값 설정
         }
     }
 
