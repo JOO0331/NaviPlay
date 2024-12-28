@@ -132,7 +132,7 @@ h2, h3{
     width: 70%;
     overflow-x: auto;
     white-space: nowrap;
-    padding-bottom: 5px;
+    padding-bottom: 10px;
     padding-right: 10px;
     box-sizing: border-box;
     max-width: 100%;
@@ -140,14 +140,18 @@ h2, h3{
     padding-top: 15px;
     margin-top: 15px;
 }
+
+/* 썸네일 이미지 크기 */
 .thumbnail-container img {
-    width: auto;
-    height: 60px;
-    cursor: pointer;
-    border-radius: 8px;
+    width: auto;  /* 이미지 크기 */
+    height: 60px;  /* 비율에 맞게 높이 자동 설정 */
+    object-fit: cover; /* 이미지 크기 맞춤 */
+    border-radius: 8px; /* 둥근 모서리 */
+    cursor: pointer;  /* 클릭 가능하게 */
     border: 3px solid transparent;
     transition: transform 0.5s ease;
 }
+
 .thumbnail-container img:hover {
     border-color: white;
 }
@@ -197,15 +201,18 @@ h2, h3{
     position: absolute;
     right: 0;
 }
-.keyword ul::-webkit-scrollbar-track {
+.thumbnail-container::-webkit-scrollbar {
+    height: 8px;
+}
+.keyword ul::-webkit-scrollbar-track, .thumbnail-container::-webkit-scrollbar-track {
     background: #2e2e2e;
     border-radius: 4px;
 }
-.keyword ul::-webkit-scrollbar-thumb {
+.keyword ul::-webkit-scrollbar-thumb, .thumbnail-container::-webkit-scrollbar-thumb {
     background: #8f72a6;
     border-radius: 4px;
 }
-.keyword ul::-webkit-scrollbar-thumb:hover {
+.keyword ul::-webkit-scrollbar-thumb:hover, .thumbnail-container::-webkit-scrollbar-thumb:hover {
     background: #d19636;
 }
 .keyword li {
@@ -365,13 +372,13 @@ h2, h3{
     position: relative;
     overflow-x: auto;
     width: 100%;
-    gap:5px;
+    gap:2%;
 }
 .card {
     background-color: transparent;
-    border: 1px solid rgba(143, 114, 166, 0.4);
+    border: 1px solid #444;
     border-radius: 8px;
-    width: 250px;
+    min-width: 250px;
     padding: 16px;
     display: flex;
     flex-direction: column;
@@ -433,10 +440,10 @@ h2, h3{
     padding: 3px 8px;
     border-radius: 5px;
     font-weight: bold;
-    font-size: 0.8em;
+    font-size: 0.7em;
     width: 60px; /* 가로 길이 조정 */
     margin-bottom: 5px;
-    margin-right: 10px;
+    margin-right: 5%;
     text-align: center;
 
 }
@@ -504,7 +511,7 @@ h2, h3{
 .price, .info {
     margin-bottom: 20px;
     padding: 15px;
-    border: 1px solid rgba(143, 114, 166, 0.4);
+    border: 1px solid #444;
     border-radius: 6px;
     background-color: transparent;
 }
@@ -565,7 +572,7 @@ button.purchase-btn:hover {
     margin: 5px 5px 20px 5px;
     padding: 20px;
     background-color: transparent;
-    border: 1px solid rgba(143, 114, 166, 0.4);
+    border: 1px solid #444;
     border-radius: 6px;
     box-shadow: none;
     overflow-x: hidden;
@@ -606,7 +613,7 @@ button.purchase-btn:hover {
     margin-bottom: 20px;
     padding: 10px;
     background-color: transparent;
-    border: 1px solid rgba(143, 114, 166, 0.4);
+    border: 1px solid #444;
     border-radius: 6px;
     box-shadow: none;
 }
@@ -793,7 +800,7 @@ button.purchase-btn:hover {
     background: rgba(0, 0, 0, 0.9);
     border-radius: 8px;
     padding: 15px;
-    width: 250px;
+    width: 200px;
     z-index: 1000;
     top: -120px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -835,19 +842,6 @@ button.purchase-btn:hover {
     display: flex;
     justify-content: space-between;
     margin: 3px 0;
-}
-
-.tooltip-content li.no-keywords {
-    justify-content: flex-start;
-    padding-right: 10px;
-    margin-right: 20px;
-    color: #888;
-    font-style: italic;
-}
-
-.tooltip-content li.no-keywords span {
-    margin-right: 20px;
-    padding-right: 20px;
 }
 
 .bar-container {
@@ -916,7 +910,7 @@ button.purchase-btn:hover {
 
 .price {
     margin-top: 0;
-    border: 1px solid rgba(143, 114, 166, 0.4);
+    border: 1px solid #444;
     border-radius: 6px;
     background-color: transparent;
 }
@@ -937,6 +931,7 @@ button.purchase-btn:hover {
 }
 
 .requirement-category {
+    background-color: rgba(52, 73, 94, 0.1);
     border-radius: 4px;
     padding: 15px;
 }
@@ -960,14 +955,5 @@ button.purchase-btn:hover {
     font-size: 0.9em;
     margin-bottom: 8px;
     line-height: 1.4;
-}
-
-.period-note {
-    color: #888;
-    font-size: 0.9em;
-    text-align: center;
-    margin-top: 20px;
-    padding-top: 10px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
