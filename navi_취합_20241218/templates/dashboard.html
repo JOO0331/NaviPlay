@@ -126,26 +126,9 @@
                     {% endfor %}
                     {% endwith %}
                 </div>
-            </div>
-
-            <div class="section reviews">
-                <h3>최근 유저 리뷰</h3>
-                {% if reviews %}
-                    <div class="review-container">
-                        {% for review in reviews %}
-                            <div class="review-card">
-                                <div class="review-header">
-                                    <span class="review-date">{{ review.formatted_date }}</span>
-                                </div>
-                                <div class="review-content">
-                                    {{ review.review_text }}
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    <p>리뷰가 없습니다.</p>
-                {% endif %}
+                <div class="period-note">
+                    게임과 관련 없는 키워드는 감성 분석과는 별개로 추출되지 않습니다.
+                </div>
             </div>
 
             <div class="section video-summary">
@@ -605,8 +588,8 @@ function updateChart(year) {
         if (total === 0) {
             positiveBar.style.height = '0%';
             negativeBar.style.height = '0%';
-            positiveText.textContent = '0%';
-            negativeText.textContent = '0%';
+            positiveText.textContent = '';
+            negativeText.textContent = '';
             bar.classList.add('empty');
         } else {
             const positiveRatio = (monthData.positive / total * 100).toFixed(0);
