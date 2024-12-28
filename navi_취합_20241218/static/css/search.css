@@ -260,19 +260,19 @@
 
 
 .game-detail {
-    position: absolute;
-    top: 0;
-    right: 100%;
-    margin-right: 20px;
-    width: 35%; /* 너비를 25%로 설정 */
-    padding: 15px;
-    background-color: #f9f9f9;
+    position: fixed; /* 뷰포트 기준 위치 설정 */
+    z-index: 9999; /* 화면 위에 표시되도록 설정 */
+    background-color: #333;
     color: #333;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    padding: 15px;
+    width: 495px; /* 필요한 경우 조정 가능 */
+
+    pointer-events: none; /* 박스가 마우스 이벤트를 방해하지 않도록 설정 */
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    opacity: 0; /* 기본적으로 보이지 않게 설정 */
+    border: 1px solid rgba(143, 114, 166, 0.3);
 }
 
 
@@ -281,6 +281,7 @@
 /* 마우스가 game-item에 있을 때 game-detail 보이게 설정 */
 .game-item:hover .game-detail {
     opacity: 1;
+    transform: translateY(0); /* 부드러운 애니메이션 */
 }
 
 /* game-detail의 제목 */
@@ -315,7 +316,7 @@
 /* 나머지 게임 정보 */
 .game-detail p {
     font-size: 1em;
-    color: #555;
+    color: white;
     margin-bottom: 8px;
 }
 

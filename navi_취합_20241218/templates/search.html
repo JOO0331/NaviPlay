@@ -238,7 +238,7 @@ gameItems.forEach(item => {
             existingDetail.remove();
         }
 
-        // game-item 내에 game-detail div를 동적으로 생성
+        // game-detail 생성
         const gameDetail = document.createElement('div');
         gameDetail.classList.add('game-detail');
 
@@ -250,10 +250,10 @@ gameItems.forEach(item => {
         const positiveKeywords = item.getAttribute('data-positive-keywords');
         const negativeKeywords = item.getAttribute('data-negative-keywords');
         const imagesString = item.getAttribute('data-screenshots-path');
-        const tags3 = item.getAttribute('data-tags3');
-        console.log('tags :', tags3);
+        const tags3 = item.getAttribute('data-tags3') === '[]' || !item.getAttribute('data-tags3') ? "태그 수집 중" : item.getAttribute('data-tags3');
         const positiveRatio = item.getAttribute('data-positive-ratio');
 
+        console.log('tags :', tags3);
 
         // 작은따옴표를 큰따옴표로 바꿔 JSON 파싱 준비
         const validJsonString = imagesString.replace(/'/g, '"');
@@ -261,12 +261,11 @@ gameItems.forEach(item => {
         let imagesArray = [];
 
         try {
-            // 이제 유효한 JSON 형식으로 파싱
+            // 유효한 JSON 형식으로 파싱
             imagesArray = JSON.parse(validJsonString);
         } catch (error) {
             console.error('Invalid JSON format:', error);
         }
-
 
         // 슬라이드쇼 HTML 생성
         const slideShow = `
@@ -291,9 +290,12 @@ gameItems.forEach(item => {
                     }
                 </div>
             </div>
-            <p>${tags3}</p>
+            <p>태그 : ${tags3}</p>
             ${slideShow}
-            <p>전체 리뷰 : ${totalReviews} (${totalPositive}/${totalNegative})</p>
+            <p>전체 리뷰 : ${totalReviews}
+                (<span class="positive">${totalPositive}</span>/
+                <span class="negative">${totalNegative}</span>)
+            </p>
             <p class="positive">${positiveKeywords}</p>
             <p class="negative">${negativeKeywords}</p>
         `;
@@ -301,61 +303,41 @@ gameItems.forEach(item => {
         item.appendChild(gameDetail);
 
         // 위치 계산
-        const itemRect = item.getBoundingClientRect(); // game-item의 위치
-        const detailRect = gameDetail.getBoundingClientRect(); // game-detail의 크기
-        const viewportHeight = window.innerHeight; // 화면 높이
-        const scrollY = window.scrollY; // 스크롤된 위치
+        item.addEventListener('mousemove', function (event) {
+            const mouseX = event.clientX; // 마우스 X 위치
+            const mouseY = event.clientY; // 마우스 Y 위치
 
-        // 화면 내에서 끝나는 부분 계산
-        const availableSpace = viewportHeight - (itemRect.top + scrollY); // item의 top부터 현재 스크롤된 화면 끝까지의 공간
+            const detailWidth = gameDetail.offsetWidth; // 박스 너비
+            const detailHeight = gameDetail.offsetHeight; // 박스 높이
+            const viewportWidth = window.innerWidth; // 화면 너비
+            const viewportHeight = window.innerHeight; // 화면 높이
 
-        // 화면 끝에 맞춰서 위치 조정
-        if (itemRect.bottom + detailRect.height > availableSpace) {
-            gameDetail.style.top = `${availableSpace - detailRect.height - 10 + scrollY}px`; // 화면 끝에 맞춰서 위치
-            gameDetail.style.bottom = 'auto';
-        } else {
-            // 기본적으로 item 바로 옆에 위치
-            gameDetail.style.top = `${itemRect.top + scrollY}px`;
-            gameDetail.style.left = `${itemRect.right + 10}px`; // game-item의 오른쪽에 위치
-            gameDetail.style.bottom = 'auto';
-        }
+            // 기본 위치 (마우스 오른쪽 아래)
+            let top = mouseY + 20;
+            let left = mouseX + 20;
 
-        // 슬라이드 전환 로직 추가
-        let currentSlideIndex = 0;
-        const slides = gameDetail.querySelectorAll('.slide');
-        const totalSlides = slides.length;
-
-        function changeSlide() {
-            slides[currentSlideIndex].classList.remove('active');
-            currentSlideIndex = (currentSlideIndex + 1) % totalSlides;
-            slides[currentSlideIndex].classList.add('active');
-        }
-
-        const slideInterval = setInterval(changeSlide, 1500);
-
-        item.addEventListener('mouseleave', function() {
-            clearInterval(slideInterval); // 슬라이드 전환 멈추기
-            // game-detail div 제거
-            const gameDetail = item.querySelector('.game-detail');
-            if (gameDetail) {
-                item.removeChild(gameDetail);
+            // 화면 끝에서 잘리지 않도록 조정
+            if (mouseX + detailWidth + 20 > viewportWidth) {
+                left = mouseX - detailWidth - 20; // 왼쪽으로 이동
             }
+            if (mouseY + detailHeight + 20 > viewportHeight) {
+                top = mouseY - detailHeight - 20; // 위로 이동
+            }
+
+            // 위치 적용
+            gameDetail.style.top = `${top}px`;
+            gameDetail.style.left = `${left}px`;
         });
 
-        // 스크롤 이벤트로 위치 재계산
-        window.addEventListener('scroll', function() {
-            const itemRect = item.getBoundingClientRect(); // game-item의 위치
-            const detailRect = gameDetail.getBoundingClientRect(); // game-detail의 크기
-            const availableSpace = viewportHeight - (itemRect.top + scrollY);
-
-            if (itemRect.bottom + detailRect.height > availableSpace) {
-                gameDetail.style.top = `${availableSpace - detailRect.height - 10 + scrollY}px`; // 위치 조정
-            } else {
-                gameDetail.style.top = `${itemRect.top + scrollY}px`; // 기본 위치 유지
+        // 마우스가 나가면 game-detail 삭제
+        item.addEventListener('mouseleave', function () {
+            if (gameDetail) {
+                gameDetail.remove();
             }
         });
     });
 });
+
 
 
 
