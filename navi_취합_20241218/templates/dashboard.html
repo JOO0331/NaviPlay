@@ -128,6 +128,26 @@
                 </div>
             </div>
 
+            <div class="section reviews">
+                <h3>최근 유저 리뷰</h3>
+                {% if reviews %}
+                    <div class="review-container">
+                        {% for review in reviews %}
+                            <div class="review-card">
+                                <div class="review-header">
+                                    <span class="review-date">{{ review.formatted_date }}</span>
+                                </div>
+                                <div class="review-content">
+                                    {{ review.review_text }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>리뷰가 없습니다.</p>
+                {% endif %}
+            </div>
+
             <div class="section video-summary">
                 <h3>관련 영상</h3>
                 <div class="videos">
