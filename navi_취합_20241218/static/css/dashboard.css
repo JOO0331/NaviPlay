@@ -793,7 +793,7 @@ button.purchase-btn:hover {
     background: rgba(0, 0, 0, 0.9);
     border-radius: 8px;
     padding: 15px;
-    width: 200px;
+    width: 250px;
     z-index: 1000;
     top: -120px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -835,6 +835,19 @@ button.purchase-btn:hover {
     display: flex;
     justify-content: space-between;
     margin: 3px 0;
+}
+
+.tooltip-content li.no-keywords {
+    justify-content: flex-start;
+    padding-right: 10px;
+    margin-right: 20px;
+    color: #888;
+    font-style: italic;
+}
+
+.tooltip-content li.no-keywords span {
+    margin-right: 20px;
+    padding-right: 20px;
 }
 
 .bar-container {
