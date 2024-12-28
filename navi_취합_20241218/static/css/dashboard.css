@@ -197,15 +197,18 @@ h2, h3{
     position: absolute;
     right: 0;
 }
-.keyword ul::-webkit-scrollbar-track {
+.thumbnail-container::-webkit-scrollbar {
+    height: 8px;
+}
+.keyword ul::-webkit-scrollbar-track, .thumbnail-container::-webkit-scrollbar-track {
     background: #2e2e2e;
     border-radius: 4px;
 }
-.keyword ul::-webkit-scrollbar-thumb {
+.keyword ul::-webkit-scrollbar-thumb, .thumbnail-container::-webkit-scrollbar-thumb {
     background: #8f72a6;
     border-radius: 4px;
 }
-.keyword ul::-webkit-scrollbar-thumb:hover {
+.keyword ul::-webkit-scrollbar-thumb:hover, .thumbnail-container::-webkit-scrollbar-thumb:hover {
     background: #d19636;
 }
 .keyword li {
