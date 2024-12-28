@@ -524,6 +524,7 @@ function updateChart(year) {
             positive_keywords: [],
             negative_keywords: []
         };
+        
         const total = monthData.positive + monthData.negative;
         
         const positiveBar = bar.querySelector('.positive-bar');
@@ -531,9 +532,8 @@ function updateChart(year) {
         const positiveText = positiveBar.querySelector('.ratio-text');
         const negativeText = negativeBar.querySelector('.ratio-text');
         
-        const tooltipPositive = bar.querySelector('.tooltip-positive ul');
-        const tooltipNegative = bar.querySelector('.tooltip-negative ul');
         const tooltipContainer = bar.querySelector('.keywords-tooltip');
+        const tooltipContent = tooltipContainer.querySelector('.tooltip-content');
         const barContainer = bar.querySelector('.bar-container');
         
         if (barContainer._showTooltip) {
@@ -544,8 +544,6 @@ function updateChart(year) {
         barContainer._showTooltip = () => {
             if (total > 0) {
                 tooltipContainer.classList.add('show');
-
-
             }
         };
         
@@ -556,65 +554,74 @@ function updateChart(year) {
         barContainer.addEventListener('mouseenter', barContainer._showTooltip);
         barContainer.addEventListener('mouseleave', barContainer._hideTooltip);
         
-        tooltipContainer.classList.remove('show');
-        
-        tooltipPositive.innerHTML = '';
-        tooltipNegative.innerHTML = '';
-        
-        if (total > 0) { 
-            let tooltipContent = '';
+        if (tooltipContainer && tooltipContent) {
+            let newTooltipContent = '';
             
-            if (monthData.positive > 0) {
-                if (monthData.positive_keywords.length === 0) {
-                    tooltipContent += `
+            if (total > 0) {
+                if (monthData.positive > 0) {
+                    if (monthData.positive_keywords.length === 0) {
+                        newTooltipContent += `
+                            <div class="tooltip-positive">
+                                <strong>긍정 키워드</strong>
+                                <ul><li class="no-keywords"><span>게임과 관련된 키워드가 없습니다</span></li></ul>
+                            </div>`;
+                    } else {
+                        const sortedPositiveKeywords = monthData.positive_keywords
+                            .map(kw => {
+                                const [keyword, count] = Object.entries(kw)[0];
+                                return { keyword, count };
+                            })
+                            .sort((a, b) => b.count - a.count);
+
+                        newTooltipContent += `
+                            <div class="tooltip-positive">
+                                <strong>긍정 키워드</strong>
+                                <ul>${sortedPositiveKeywords
+                            .map(item => `<li><span>${item.keyword}</span><span>${item.count}</span></li>`)
+                            .join('')}</ul>
+                            </div>`;
+                    }
+                }
+                
+                if (monthData.negative > 0) {
+                    if (monthData.negative_keywords.length === 0) {
+                        newTooltipContent += `
+                            <div class="tooltip-negative">
+                                <strong>부정 키워드</strong>
+                                <ul><li class="no-keywords"><span>게임과 관련된 키워드가 없습니다</span></li></ul>
+                            </div>`;
+                    } else {
+                        const sortedNegativeKeywords = monthData.negative_keywords
+                            .map(kw => {
+                                const [keyword, count] = Object.entries(kw)[0];
+                                return { keyword, count };
+                            })
+                            .sort((a, b) => b.count - a.count);
+
+                        newTooltipContent += `
+                            <div class="tooltip-negative">
+                                <strong>부정 키워드</strong>
+                                <ul>${sortedNegativeKeywords
+                            .map(item => `<li><span>${item.keyword}</span><span>${item.count}</span></li>`)
+                            .join('')}</ul>
+                            </div>`;
+                    }
+                }
+            } else {
+                newTooltipContent = `
+                    <div class="tooltip-content">
                         <div class="tooltip-positive">
                             <strong>긍정 키워드</strong>
-                            <ul><li class="no-keywords"><span>게임과 관련된 키워드가 없습니다</span></li></ul>
-                        </div>`;
-                } else {
-                    const sortedPositiveKeywords = monthData.positive_keywords
-                        .map(kw => {
-                            const [keyword, count] = Object.entries(kw)[0];
-                            return { keyword, count };
-                        })
-                        .sort((a, b) => b.count - a.count);
-
-                    tooltipContent += `
-                        <div class="tooltip-positive">
-                            <strong>긍정 키워드</strong>
-                            <ul>${sortedPositiveKeywords
-                        .map(item => `<li><span>${item.keyword}</span><span>${item.count}</span></li>`)
-                        .join('')}</ul>
-                        </div>`;
-                }
-            }
-            
-            if (monthData.negative > 0) {
-                if (monthData.negative_keywords.length === 0) {
-                    tooltipContent += `
+                            <ul><li class="no-keywords"><span>데이터가 없습니다</span></li></ul>
+                        </div>
                         <div class="tooltip-negative">
                             <strong>부정 키워드</strong>
-                            <ul><li class="no-keywords"><span>게임과 관련된 키워드가 없습니다</span></li></ul>
-                        </div>`;
-                } else {
-                    const sortedNegativeKeywords = monthData.negative_keywords
-                        .map(kw => {
-                            const [keyword, count] = Object.entries(kw)[0];
-                            return { keyword, count };
-                        })
-                        .sort((a, b) => b.count - a.count);
-
-                    tooltipContent += `
-                        <div class="tooltip-negative">
-                            <strong>부정 키워드</strong>
-                            <ul>${sortedNegativeKeywords
-                        .map(item => `<li><span>${item.keyword}</span><span>${item.count}</span></li>`)
-                        .join('')}</ul>
-                        </div>`;
-                }
+                            <ul><li class="no-keywords"><span>데이터가 없습니다</span></li></ul>
+                        </div>
+                    </div>`;
             }
             
-            tooltipContainer.querySelector('.tooltip-content').innerHTML = tooltipContent;
+            tooltipContent.innerHTML = newTooltipContent;
         }
         
         if (total === 0) {
@@ -647,11 +654,13 @@ function updateChart(year) {
 }
 
 document.getElementById('yearSelect').addEventListener('change', function() {
-    updateChart(parseInt(this.value));
+    const selectedYear = parseInt(this.value);
+    console.log('Year select changed to:', selectedYear);
+    updateChart(selectedYear);
 });
 
+console.log('Initial year:', {{ current_year }});
 updateChart({{ current_year }});
-
 </script>
 
 {% endblock %}
