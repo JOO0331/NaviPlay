@@ -138,22 +138,36 @@
                             {% endif %}
                         {% endfor %}
                     </div>
-                    <div class="releasedate">출시일 : {{game.release_date|date:"Y년 n월 j일"}}</div>
+
 
                 </div>
             </div>
             <!-- 우측 가격 및 할인 정보 -->
             <div class="game-right">
-                {% if game.discount_percent > 0 %}
-                    <div class="discount">{{ game.discount_percent }}% off</div>
-                {% endif %}
-                <div class="pricing">
-                    {% if game.final_price_int > 0 %}
-                        <div class="final-price">{{ game.final_price_int|intcomma }}₩</div>
-                    {% else %}
-                        <div class="final-price">Free</div>
+                <div class="releasedate">출시일 : {{game.release_date|date:"Y년 n월 j일"}}</div>
+                <div class="total_pricing">
+                    {% if game.discount_percent > 0 %}
+                        <div class="discount">{{ game.discount_percent }}% off</div>
                     {% endif %}
+                    <div class="pricing">
+                        {% if game.final_price_int > 0 %}
+                            <div class="final-price">{{ game.final_price_int|intcomma  }}₩</div>
+                        {% else %}
+                            <div class="final-price">Free</div>
+                        {% endif %}
+                    </div>
                 </div>
+            </div>
+            <div class="positive_negative_ratio">
+                {% if game.positive_ratio == 0 %}
+                    <span class="badge gray">?</span>
+                {% elif game.positive_ratio > 70 %}
+                    <span class="badge green">{{ game.positive_ratio }}</span>
+                {% elif game.positive_ratio > 40 %}
+                    <span class="badge yellow">{{ game.positive_ratio }}</span>
+                {% else %}
+                    <span class="badge red">{{ game.positive_ratio }}</span>
+                {% endif %}
             </div>
         </div>
         {% empty %}

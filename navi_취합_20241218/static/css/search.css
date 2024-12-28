@@ -163,16 +163,26 @@
 .badge.red { background-color: #FF6874; }
 .badge.yellow { background-color: #FFBD3F; }
 
-
+.releasedate {
+    width: 200px;
+    margin-right: 5%;
+    text-align: left;
+    white-space: wrap;
+    flex-shrink: 0;
+}
 
 /* 우측 가격 및 할인 스타일 */
+.total_pricing {
+    width: 80px;
+}
 .game-right {
     flex: 0 0 100px;
     text-align: right;
     display: flex;
-    flex-direction: column;
+    position: relative;
+    flex-direction: row;
     justify-content: center;
-    align-items: flex-end;
+    align-items: center;
     gap: 10px;
 }
 
@@ -442,3 +452,12 @@ input[type="radio"] {
 .selectBox .optionList::-webkit-scrollbar-track {background: transparent; }
 .selectBox .optionList::-webkit-scrollbar-thumb {background: #303030; border-radius: 45px;}
 .selectBox .optionList::-webkit-scrollbar-thumb:hover {background: #303030;}
+
+.positive_negative_ratio{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: 15px;
+}
+
+
