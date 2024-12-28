@@ -551,10 +551,16 @@ function updateChart(year) {
                 if (monthData.positive_keywords.length === 0) {
                     tooltipPositive.innerHTML = '<li><span>키워드가 존재하지 않습니다</span></li>';
                 } else {
-                    tooltipPositive.innerHTML = monthData.positive_keywords.map(kw => {
-                        const [keyword, count] = Object.entries(kw)[0] || ['', 0];
-                        return `<li><span>${keyword}</span><span>${count}</span></li>`;
-                    }).join('');
+                    const sortedPositiveKeywords = monthData.positive_keywords
+                        .map(kw => {
+                            const [keyword, count] = Object.entries(kw)[0];
+                            return { keyword, count };
+                        })
+                        .sort((a, b) => b.count - a.count);
+
+                    tooltipPositive.innerHTML = sortedPositiveKeywords
+                        .map(item => `<li><span>${item.keyword}</span><span>${item.count}</span></li>`)
+                        .join('');
                 }
             }
             
@@ -562,10 +568,16 @@ function updateChart(year) {
                 if (monthData.negative_keywords.length === 0) {
                     tooltipNegative.innerHTML = '<li><span>키워드가 존재하지 않습니다</span></li>';
                 } else {
-                    tooltipNegative.innerHTML = monthData.negative_keywords.map(kw => {
-                        const [keyword, count] = Object.entries(kw)[0] || ['', 0];
-                        return `<li><span>${keyword}</span><span>${count}</span></li>`;
-                    }).join('');
+                    const sortedNegativeKeywords = monthData.negative_keywords
+                        .map(kw => {
+                            const [keyword, count] = Object.entries(kw)[0];
+                            return { keyword, count };
+                        })
+                        .sort((a, b) => b.count - a.count);
+
+                    tooltipNegative.innerHTML = sortedNegativeKeywords
+                        .map(item => `<li><span>${item.keyword}</span><span>${item.count}</span></li>`)
+                        .join('');
                 }
             }
         }
