@@ -392,8 +392,20 @@ function saveImg() {
 
     // 배경 색상 변경 (원하는 색상으로 변경)
     container.style.backgroundColor = "#1E1E1E";
-    // 캡처용 복제 노드 생성
-    const clone = container.cloneNode(true);
+
+    // 캡처용 복제 노드 생성 및 스타일 복제
+    function cloneWithStyles(node) {
+        const clone = node.cloneNode(true); // 노드 복제
+        const computedStyles = window.getComputedStyle(node); // 원본 스타일 가져오기
+
+        // 모든 스타일 복제
+        for (let style of computedStyles) {
+            clone.style[style] = computedStyles.getPropertyValue(style);
+        }
+        return clone;
+    }
+
+    const clone = cloneWithStyles(container);
 
     // '저장'과 '공유' 버튼을 제외하고 다른 버튼들은 남기기
     const removes = clone.querySelectorAll(".png, .talk, .section.similar-games");
@@ -423,7 +435,7 @@ function saveImg() {
     .catch(err => {
         console.error("Error capturing image:", err);
     });
-  }
+}
 
 // 카카오 공유 함수
 const game = JSON.parse('{{ game_json|escapejs|safe }}');
