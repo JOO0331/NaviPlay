@@ -27,6 +27,17 @@
                         <li class="optionItem" data-value="price_asc">낮은가격</li>
                         <li class="optionItem" data-value="discount_desc">높은할인율</li>
                         <li class="optionItem" data-value="discount_asc">낮은할인율</li>
+                        <li class="optionItem" data-value="discount_asc">낮은할인율</li>
+                        <li class="optionItem" data-value="discount_asc">낮은할인율</li>
+                        <li class="optionItem" data-value="discount_asc">낮은할인율</li>
+                        <li class="optionItem" data-value="discount_asc">낮은할인율</li>
+                        <li class="optionItem" data-value="discount_asc">낮은할인율</li>
+                        <li class="optionItem" data-value="discount_asc">낮은할인율</li>
+                        <li class="optionItem" data-value="discount_asc">낮은할인율</li>
+                        <li class="optionItem" data-value="discount_asc">낮은할인율</li>
+                        <li class="optionItem" data-value="discount_asc">낮은할인율</li>
+                        <li class="optionItem" data-value="discount_asc">낮은할인율</li>
+                        <li class="optionItem" data-value="discount_asc">낮은할인율</li>
                     </ul>
                 </div>
                 <input type="hidden" name="sort" id="sort" value="">
@@ -253,8 +264,6 @@ gameItems.forEach(item => {
         const tags3 = item.getAttribute('data-tags3') === '[]' || !item.getAttribute('data-tags3') ? "태그 수집 중" : item.getAttribute('data-tags3');
         const positiveRatio = item.getAttribute('data-positive-ratio');
 
-        console.log('tags :', tags3);
-
         // 작은따옴표를 큰따옴표로 바꿔 JSON 파싱 준비
         const validJsonString = imagesString.replace(/'/g, '"');
 
@@ -302,6 +311,28 @@ gameItems.forEach(item => {
 
         item.appendChild(gameDetail);
 
+        // 슬라이드 전환 로직 추가
+        let currentSlideIndex = 0;
+        const slides = gameDetail.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function changeSlide() {
+            slides[currentSlideIndex].classList.remove('active');
+            currentSlideIndex = (currentSlideIndex + 1) % totalSlides;
+            slides[currentSlideIndex].classList.add('active');
+        }
+
+        const slideInterval = setInterval(changeSlide, 1200);
+
+        item.addEventListener('mouseleave', function() {
+            clearInterval(slideInterval); // 슬라이드 전환 멈추기
+            // game-detail div 제거
+            const gameDetail = item.querySelector('.game-detail');
+            if (gameDetail) {
+                item.removeChild(gameDetail);
+            }
+        });
+
         // 위치 계산
         item.addEventListener('mousemove', function (event) {
             const mouseX = event.clientX; // 마우스 X 위치
@@ -337,15 +368,6 @@ gameItems.forEach(item => {
         });
     });
 });
-
-
-
-
-
-
-
-
-
 
 
 

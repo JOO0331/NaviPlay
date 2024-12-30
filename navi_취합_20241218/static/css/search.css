@@ -1,11 +1,8 @@
-/* 전체 컨테이너 */
 .container {
     display: flex;
     justify-content: space-between;
     padding: 20px;
-    background-color: #1e1e1e;
     color: #fff;
-    font-family: 'Arial', sans-serif;
 }
 
 /* 검색 옵션 섹션 (좌측) */
@@ -13,11 +10,11 @@
     width:25%;
     background-color: #2b2b3c;
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    height: 550px; /* 고정된 높이, 화면 높이에 맞게 설정 */
+    height: 550px;
     position: sticky;
-    top: 20px; /* 화면을 스크롤해도 상단에 고정되도록 설정 */
+    top: 20px;
 }
 
 .sidebar.filter-section h2 {
@@ -35,16 +32,17 @@
 .sidebar.filter-section label {
     display: block;
     font-size: 1em;
-    color: #ddd;
     margin-bottom: 5px;
 }
-
+.form-group label {
+    color: #ddd;
+}
 .sidebar.filter-section input[type="submit"],
 .sidebar.filter-section input[type="reset"] {
     width: 100%;
     padding: 8px;
     font-size: 1em;
-    border: 1px solid #555;
+    border: 1px solid #444;
     background-color: #1b1b2b;
     color: #fff;
     border-radius: 5px;
@@ -70,22 +68,9 @@
 }
 
 .main-content h2 {
-    font-size: 1.8em;
+    font-size: 1.5em;
     color: #ffcc00;
     margin-bottom: 20px;
-}
-
-/* 게임 리스트 아이템 전체 스타일 */
-.game-item {
-    display: flex;
-    align-items: center;
-    background-color: #2b2b3c;
-    margin-bottom: 20px;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-    transition: transform 0.3s ease;
-    cursor: pointer;
 }
 
 
@@ -99,7 +84,7 @@
     width: 231px;
     height: 87px;
     object-fit: cover;
-    border-radius: 5px;
+    border-radius: 4px;
     border: 1px solid #444;
 }
 
@@ -113,7 +98,7 @@
 }
 
 .game-title {
-    font-size: 1.7em;
+    font-size: 1.2em;
     font-weight: bold;
     color: #ffcc00;
     margin-bottom: 8px;
@@ -124,7 +109,7 @@
     justify-content: space-between;
     align-items: center;
     font-size: 0.9em;
-    color: #ccc;
+    color: #ddd;
 }
 
 .tags {
@@ -133,13 +118,12 @@
 
 .tag {
     background-color: #444;
-    color: #fff;
+    color: #ddd;
     padding: 3px 6px;
-    font-size: 1.1em; /* 글자 크기 통일 */
-    line-height: 1.5; /* 라인 높이 설정 */
-    align-items: center; /* 수직 정렬 중앙 */
+    line-height: 1.5;
+    align-items: center;
     margin-right: 5px;
-    border-radius: 3px;
+    border-radius: 4px;
     font-size: 0.8em;
 }
 
@@ -148,7 +132,6 @@
     display: inline-block;
     width: 60px;
     height: 60px;
-    border-radius: 50%;
     color: #595959;
     border-radius: 20px;
     text-align: center;
@@ -169,11 +152,13 @@
     text-align: left;
     white-space: wrap;
     flex-shrink: 0;
+    color: #ddd;
 }
 
 /* 우측 가격 및 할인 스타일 */
 .total_pricing {
     width: 80px;
+    margin-right: 10px;
 }
 .game-right {
     flex: 0 0 100px;
@@ -190,18 +175,12 @@
     background-color: #dc3545;
     color: #fff;
     padding: 3px 8px;
-    border-radius: 5px;
+    border-radius: 4px;
     font-weight: bold;
     font-size: 0.8em;
-    width: 60px; /* 가로 길이 조정 */
+    width: 60px;
     margin-bottom: 5px;
     text-align: center;
-}
-
-.original-price {
-    font-size: 0.9em;
-    color: #aaa;
-    text-decoration: line-through;
 }
 
 .final-price {
@@ -222,7 +201,7 @@
     border: none;
     padding: 8px 12px;
     margin: 0 5px;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     text-decoration: none;
@@ -260,22 +239,19 @@
 
 
 .game-detail {
-    position: fixed; /* 뷰포트 기준 위치 설정 */
-    z-index: 9999; /* 화면 위에 표시되도록 설정 */
-    background-color: #333;
-    color: #333;
+    position: fixed;
+    z-index: 9999;
+    background-color: #444;
+    color: #444;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     padding: 15px;
     width: 495px; /* 필요한 경우 조정 가능 */
-
     pointer-events: none; /* 박스가 마우스 이벤트를 방해하지 않도록 설정 */
     transition: opacity 0.2s ease, transform 0.2s ease;
     opacity: 0; /* 기본적으로 보이지 않게 설정 */
     border: 1px solid rgba(143, 114, 166, 0.3);
 }
-
-
 
 
 /* 마우스가 game-item에 있을 때 game-detail 보이게 설정 */
@@ -298,19 +274,6 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
-}
-
-/* game-title과 positiveRatio 스타일 */
-.game-title {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #ffcc00;
-    margin: 0;
-}
-
-.positive-ratio {
-    font-size: 1.1em;
-    color: #28a745; /* 초록색 (긍정) */
 }
 
 /* 나머지 게임 정보 */
@@ -350,40 +313,35 @@
 }
 
 .positive {
-    color: #00CE7A !important;
+    color: #00CE7A
 }
 .negative {
-    color: #FF6874 !important;
+    color: #FF6874
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 fieldset {
-            border: none;
-            padding: 0;
-            margin: 0;
-        }
-input[type="radio"] {
-            accent-color: #ffcc00;
-            margin-right: 10px;
-        }
+    border: none;
+    padding: 0;
+    margin-bottom: 15px;
+}
+fieldset label {
+    color: #fff;
+    cursor: pointer;
+}
 
-.selectBox * { box-sizing: border-box; }
+input[type="radio"] {
+    accent-color: #ffcc00;
+    margin-right: 10px;
+}
+
+.selectBox * {
+ box-sizing: border-box;
+}
 .selectBox {
   position: relative;
   height: 35px;
   border-radius: 4px;
-  border: 2px solid #444;
+  border: 1px solid #444;
   background-color: #1b1b2b;
   background-image: url('/static/imgs/pngwing.com.png');
   background-position: calc(100% - 7px) center;
@@ -391,14 +349,17 @@ input[type="radio"] {
   background-repeat: no-repeat;
   cursor: pointer;
   z-index: 10;
+    transition: border-color 0.3s ease; /* 테두리 색상 자연스럽게 변화 */
+
 }
 
 .selectBox:hover{
-    border:2px solid #ffcc00;
+    border:1px solid #ffcc00;
 }
 
 .selectBox.active {
-    z-index: 20; /* 드롭다운이 열리면 위로 올라오도록 z-index 설정 */
+    border: 1px solid #ffcc00;
+    z-index: 20;
 }
 
 .selectBox .label {
@@ -425,34 +386,52 @@ input[type="radio"] {
   border-radius: 6px;
   overflow: hidden;
   max-height: 0;
+  transition: max-height 0.3s ease-in-out;
 }
 
 .selectBox.active .optionList {
-  max-height: 500px;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 .selectBox .optionItem {
-  border-bottom: 1px dashed #555;
-  padding: 5px 15px 5px;
-  transition: .1s;
+  border-bottom: 1px dashed #444;
+  padding: 5px 15px;
+  transition: border-color 0.3s;
+
 }
 
 .selectBox .optionItem:hover {
   background: #ffcc00;
+
 }
 
 .selectBox .optionItem.selected {
-  background: #ffcc00;
+  background: #ffcc00
 }
+
+
 .selectBox .optionItem:last-child {
   border-bottom: 0 none;
 }
 
-// 스크롤 커스텀
-.selectBox .optionList::-webkit-scrollbar {width: 6px;}
-.selectBox .optionList::-webkit-scrollbar-track {background: transparent; }
-.selectBox .optionList::-webkit-scrollbar-thumb {background: #303030; border-radius: 45px;}
-.selectBox .optionList::-webkit-scrollbar-thumb:hover {background: #303030;}
+.selectBox .optionList::-webkit-scrollbar {
+    width: 8px;
+    position: absolute;
+    right: 0;
+}
+.selectBox .optionList::-webkit-scrollbar-track{
+    background: #2e2e2e;
+    border-radius: 4px;
+}
+.selectBox .optionList::-webkit-scrollbar-thumb{
+    background: #8f72a6;
+    border-radius: 4px;
+}
+.selectBox .optionList::-webkit-scrollbar-thumb:hover{
+    background: #d19636;
+}
+
 
 .positive_negative_ratio{
     display: flex;
@@ -461,4 +440,9 @@ input[type="radio"] {
     margin-left: 15px;
 }
 
+legend{
+    margin-bottom: 5px;
+
+    color: #ddd;
+}
 

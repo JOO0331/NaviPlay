@@ -137,21 +137,20 @@
                     {% for youtube in youtubes %}
                         <div class="video">
                             <a href="https://www.youtube.com/watch?v={{ youtube.videoId }}">
-                                <img src="{{ youtube.thumbnails }}" alt="Review Video Thumbnail">
+                                <img src="{{ youtube.thumbnails }}" alt="유튜브 영상 썸네일">
                             </a>
                             <div class="youtube-info">
                                 <strong>{{ youtube.title }}</strong>
                                 <div class="youtube-info2">
-                                    <img src="{{ youtube.channelImage }}" alt="channel Thumbnail">
+                                    <img src="{{ youtube.channelImage }}" alt="유튜브 채널 썸네일">
                                     <div class="youtube-info3">
                                         <span>채널명: {{ youtube.channelName }}</span>
                                         <span>업로드날짜: {{ youtube.publishedAt }}</span>
-                                        <!--<span>조회수: {{ youtube.viewCount|intcomma  }}</span> -->
                                     </div>
                                 </div>
                             </div>
                             <button class="summary-btn" onclick="toggleSummary('{{ youtube.videoId }}')">영상요약</button>
-                            <div id="summary-content-{{ youtube.videoId }}" class="summary-content" style="white-space: pre-line;">
+                            <div id="summary-content-{{ youtube.videoId }}" class="summary-content">
                                 <p>{{ youtube.summary }}</p>
                             </div>
                         </div>
@@ -166,107 +165,107 @@
             </div>
 
             <div class="section similar-games">
-    <h3>유사 게임 추천</h3>
-    <div class="card-container">
-        {% if first_recommendation %}
-        <!-- 카드 1 -->
-        <div class="card" onclick="window.location.href='{% url 'dashboard' first_recommendation.app_id %}'">
-            <div class="scoreBackground"></div>
-            <img src="{{ first_recommendation.header_image }}" alt="Game Thumbnail">
-            <h3>{{ first_recommendation.name }}</h3>
+                <h3>유사 게임 추천</h3>
+                <div class="card-container">
+                    {% if first_recommendation %}
+                    <!-- 카드 1 (고정) -->
+                    <div class="card" onclick="window.location.href='{% url 'dashboard' first_recommendation.app_id %}'">
+                        <div class="scoreBackground"></div>
+                        <img src="{{ first_recommendation.header_image }}" alt="Game Thumbnail">
+                        <h3>{{ first_recommendation.name }}</h3>
 
-            <div class="status">
-                <div class="pricing">
-                    {% if first_recommendation.final_price_int == 0 %}
-                    <span class="final-price">Free</span>
-                    {% else %}
-                        {% if first_recommendation.discount_percent > 0 %}
-                            <span class="original-price"><del>{{ first_recommendation.initial_price_int |intcomma}}₩</del></span>
-                            <div class="discount">{{ first_recommendation.discount_percent }}% Off</div>
-                            <span class="final-price">{{ first_recommendation.final_price_int |intcomma }} ₩</span>
-                    {% else %}
-                        <span class="final-price">{{ first_recommendation.final_price_int|intcomma }} ₩</span>
+                        <div class="status">
+                            <div class="pricing">
+                                {% if first_recommendation.final_price_int == 0 %}
+                                <span class="final-price">Free</span>
+                                {% else %}
+                                    {% if first_recommendation.discount_percent > 0 %}
+                                        <span class="original-price"><del>{{ first_recommendation.initial_price_int |intcomma}}₩</del></span>
+                                        <div class="discount">{{ first_recommendation.discount_percent }}% Off</div>
+                                        <span class="final-price">{{ first_recommendation.final_price_int |intcomma }} ₩</span>
+                                {% else %}
+                                    <span class="final-price">{{ first_recommendation.final_price_int|intcomma }} ₩</span>
+                                {% endif %}
+                            {% endif %}
+                            </div>
+                            <div class="positive_negative_ratio_2">
+                                {% if first_recommendation.positive_ratio == 0 %}
+                                    <span class="badge2 gray">?</span>
+                                {% elif first_recommendation.positive_ratio > 70 %}
+                                    <span class="badge2 green">{{ first_recommendation.positive_ratio }}</span>
+                                {% elif first_recommendation.positive_ratio > 40 %}
+                                    <span class="badge2 yellow">{{ first_recommendation.positive_ratio }}</span>
+                                {% else %}
+                                    <span class="badge2 red">{{ first_recommendation.positive_ratio }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                         <div class="tag-box">
+                            <div class="tags">
+                               {% for genre in first_recommendation.genres|slice:":3" %}
+                                   <span class="info-tag">{{ genre.description }}</span>
+                               {% endfor %}
+                            </div>
+                         </div>
+                    </div>
                     {% endif %}
-                {% endif %}
-                </div>
-                <div class="positive_negative_ratio_2">
-                    {% if first_recommendation.positive_ratio == 0 %}
-                        <span class="badge2 gray">?</span>
-                    {% elif first_recommendation.positive_ratio > 70 %}
-                        <span class="badge2 green">{{ first_recommendation.positive_ratio }}</span>
-                    {% elif first_recommendation.positive_ratio > 40 %}
-                        <span class="badge2 yellow">{{ first_recommendation.positive_ratio }}</span>
-                    {% else %}
-                        <span class="badge2 red">{{ first_recommendation.positive_ratio }}</span>
+
+                    <!-- 카드 2, 3 (랜덤) -->
+                    {% if random_recommendations %}
+                        {% for rec in random_recommendations %}
+                        <div class="card" onclick="window.location.href='{% url 'dashboard' rec.app_id %}'">
+                            <div class="scoreBackground"></div>
+                            <img src="{{ rec.header_image }}" alt="Game Thumbnail">
+                            <h3>{{ rec.name }}</h3>
+                            <div class="status">
+                                <div class="pricing">
+                                    {% if rec.final_price_int == 0 %}
+                                    <span class="final-price">Free</span>
+                                    {% else %}
+                                        {% if rec.discount_percent > 0 %}
+                                            <span class="original-price"><del>{{ rec.initial_price_int |intcomma}}₩</del></span>
+                                            <div class="discount">{{ rec.discount_percent }}% Off</div>
+                                            <span class="final-price">{{ rec.final_price_int |intcomma }} ₩</span>
+                                    {% else %}
+                                        <span class="final-price">{{ rec.final_price_int|intcomma }} ₩</span>
+                                    {% endif %}
+                                {% endif %}
+                                </div>
+                                <div class="positive_negative_ratio_3">
+                                    {% if rec.positive_ratio == 0 %}
+                                        <span class="badge2 gray">?</span>
+                                    {% elif rec.positive_ratio > 70 %}
+                                        <span class="badge2 green">{{ rec.positive_ratio }}</span>
+                                    {% elif rec.positive_ratio > 40 %}
+                                        <span class="badge2 yellow">{{ rec.positive_ratio }}</span>
+                                    {% else %}
+                                        <span class="badge2 red">{{ rec.positive_ratio }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="tag-box">
+                                <div class="tags">
+                                   {% for genre in rec.genres|slice:":2" %}
+                                       <span class="info-tag">{{ genre.description }}</span>
+                                   {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if not first_recommendation and not random_recommendations %}
+                        <p>추천 게임이 없습니다.</p>
                     {% endif %}
                 </div>
             </div>
-             <div class="tag-box">
-                <div class="tags">
-                   {% for genre in first_recommendation.genres|slice:":3" %}
-                       <span class="info-tag">{{ genre.description }}</span>
-                   {% endfor %}
-                </div>
-             </div>
-        </div>
-        {% endif %}
-
-        <!-- 카드 2, 3 -->
-        {% if random_recommendations %}
-            {% for rec in random_recommendations %}
-            <div class="card" onclick="window.location.href='{% url 'dashboard' rec.app_id %}'">
-                <div class="scoreBackground"></div>
-                <img src="{{ rec.header_image }}" alt="Game Thumbnail">
-                <h3>{{ rec.name }}</h3>
-                <div class="status">
-                    <div class="pricing">
-                        {% if rec.final_price_int == 0 %}
-                        <span class="final-price">Free</span>
-                        {% else %}
-                            {% if rec.discount_percent > 0 %}
-                                <span class="original-price"><del>{{ rec.initial_price_int |intcomma}}₩</del></span>
-                                <div class="discount">{{ rec.discount_percent }}% Off</div>
-                                <span class="final-price">{{ rec.final_price_int |intcomma }} ₩</span>
-                        {% else %}
-                            <span class="final-price">{{ rec.final_price_int|intcomma }} ₩</span>
-                        {% endif %}
-                    {% endif %}
-                    </div>
-                    <div class="positive_negative_ratio_3">
-                        {% if rec.positive_ratio == 0 %}
-                            <span class="badge2 gray">?</span>
-                        {% elif rec.positive_ratio > 70 %}
-                            <span class="badge2 green">{{ rec.positive_ratio }}</span>
-                        {% elif rec.positive_ratio > 40 %}
-                            <span class="badge2 yellow">{{ rec.positive_ratio }}</span>
-                        {% else %}
-                            <span class="badge2 red">{{ rec.positive_ratio }}</span>
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="tag-box">
-                    <div class="tags">
-                       {% for genre in rec.genres|slice:":2" %}
-                           <span class="info-tag">{{ genre.description }}</span>
-                       {% endfor %}
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        {% endif %}
-
-        {% if not first_recommendation and not random_recommendations %}
-            <p>추천 게임이 없습니다.</p>
-        {% endif %}
-    </div>
-</div>
         </section>
 
 
         <aside class="right-content">
             <h2>게임 정보</h2>
             <div class="header-image">
-                <img id="header-image" src="{{ game.header_image }}" alt="header-image">
+                <img id="header-image" src="{{ game.header_image }}" alt="헤더 이미지">
             </div>
 
             <div class="price">
@@ -291,16 +290,16 @@
                     <div class="info-section-title">분석 결과</div>
                         <div class="info-list">
                                 <div class="positive_negative_ratio">
-                                {% if positive_ratio == 0 %}
-                                    <span class="badge gray">?</span>
-                                {% elif positive_ratio > 70 %}
-                                    <span class="badge green">{{ positive_ratio }}</span>
-                                {% elif positive_ratio > 40 %}
-                                    <span class="badge yellow">{{ positive_ratio }}</span>
-                                {% else %}
-                                    <span class="badge red">{{ positive_ratio }}</span>
-                                {% endif %}
-                                    <img src="{% static 'imgs/logo.png' %}" alt="Logo" style="width: 70%; height: auto;">
+                                    {% if positive_ratio == 0 %}
+                                        <span class="badge gray">?</span>
+                                    {% elif positive_ratio > 70 %}
+                                        <span class="badge green">{{ positive_ratio }}</span>
+                                    {% elif positive_ratio > 40 %}
+                                        <span class="badge yellow">{{ positive_ratio }}</span>
+                                    {% else %}
+                                        <span class="badge red">{{ positive_ratio }}</span>
+                                    {% endif %}
+                                    <img src="{% static 'imgs/logo.png' %}" alt="로고 이미지" class="logo-image">
                                 </div>
                         </div>
                 </div>
@@ -343,7 +342,7 @@
                 <div class="info-section">
                     <div class="info-section-title">출시일</div>
                     <div class="info-list">
-                            <p style="font-size: 1.1em; color: white; margin-bottom: 8px;">{{ game.release_date|date:"Y년 n월 j일" }}</p>
+                            <p class="info-p">{{ game.release_date|date:"Y년 n월 j일" }}</p>
                     </div>
                 </div>
 
@@ -351,7 +350,7 @@
                     <div class="info-section-title">개발사</div>
                     <div class="info-list">
                         {% for developer in game.developers %}
-                            <p style="font-size: 1.1em; color: white; margin-bottom: 8px;">{{ developer }}</p>
+                            <p class="info-p">{{ developer }}</p>
                         {% endfor %}
                     </div>
                 </div>
@@ -360,7 +359,7 @@
                     <div class="info-section-title">배급사</div>
                     <div class="info-list">
                         {% for publisher in game.publishers %}
-                            <p style="font-size: 1.1em; color: white; margin-bottom: 8px;">{{ publisher }}</p>
+                            <p class="info-p">{{ publisher }}</p>
                         {% endfor %}
                     </div>
                 </div>
@@ -503,12 +502,21 @@ function toggleSummary(id) {
     }
 }
 function setSummarySize(imgElement, content) {
-    const imgWidth = imgElement.offsetWidth; // 이미지 현재 너비
-    const imgHeight = (imgElement.naturalHeight / imgElement.naturalWidth) * imgWidth; // 원본 비율 기반 높이 계산
+    // 이미지가 로드된 후 너비와 높이를 계산
+    imgElement.onload = function() {
+        const imgWidth = imgElement.getBoundingClientRect().width; // 이미지의 실제 너비 계산
+        const imgHeight = (imgElement.naturalHeight / imgElement.naturalWidth) * imgWidth; // 원본 비율 기반 높이 계산
 
-    content.style.width = `${imgWidth}px`;
-    content.style.height = `${imgHeight}px`;
+        content.style.width = `${imgWidth}px`;
+        content.style.height = `${imgHeight}px`;
+    };
+
+    // 이미지가 이미 로드된 경우
+    if (imgElement.complete) {
+        imgElement.onload(); // 즉시 onload 함수 실행
+    }
 }
+
 
 const periodData = {{ period_data|safe }};
 

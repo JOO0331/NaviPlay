@@ -14,9 +14,17 @@ header {
     padding: 20px 0;
     gap: 30px;
 }
+header a img{
+    width: 300px;
+    height: auto;
+}
 header form {
     display: inline-flex;
     margin-top: 10px;
+}
+header form button img{
+    width: 15px;
+    height: 15px;
 }
 header input[type="search"] {
     width: 400px;
@@ -32,26 +40,7 @@ header button {
     cursor: pointer;
 }
 header button:hover {
-    background-color: #777;
-}
-
-
-footer {
-    text-align: center;
-    background-color: #121212;
-    color: rgba(255, 255, 255, 0.6);
-    width: 100%;
-    padding: 10px 0;
-    margin:0;
-    box-sizing: border-box;
-}
-footer a {
-    color: #00bfff;
-    text-decoration: none;
-    margin: 0 10px;
-}
-footer a:hover {
-    text-decoration: underline;
+    background-color: #8f72a6;
 }
 
 
@@ -59,9 +48,7 @@ footer a:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 20px;
-    padding-bottom: 20px;
-
+    padding: 20px 0;
 }
 .navbar ul {
     list-style-type: none;
@@ -83,7 +70,48 @@ footer a:hover {
     transition: background-color 0.5s ease, color 0.5s ease;
 }
 
+.navbar a:hover {
+    background-color: #8f72a6;
+    color: white;
+}
 .navbar a.active {
     background-color: #8f72a6;
     color: white;
+}
+
+
+footer {
+    text-align: center;
+    background-color: #121212;
+    color: rgba(255, 255, 255, 0.6);
+    width: 100%;
+    padding: 10px 0 ;
+    margin: 0;
+    box-sizing: border-box;
+}
+footer a {
+    color: #00bfff;
+    text-decoration: none;
+    margin: 0 10px;
+}
+footer a:hover {
+    text-decoration: underline;
+}
+footer nav a img{
+    width: 20px;
+    height: 20px;
+}
+
+.alert-message {
+    position: fixed;
+    padding: 10px 20px;
+    background-color: #d19636;
+    color: #fff;
+    font-size: 15px;
+    border-radius: 4px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
 }
