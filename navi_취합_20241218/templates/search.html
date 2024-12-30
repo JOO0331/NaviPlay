@@ -299,15 +299,40 @@ gameItems.forEach(item => {
                     }
                 </div>
             </div>
-            <p>태그 : ${tags3}</p>
+             <p>Tags</p>
+            <div class="tags-container">
+                ${tags3.split(',').map(tag => `<span class="tag">${tag.trim()}</span>`).join('')}
+            </div>
             ${slideShow}
             <p>전체 리뷰 : ${totalReviews}
-                (<span class="positive">${totalPositive}</span>/
-                <span class="negative">${totalNegative}</span>)
-            </p>
-            <p class="positive">${positiveKeywords}</p>
-            <p class="negative">${negativeKeywords}</p>
-        `;
+        (<span class="positive">${totalPositive}</span>/
+        <span class="negative">${totalNegative}</span>)
+    </p>
+`;
+
+if (positiveKeywords) {
+    const positiveKeywordsArray = positiveKeywords.split(","); // 콤마로 분리
+    const positiveBoxes = positiveKeywordsArray
+        .map(keyword => `<span class="positive-keyword-box">${keyword.trim()}</span>`)
+        .join(""); // 각 키워드를 박스 형태로 변환
+    gameDetail.innerHTML += `
+        <div class="positive">
+            <p>긍정 키워드</p>
+            <div class="keyword-container">${positiveBoxes}</div>
+        </div>`;
+}
+
+if (negativeKeywords) {
+    const negativeKeywordsArray = negativeKeywords.split(","); // 콤마로 분리
+    const negativeBoxes = negativeKeywordsArray
+        .map(keyword => `<span class="negative-keyword-box">${keyword.trim()}</span>`)
+        .join(""); // 각 키워드를 박스 형태로 변환
+    gameDetail.innerHTML += `
+        <div class="negative">
+            <p>부정 키워드</p>
+            <div class="keyword-container">${negativeBoxes}</div>
+        </div>`;
+}
 
         item.appendChild(gameDetail);
 
