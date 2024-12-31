@@ -241,8 +241,8 @@
 .game-detail {
     position: fixed;
     z-index: 9999;
-    background-color: #444;
-    color: #444;
+    background-color: #2b2b3c;
+    color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     padding: 15px;
@@ -262,7 +262,7 @@
 
 /* game-detail의 제목 */
 .game-detail h4 {
-    font-size: 1.2em;
+    font-size: 2.0em;
     font-weight: bold;
     color: #ffcc00;
     margin-bottom: 10px;
@@ -279,7 +279,7 @@
 /* 나머지 게임 정보 */
 .game-detail p {
     font-size: 1em;
-    color: white;
+    color: #ddd;
     margin-bottom: 8px;
 }
 
@@ -291,6 +291,7 @@
 /* 슬라이드 컨테이너 스타일 */
 .slideshow {
     position: relative;
+    border-radius: 5px;
     width: 100%; /* 원하는 크기 설정 (100%로 설정하면 부모의 크기에 맞게 설정됨) */
     height: 200px; /* 슬라이드의 높이를 설정 */
     overflow: hidden; /* 넘치는 이미지들은 보이지 않게 설정 */
@@ -304,7 +305,7 @@
     width: 100%; /* 슬라이드 이미지 크기를 100%로 설정 */
     height: 100%; /* 슬라이드 이미지 크기를 100%로 설정 */
     opacity: 0; /* 기본적으로 모든 이미지는 숨김 */
-    transition: opacity 0.1s ease-in-out; /* 이미지 전환을 부드럽게 하기 위한 트랜지션 */
+    transition: opacity 0.5s ease-in-out; /* 이미지 전환을 부드럽게 하기 위한 트랜지션 */
 }
 
 /* 활성화된 슬라이드 */
@@ -313,10 +314,10 @@
 }
 
 .positive {
-    color: #00CE7A
+    color: #00CE7A !important;
 }
 .negative {
-    color: #FF6874
+    color: #FF6874 !important;
 }
 
 fieldset {
@@ -349,7 +350,7 @@ input[type="radio"] {
   background-repeat: no-repeat;
   cursor: pointer;
   z-index: 10;
-  transition: border-color 0.3s ease; 
+    transition: border-color 0.3s ease; /* 테두리 색상 자연스럽게 변화 */
 
 }
 
@@ -437,7 +438,53 @@ input[type="radio"] {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    margin-top: 0;
     margin-left: 15px;
+}
+
+.game-detail .tag {
+    display: inline-block;
+    background-color: #444;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 0.9em;
+    border-radius: 3px;
+    margin: 5px 5px 0 0;
+    margin-bottom: 15px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+}
+
+.game-detail .tag:hover {
+    background-color: #ffcc00;
+    color: #111;
+}
+
+.keyword-container {
+    display: flex;
+    flex-wrap: wrap; /* 여러 줄로 배치 */
+    gap: 8px; /* 박스 간 간격 */
+    margin-top: 8px;
+}
+
+.positive-keyword-box {
+    background-color: #00CE7A; /* 긍정 키워드 색상 */
+    color: black; /* 글자색 */
+    padding: 5px 10px; /* 내부 여백 */
+    border-radius: 5px; /* 둥근 모서리 */
+    font-size: 0.9em; /* 글자 크기 */
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    border: 1px solid #005F37; /* 테두리 */
+}
+
+.negative-keyword-box {
+    background-color: #FF6874; /* 부정 키워드 색상 */
+    color: black;; /* 글자색 */
+    padding: 5px 10px; /* 내부 여백 */
+    border-radius: 5px; /* 둥근 모서리 */
+    font-size: 0.9em; /* 글자 크기 */
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    border: 1px solid #A8001C; /* 테두리 */
 }
 
 legend{
