@@ -968,31 +968,17 @@ button.purchase-btn:hover {
 
 
 .navigation-button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
+    background-color: transparent;
     border: none;
-    font-size: 2rem;
-    padding: 10px;
+    padding: 0;
     cursor: pointer;
-    z-index: 10;
-    transition: background-color 0.3s ease;
 }
-
-.navigation-button:hover {
-    background-color: rgba(0, 0, 0, 0.8);
+.navigation-button img {
+    width: 100px;
+    height: 100px;
+    display: block;
+    pointer-events: none;
 }
-
-#prev-button {
-    left: 10px;
-}
-
-#next-button {
-    right: 10px;
-}
-
 
 .thumbnail-image.active {
     border-color: #8f72a6;

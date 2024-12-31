@@ -35,10 +35,14 @@
                 <!-- 큰 이미지 화면 -->
                 <div class="game-screenshot-container">
                     <!-- 좌측 이동 버튼 -->
-                    <button id="prev-button" class="navigation-button">&#8592;</button>
+                    <button id="prev-button" class="navigation-button">
+                        <img src="/static/imgs/prev-icon.svg" alt="Previous">
+                    </button>
                     <img id="main-screenshot" src="{{ game.screenshots.0.path_full }}" alt="Game Screenshot">
                     <!-- 우측 이동 버튼 -->
-                    <button id="next-button" class="navigation-button">&#8594;</button>
+                    <button id="next-button" class="navigation-button">
+                        <img src="/static/imgs/next-icon.svg" alt="Next">
+                    </button>
                 </div>
 
                 <!-- 작은 썸네일 이미지들 -->
