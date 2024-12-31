@@ -492,7 +492,7 @@ h2, h3{
         0 0 0 3px rgba(143, 114, 166, 0.4),
         0 0 20px rgba(143, 114, 166, 0.3);
 }
-.price, .info {
+.price {
     margin-bottom: 20px;
     padding: 15px;
     border: 1px solid rgba(143, 114, 166, 0.4);
@@ -624,7 +624,8 @@ button.purchase-btn:hover {
     height: auto;
 }
 .info-tag {
-    background-color: #444;
+    background-color: transparent;
+    border: 1px solid rgba(143, 114, 166, 0.4);
     color: #ffffff;
     flex-wrap: wrap;
     padding: 6px 12px;
@@ -635,25 +636,35 @@ button.purchase-btn:hover {
     text-decoration: none;
     margin: 5px;
 }
-.info-tag a {
-    background-color: #444;
+
+.info-tag2 {
+    background-color: #8F72A6;
     color: #ffffff;
-    padding: 6px 12px;
+    flex-wrap: wrap;
     font-size: 0.9em;
+    border: 1px solid rgba(143, 114, 166, 0.4);
+    padding: 6px 12px;
+    border-radius: 4px;
+    box-shadow: none;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    margin: 5px;
+}
+.info-tag2 a {
+    background-color: #8F72A6;
+    color: #ffffff;
+    font-size: 0.9em;
+    margin : 2px;
     border-radius: 4px;
     white-space: nowrap;
     box-shadow: none;
     transition: background-color 0.3s ease;
-    text-decoration: underline;
-}
-.info-tag a:active,
-.info-tag a:focus,
-.info-tag a:visited {
-    background-color: #444444;
-    color: white;
+    text-decoration: none;
 }
 
-
+.info-tag2:hover, .info-tag2:hover a {
+    background-color: #d19636;
+}
 
 .period-chart {
     display: flex;
