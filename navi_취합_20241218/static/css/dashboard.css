@@ -101,6 +101,7 @@ h2, h3{
 }
 
 .game-screenshot-container {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -135,7 +136,7 @@ h2, h3{
     transition: transform 0.5s ease;
 }
 .thumbnail-container img:hover {
-    border-color: white;
+    border-color: #8f72a6;
 }
 
 .keywords {
@@ -960,4 +961,33 @@ button.purchase-btn:hover {
 }
 
 
+.navigation-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    font-size: 2rem;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+    transition: background-color 0.3s ease;
+}
 
+.navigation-button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+#prev-button {
+    left: 10px;
+}
+
+#next-button {
+    right: 10px;
+}
+
+
+.thumbnail-image.active {
+    border-color: #8f72a6;
+}

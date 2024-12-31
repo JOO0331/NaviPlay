@@ -34,13 +34,18 @@
                 <h2>Game Screenshot</h2>
                 <!-- 큰 이미지 화면 -->
                 <div class="game-screenshot-container">
+                    <!-- 좌측 이동 버튼 -->
+                    <button id="prev-button" class="navigation-button">&#8592;</button>
                     <img id="main-screenshot" src="{{ game.screenshots.0.path_full }}" alt="Game Screenshot">
+                    <!-- 우측 이동 버튼 -->
+                    <button id="next-button" class="navigation-button">&#8594;</button>
                 </div>
+
                 <!-- 작은 썸네일 이미지들 -->
                 <div class="thumbnail-container">
-                        {% for screenshot in game.screenshots %}
-                        <img src="{{ screenshot.path_full }}" alt="Thumbnail {{ forloop.counter }}" onclick="changeImage(this)">
-                        {% endfor %}
+                    {% for screenshot in game.screenshots %}
+                        <img src="{{ screenshot.path_full }}" alt="Thumbnail {{ forloop.counter }}" onclick="changeImage(this)" class="thumbnail-image">
+                    {% endfor %}
                 </div>
             </div>
 
@@ -463,12 +468,100 @@ const positive_ratio = {{ positive_ratio }};
     }
 
 
-// 작은 이미지를 클릭하면 큰 이미지가 바뀌도록 하는 함수
+const screenshots = [
+    {% for screenshot in game.screenshots %}
+        {
+            "path_full": "{{ screenshot.path_full }}"
+        }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+];
+
+let currentIndex = 0;
+
+// 큰 이미지 변경
 function changeImage(thumbnail) {
-    // 큰 이미지의 src를 작은 이미지의 src로 변경
     const mainScreenshot = document.getElementById('main-screenshot');
     mainScreenshot.src = thumbnail.src;
+    currentIndex = screenshots.findIndex(screenshot => screenshot.path_full === thumbnail.src);
+
+    // 현재 활성화된 썸네일 이미지에 'active' 클래스 추가
+    const thumbnails = document.querySelectorAll('.thumbnail-image');
+    thumbnails.forEach(img => img.classList.remove('active')); // 모든 썸네일에서 'active' 클래스 제거
+    thumbnail.classList.add('active'); // 클릭한 썸네일에 'active' 클래스 추가
+
+    // 썸네일 컨테이너에서 클릭된 썸네일을 중앙으로 스크롤
+    scrollThumbnailToCenter(thumbnail);
 }
+
+function scrollThumbnailToCenter(thumbnail) {
+    const container = document.querySelector('.thumbnail-container');
+    const thumbnailOffset = thumbnail.offsetLeft;
+    const containerWidth = container.offsetWidth;
+    const thumbnailWidth = thumbnail.offsetWidth;
+
+    const offsetAdjustmentFactor = 1.0; // 이동 조정 비율
+    const scrollPosition = thumbnailOffset - (containerWidth * offsetAdjustmentFactor) + (thumbnailWidth * offsetAdjustmentFactor);
+
+    container.scrollTo({ left: scrollPosition, behavior: 'smooth' });
+}
+
+// 좌측 버튼 클릭 이벤트
+document.getElementById('prev-button').addEventListener('click', function () {
+    if (currentIndex > 0) {
+        currentIndex--;
+        const newImage = screenshots[currentIndex].path_full;
+        const thumbnails = document.querySelectorAll('.thumbnail-image');
+        const thumbnail = thumbnails[currentIndex];
+
+        // 큰 이미지 변경
+        document.getElementById('main-screenshot').src = newImage;
+
+        // 썸네일 'active' 클래스 갱신
+        thumbnails.forEach(img => img.classList.remove('active'));
+        thumbnail.classList.add('active');
+
+        // 스크롤 갱신
+        scrollThumbnailToCenter(thumbnail);
+    }
+});
+
+// 우측 버튼 클릭 이벤트
+document.getElementById('next-button').addEventListener('click', function () {
+    if (currentIndex < screenshots.length - 1) {
+        currentIndex++;
+        const newImage = screenshots[currentIndex].path_full;
+        const thumbnails = document.querySelectorAll('.thumbnail-image');
+        const thumbnail = thumbnails[currentIndex];
+
+        // 큰 이미지 변경
+        document.getElementById('main-screenshot').src = newImage;
+
+        // 썸네일 'active' 클래스 갱신
+        thumbnails.forEach(img => img.classList.remove('active'));
+        thumbnail.classList.add('active');
+
+        // 스크롤 갱신
+        scrollThumbnailToCenter(thumbnail);
+    }
+});
+
+// 페이지 로드 시 초기화
+document.addEventListener('DOMContentLoaded', function () {
+    const thumbnails = document.querySelectorAll('.thumbnail-image');
+    if (thumbnails.length > 0) {
+        // 첫 번째 썸네일에 'active' 클래스 추가
+        thumbnails[0].classList.add('active');
+
+        // 첫 번째 큰 이미지를 설정
+        document.getElementById('main-screenshot').src = screenshots[0].path_full;
+
+        // 스크롤 초기화 (맨 왼쪽으로 이동)
+        const container = document.querySelector('.thumbnail-container');
+        container.scrollTo({ left: 0, behavior: 'auto' });
+    }
+});
+
+
 
 // 영상 요약 내용 보여주는 함수 (버튼 클릭했을 때)
 function toggleSummary(id) {
