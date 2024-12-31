@@ -350,7 +350,7 @@ input[type="radio"] {
   background-repeat: no-repeat;
   cursor: pointer;
   z-index: 10;
-    transition: border-color 0.3s ease; /* 테두리 색상 자연스럽게 변화 */
+  transition: border-color 0.3s ease;
 
 }
 
@@ -387,7 +387,6 @@ input[type="radio"] {
   border-radius: 6px;
   overflow: hidden;
   max-height: 0;
-  transition: max-height 0.3s ease-in-out;
 }
 
 .selectBox.active .optionList {
