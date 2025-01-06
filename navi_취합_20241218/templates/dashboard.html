@@ -24,7 +24,9 @@
             <h1>{{ game.name }}</h1>
             <div class="buttons">
                 <button class="png" onclick="saveImg()">저장</button>
-                <button class="talk" onclick="kakaoShare()">공유</button>
+                <button class="talk" onclick="kakaoShare()">
+                    <img src="{% static 'imgs/kakao.png' %}" alt="카카오톡 공유">
+                </button>
             </div>
     </div>
 
