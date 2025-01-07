@@ -116,6 +116,7 @@ def search_view(request):
     price_range = request.GET.get('price', '')
     release_status = request.GET.get('status', None)
     select_tags = request.GET.get('tags', '')
+    discount_status = request.GET.get('discount', '')
     page = request.GET.get('page', 1)
 
     # 필요한 필드만 가져오기
@@ -127,6 +128,10 @@ def search_view(request):
     # 이름 검색 필터
     if query:
         games = games.filter(name__icontains=query)
+
+    # 할인 여부 필터 추가
+    if discount_status == 'on_sale':
+        games = games.filter(discount_percent__gt=0)
 
     # 정렬 조건
     sort_mappings = {
@@ -274,6 +279,7 @@ def search_view(request):
         'number_of_players': number_of_players,
         'select_tags': request.GET.get('tags', ''),
         'price_range': price_range,
+        'discount_status': discount_status,
         'start_page': (paginated_games.number - 1) // 10 * 10 + 1,
         'end_page': min(((paginated_games.number - 1) // 10 + 1) * 10, paginator.num_pages),
     }
@@ -419,6 +425,7 @@ def dashboard_view(request, app_id):
     if current_year not in period_data:
         current_year = max(years) if years else current_year
     
+
     context = {
         'game': game,
         'first_recommendation': first_game,

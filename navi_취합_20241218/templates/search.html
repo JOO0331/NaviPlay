@@ -96,6 +96,16 @@
                         </label>
             </fieldset>
 
+            <legend>할인 여부</legend>
+            <fieldset>
+                <label>
+                    <input type="radio" name="discount" value="" {% if not request.GET.discount %}checked{% endif %}> 전체
+                </label>
+                <label>
+                    <input type="radio" name="discount" value="on_sale" {% if request.GET.discount == 'on_sale' %}checked{% endif %}> 할인 중
+                </label>
+            </fieldset>
+
             <div class="button-group">
                 <input type="submit" value="검색" class="btn-search-options"/>
                 <input type="reset" value="초기화" class="btn-reset"/>
@@ -179,7 +189,7 @@
         <!-- 페이지네이션 -->
         <div class="pagination">
             {% if start_page > 1 %}
-                <a href="?page={{ start_page|add:'-1' }}&search={{ search_query }}&sort={{ sort_order }}&players={{ number_of_players }}&tags={{ select_tags }}&price={{ price_range }}&status={{ release_status }}" class="page-btn">&laquo;</a>
+                <a href="?page={{ start_page|add:'-1' }}&search={{ search_query }}&sort={{ sort_order }}&players={{ number_of_players }}&tags={{ select_tags }}&price={{ price_range }}&status={{ release_status }}&discount={{ discount_status }}" class="page-btn">&laquo;</a>
             {% endif %}
 
             {% for num in games.paginator.page_range %}
@@ -187,13 +197,13 @@
                     {% if games.number == num %}
                         <span class="page-btn active">{{ num }}</span>
                     {% else %}
-                        <a href="?page={{ num }}&search={{ search_query }}&sort={{ sort_order }}&players={{ number_of_players }}&tags={{ select_tags }}&price={{ price_range }}&status={{ release_status }}" class="page-btn">{{ num }}</a>
+                        <a href="?page={{ num }}&search={{ search_query }}&sort={{ sort_order }}&players={{ number_of_players }}&tags={{ select_tags }}&price={{ price_range }}&status={{ release_status }}&discount={{ discount_status }}" class="page-btn">{{ num }}</a>
                     {% endif %}
                 {% endif %}
             {% endfor %}
 
             {% if end_page < games.paginator.num_pages %}
-                <a href="?page={{ end_page|add:'1' }}&search={{ search_query }}&sort={{ sort_order }}&players={{ number_of_players }}&tags={{ select_tags }}&price={{ price_range }}&status={{ release_status }}" class="page-btn">&raquo;</a>
+                <a href="?page={{ end_page|add:'1' }}&search={{ search_query }}&sort={{ sort_order }}&players={{ number_of_players }}&tags={{ select_tags }}&price={{ price_range }}&status={{ release_status }}&discount={{ discount_status }}" class="page-btn">&raquo;</a>
             {% endif %}
         </div>
     </div>
@@ -552,6 +562,15 @@ if (negativeKeywords) {
             tagsHiddenInput.value = '';
             priceLabel.textContent = '전체';
             priceHiddenInput.value = '';
+
+            const statusRadios = document.querySelectorAll('input[name="status"]');
+            const discountRadios = document.querySelectorAll('input[name="discount"]');
+
+            statusRadios.forEach(radio => radio.removeAttribute('checked'));
+            discountRadios.forEach(radio => radio.removeAttribute('checked'));
+
+            statusRadios[0].setAttribute('checked', ''); 
+            discountRadios[0].setAttribute('checked', '');  
         });
     }
 });
